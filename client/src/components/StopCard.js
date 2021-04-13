@@ -9,8 +9,8 @@ import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
@@ -54,7 +54,7 @@ function getDifference(epoch, curTime) {
 export default function StopCard(props) {
   const {stopId, stopInfo, curTime} = props
   var trains = stopInfo.trains
-  
+  console.log(trains)
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -78,6 +78,17 @@ export default function StopCard(props) {
         title={stopInfo.stopName}
         subheader={stopId}
       />
+      {!expanded &&
+      <Box ml={1}>
+        {
+          Object.keys(trains).map((key, i) => (
+            <Box component="span" ml={1}>
+              <TrainIcon key={i} train={key}/>
+            </Box>
+          ))
+        }
+      </Box>
+      }
       <CardActions disableSpacing>
         <IconButton
           className={clsx(classes.expand, {
