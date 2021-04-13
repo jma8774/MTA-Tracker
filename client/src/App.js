@@ -10,6 +10,7 @@ import {
 import LoginRegister from './pages/LoginRegisterPage';
 import HomePage from './pages/HomePage';
 import AboutUs from './pages/AboutUsPage';
+import LinePage from './pages/LinePage';
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/about">
           <AboutUs />
         </Route>
+        <Route path="/line/:train" component={LinePage}/>
       </Switch>
     </Router>
   )

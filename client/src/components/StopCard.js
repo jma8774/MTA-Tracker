@@ -38,8 +38,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function getDifference(epoch, curTime) {
+  var epochDate = new Date(0); // The 0 there is the key, which sets the date to the epoch
+  epochDate.setUTCSeconds(epoch)
+  const diff = epochDate - curTime
+  const inMinutes = diff/(1000*60)
+  if(inMinutes < 0)
+    return "Departed"
+  else if(inMinutes >= 1)
+    return inMinutes.toFixed(0) + ' min'
+  else
+    return "Now"
+}
+
 export default function StopCard(props) {
-  const {stopId, stopInfo} = props
+  const {stopId, stopInfo, curTime} = props
   var trains = stopInfo.trains
   
   const classes = useStyles();
@@ -49,17 +62,17 @@ export default function StopCard(props) {
     setExpanded(!expanded);
   };
 
-  const [state, setFavorite] = React.useState("")
+  const [favorite, setFavorite] = React.useState("default")
   const handleColor = () => {
-    setFavorite(state === "" ? "secondary" : "");
+    setFavorite(favorite === "default" ? "secondary" : "default");
   }
 
   return (
     <Card className={classes.root}>
       <CardHeader
         action={
-          <IconButton aria-label="favorite">
-            <FavoriteIcon color = {state} onClick = {handleColor}/>
+          <IconButton aria-label="favorite" color = {favorite} onClick = {handleColor}>
+            <FavoriteIcon/>
           </IconButton>
         }
         title={stopInfo.stopName}
@@ -97,7 +110,7 @@ export default function StopCard(props) {
                     <Box component="span" mr={2}>
                       <TrainIcon train={key}/>
                     </Box>
-                    {trains[key]['downtown'] ? trains[key]['downtown'] : 'N/A'}
+                    {trains[key]['uptown'] ? getDifference(trains[key]['uptown'], curTime) : 'N/A'}
                   </Typography>
                 )
               }
@@ -117,7 +130,7 @@ export default function StopCard(props) {
                     <Box component="span" mr={2}>
                       <TrainIcon train={key}/>
                     </Box>
-                    {trains[key]['downtown'] ? trains[key]['downtown'] : 'N/A'}
+                    {trains[key]['downtown'] ? getDifference(trains[key]['downtown'], curTime) : 'N/A'}
                   </Typography>
                 )
               }
