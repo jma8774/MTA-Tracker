@@ -610,7 +610,7 @@ export default function LinePage(props) {
     setStops(stops.slice().reverse())
   }
   
-  if(train in descriptions)
+  if(train.toLowerCase() in descriptions)
     return (
       <div className={classes.root}>
         <ThemeProvider theme={theme}>
