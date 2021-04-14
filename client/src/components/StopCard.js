@@ -54,7 +54,6 @@ function getDifference(epoch, curTime) {
 export default function StopCard(props) {
   const {stopId, stopInfo, curTime} = props
   var trains = stopInfo.trains
-  console.log(trains)
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -82,7 +81,7 @@ export default function StopCard(props) {
       <Box ml={1}>
         {
           Object.keys(trains).map((key, i) => (
-            <Box component="span" ml={1}>
+            <Box component="span" key={i} ml={1}>
               <TrainIcon key={i} train={key}/>
             </Box>
           ))
