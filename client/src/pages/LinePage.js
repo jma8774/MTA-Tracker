@@ -2,10 +2,9 @@ import 'fontsource-roboto';
 import { useParams } from 'react-router';
 import React from 'react';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import { CssBaseline, Typography, unstable_createMuiStrictModeTheme as createMuiTheme, Container, Box, Grid, Divider} from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
+import { CssBaseline, Typography, unstable_createMuiStrictModeTheme as createMuiTheme, Container, Box, Grid, Divider, IconButton, Backdrop, TextField} from '@material-ui/core';
 import ReorderIcon from '@material-ui/icons/Reorder';
-import Backdrop from '@material-ui/core/Backdrop';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 // Custom Components
 import StopCard from '../components/StopCard.js'
 import TrainIcon from '../components/TrainIcon.js'
@@ -17,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
   divider: {
     marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(2)
   },
 }));
 
@@ -64,6 +64,7 @@ export default function LinePage(props) {
   const { train } = useParams()
   const curTime = new Date()
   const [stops, setStops] = React.useState(null)
+  const [search, setSearch] = React.useState('')
   const handleReverse = () => {
     setStops(stops.slice().reverse())
   }
@@ -81,8 +82,9 @@ export default function LinePage(props) {
       console.log(response)
       if (!ignore) {
         var tmp = []
-        for(var i in response)
-          tmp.push([i, response[i]]);
+        for(var i in response) 
+          if(response[i].stopName)
+            tmp.push([i, response[i]]);
         setStops(Object.keys(response).length > 0 ? tmp : null);
       }
     }
@@ -110,6 +112,14 @@ export default function LinePage(props) {
             ?
               <React.Fragment>
                 <Grid container justify="flex-end">
+                  <Autocomplete
+                    id="search-stop"
+                    options={stops}
+                    getOptionLabel={(option) => option[1].stopName}
+                    style={{ width: 300 }}
+                    onChange={(e, val) => setSearch(val ? val[1].stopName : '')}
+                    renderInput={(params) => <TextField {...params} label="Search" variant="outlined"/>}
+                  />
                   <Box mr={3}>
                     <IconButton aria-label="sort" onClick={handleReverse}>
                       <ReorderIcon fontSize="large"/>
@@ -119,8 +129,8 @@ export default function LinePage(props) {
                 <Grid container align="center">
                   { 
                     stops.map((val, i) => 
-                      val[1].stopName &&
-                      <Grid key={i} item xs={12} md={4}>
+                      val[1].stopName.toLowerCase().includes(search.toLowerCase()) &&
+                      <Grid key={i} item xs={12} md={6} lg={4}>
                         <Box mt={3}>
                           <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime}/>
                         </Box>
