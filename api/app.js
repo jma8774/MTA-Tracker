@@ -3,7 +3,11 @@ const morgan = require('morgan');
 const path = require('path');
 const db = require('./models');
 const app = express();
+const cors = require('cors')
 const PORT = process.env.PORT;
+
+// enable CORS
+app.use(cors())
 
 // this lets us parse 'application/json' content in http requests
 app.use(express.json());
@@ -40,11 +44,12 @@ const urls = [
   'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-l',
   'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs',
   'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-7',
-
+  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-si',
 ]
 
 const traindb = require('./gtfsData');
-const trainfn = require('./trainFunctions')
+const trainfn = require('./trainFunctions');
+const { constants } = require('buffer');
 
 // Testing
 app.get('/', (req, res) => {
