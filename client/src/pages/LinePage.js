@@ -82,8 +82,9 @@ export default function LinePage(props) {
       console.log(response)
       if (!ignore) {
         var tmp = []
-        for(var i in response)
-          tmp.push([i, response[i]]);
+        for(var i in response) 
+          if(response[i].stopName)
+            tmp.push([i, response[i]]);
         setStops(Object.keys(response).length > 0 ? tmp : null);
       }
     }
@@ -113,7 +114,7 @@ export default function LinePage(props) {
                 <Grid container justify="flex-end">
                   <Autocomplete
                     id="search-stop"
-                    options={stops.filter(stop => stop[1].stopName)}
+                    options={stops}
                     getOptionLabel={(option) => option[1].stopName}
                     style={{ width: 300 }}
                     onChange={(e, val) => setSearch(val ? val[1].stopName : '')}
@@ -128,7 +129,7 @@ export default function LinePage(props) {
                 <Grid container align="center">
                   { 
                     stops.map((val, i) => 
-                      (val[1].stopName && val[1].stopName.toLowerCase().includes(search.toLowerCase())) &&
+                      val[1].stopName.toLowerCase().includes(search.toLowerCase()) &&
                       <Grid key={i} item xs={12} md={6} lg={4}>
                         <Box mt={3}>
                           <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime}/>
