@@ -3,19 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid, FormControl, InputLabel, Input, Button } from '@material-ui/core';
 import { useHistory, Link } from 'react-router-dom';
 
-const useStyles = makeStyles({
-  button: {
-    marginBottom: '20px',
-    fontSize: '1.25rem',
-    fontFamily: "Montserrat, san-serif"
-  },
-  disabled: {
-    pointerEvents: 'none',
-  }
-})
-
 const LogIn = ({ onClick, styles }) => {
-  const classes = useStyles();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -33,32 +21,32 @@ const LogIn = ({ onClick, styles }) => {
     <div>
       <h2 style={{ textAlign: 'center', fontSize: '2rem' }}>Register</h2>
       <form>
-        <FormControl margin="normal" className={styles.root}>
+        <FormControl margin="normal" className={styles.labelFocus}>
           <InputLabel required shrink htmlFor="username" className={styles.inputLabel}>Username</InputLabel>
           <Input required disableUnderline id="username" className={styles.input} onChange={(e) => setUsername(e.target.value)} />
         </FormControl>
 
-        <FormControl margin="normal" className={styles.root}>
+        <FormControl margin="normal" className={styles.labelFocus}>
           <InputLabel required shrink htmlFor="email" inputProps={{ type: 'email' }} className={styles.inputLabel}>Email</InputLabel>
           <Input required disableUnderline id="email" className={styles.input} onChange={(e) => setEmail(e.target.value)} />
         </FormControl>
 
-        <FormControl margin="normal" className={styles.root}>
+        <FormControl margin="normal" className={styles.labelFocus}>
           <InputLabel required shrink htmlFor="password" className={styles.inputLabel}>Password</InputLabel>
           <Input required disableUnderline id="password" type="password" inputProps={{ minLength: 6 }} className={styles.input} onChange={(e) => setPassword(e.target.value)} />
         </FormControl>
 
-        <FormControl margin="normal" className={styles.root}>
+        <FormControl margin="normal" className={styles.labelFocus}>
           <InputLabel required shrink htmlFor="re-enter-password" className={styles.inputLabel}>Re-enter Password</InputLabel>
           <Input required disableUnderline id="re-enter-password" type="password" inputProps={{ minLength: 6 }} className={styles.input} onChange={(e) => setReEnterPassword(e.target.value)} />
         </FormControl>
 
         <h3>Have an Account? <a href="#" onClick={onClick} className={styles.link}>Log In!</a></h3>
         {password === reEnterPassword ?
-          <Button size="large" fullWidth="true" variant="contained" color="primary" onClick={handleClick} className={classes.button}>
+          <Button size="large" fullWidth="true" variant="contained" color="primary" onClick={handleClick} className={styles.button}>
             Register
         </Button> :
-          <Button size="large" fullWidth="true" variant="contained" color="default" className={`${classes.button} + ${classes.disabled}`}>
+          <Button size="large" fullWidth="true" variant="contained" color="default" className={`${styles.button} + ${styles.disabled}`}>
             Register
         </Button>
         }

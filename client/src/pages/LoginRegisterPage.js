@@ -1,57 +1,16 @@
 import { React, useState } from 'react';
 import { Container, Grid, Typography } from '@material-ui/core';
-import { makeStyles, ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { useStyles } from '../styles/LoginRegisterStyles';
 import LogIn from '../components/LogIn';
 import Register from '../components/Register';
-import './LoginRegisterPage.css';
+import '../styles/LoginRegisterPage.css';
 
 /*
 https://unsplash.com/photos/PJzeDJAw3oI
 https://unsplash.com/photos/k_j7olQiqAw
 https://unsplash.com/photos/8mswK-LU5Vs
 */
-
-const useStyles = makeStyles({
-  grid: {
-    marginTop: '25px',
-    marginBottom: '0px',
-    '@media (min-width:960px)': {
-      marginTop: '50px',
-      marginBottom: '15px',
-    },
-    '@media (min-width:1280px)': {
-      marginTop: '75px',
-      marginBottom: '25px',
-    }
-  },
-  root: {
-    '& label.Mui-focused': {
-      color: 'rgb(255,255,255)',
-      fontWeight: 'bold'
-    },
-  },
-  inputLabel: {
-    fontFamily: 'Montserrat, san-serif',
-    color: 'rgb(255,255,255)'
-  },
-  input: {
-    borderRadius: 3,
-    backgroundColor: 'rgb(255,255,255)',
-    padding: '5px 12px',
-    fontSize: '1.5em',
-    fontFamily: 'Montserrat, san-serif',
-    '@media (min-width:0px)': {
-      width: '390px'
-    },
-    '@media (min-width:600px)': {
-      width: '550px'
-    },
-  },
-  link: {
-    textDecoration: 'underline', 
-    color:'rgb(33,150,243)',
-  },
-})
 
 const theme = createMuiTheme({
   typography: {
@@ -69,7 +28,6 @@ theme.typography.h1 = {
   },
 }
 
-
 const LoginRegister = () => {
   const classes = useStyles();
 
@@ -84,23 +42,18 @@ const LoginRegister = () => {
   return (
     <div>
       <ul className="slideshow">
-        <li>
-          <span>p1</span>
-        </li>
-        <li>
-          <span>p2</span>
-        </li>
-        <li>
-          <span>p3</span>
-        </li>
+        <li><span>p1</span></li>
+        <li><span>p2</span></li>
+        <li><span>p3</span></li>
       </ul>
+
       <Grid
         container
         spacing={2}
         direction="row"
         justify="center"
         alignItems="center"
-        className={`${classes.grid} front`}
+        className={`${classes.grid} + ${classes.root}`}
       >
         <Grid item>
           <h2>img svg</h2>
@@ -111,8 +64,9 @@ const LoginRegister = () => {
           </ThemeProvider>
         </Grid>
       </Grid>
-      <Container maxWidth="sm" className="front container">
-        {toggleView === 0 ? <LogIn onClick={toggleClick} styles= {classes}/> : <Register onClick={toggleClick} styles= {classes}/>}
+
+      <Container maxWidth="sm" className={`${classes.containerContent} + ${classes.root}`}>
+        {toggleView === 0 ? <LogIn onClick={toggleClick} styles={classes} /> : <Register onClick={toggleClick} styles={classes} />}
       </Container>
     </div>
   )

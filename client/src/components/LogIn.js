@@ -3,22 +3,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid, FormControl, InputLabel, Input, Button } from '@material-ui/core';
 import { useHistory, Link } from 'react-router-dom';
 
-const useStyles = makeStyles({
-  button: {
-    marginBottom: '20px',
-    fontSize: '1.25rem',
-    fontFamily: "Montserrat, san-serif"
-  },
-})
-
 const LogIn = ({ onClick, styles }) => {
-  const classes = useStyles();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const history = useHistory();
 
-  const handleClick = (e) =>{
+  const handleSubmit = (e) =>{
     e.preventDefault();
     console.log(`username: ${username}`);
     console.log(`password: ${password}`);
@@ -29,21 +20,22 @@ const LogIn = ({ onClick, styles }) => {
   return (
     <div>
       <h2 style={{textAlign: 'center', fontSize: '2rem'}}>Log In</h2>
-      <div>
-        <FormControl margin="normal" className={styles.root}>
+      <form onSubmit= {handleSubmit}>
+        <FormControl margin="normal" className={styles.labelFocus}>
           <InputLabel required shrink htmlFor="username" className={styles.inputLabel}>Username</InputLabel>
           <Input required disableUnderline id="username" className={styles.input} onChange={(e) => setUsername(e.target.value)} />
         </FormControl>
 
-        <FormControl margin="normal" className={styles.root}>
+        <FormControl margin="normal" className={styles.labelFocus}>
           <InputLabel required shrink htmlFor="password" margin="dense" className={styles.inputLabel}>Password</InputLabel>
           <Input required disableUnderline id="password" type="password" className={styles.input} onChange={(e) => setPassword(e.target.value)} />
         </FormControl>
-      </div>
+
       <h3>Don't have an Account? <a href="#" className={styles.link} onClick= {onClick}>Register Here!</a></h3>
-      <Button size="large" fullWidth={true} variant="contained" color="primary" onClick= {handleClick} className={classes.button}>
+      <Button size="large" fullWidth={true} variant="contained" color="primary" className={styles.button}>
         Log In
       </Button>
+      </ form>
       
       <Grid 
         container
