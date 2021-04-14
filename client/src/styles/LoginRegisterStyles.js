@@ -17,45 +17,53 @@ const useStyles = makeStyles(theme => ({
       marginBottom: theme.spacing(2.25),
     }
   },
-  labelFocus: {
-    '& label.Mui-focused': {
+  label: {
+    '& .MuiFormLabel-root': {
       color: 'rgb(255,255,255)',
+      fontSize: '1.5em',
+      fontFamily: 'Montserrat, san-serif',
+    },
+    '& label.Mui-focused': {
       fontWeight: 'bold'
     },
+    '& label.Mui-error': {
+      color: 'rgb(255,0,51)',
+      fontWeight: 'bold',
+    }
   },
-  containerContent:{
+  containerContent: {
     padding: theme.spacing(3),
     backgroundColor: "rgba(0,0,0,0.8)",
+    boxShadow: '0 0 2px 5px rgba(0,0,0,0.5)',
   },
-  inputLabel: {
-    fontFamily: 'Montserrat, san-serif',
-    color: 'rgb(255,255,255)'
+  textField: {
+    'label + &': {
+      marginTop: theme.spacing(3),
+    },
+    borderRadius: 4,
+    backgroundColor: theme.palette.common.white,
+    fontFamily: "Montserrat, san-serif",
+    padding: theme.spacing(0.75),
+    marginBottom: theme.spacing(3)
   },
-  input: {
-    borderRadius: 3,
-    backgroundColor: 'rgb(255,255,255)',
-    padding: '5px 12px',
-    fontSize: '1.5em',
+  helperTextRoot: {
     fontFamily: 'Montserrat, san-serif',
-    '@media (min-width:0px)': {
-      width: '390px'
-    },
-    '@media (min-width:600px)': {
-      width: '550px'
-    },
+    marginTop: theme.spacing(-2.5),
+    marginBottom: theme.spacing(1),
+    color: 'rgb(255,255,255)',
   },
   link: {
-    textDecoration: 'underline', 
-    color:'rgb(33,150,243)',
+    textDecoration: 'underline',
+    color: 'rgb(33,150,243)',
   },
   button: {
-    marginBottom: '20px',
+    marginBottom: theme.spacing(4),
     fontSize: '1.25rem',
     fontFamily: "Montserrat, san-serif"
   },
   disabled: {
     pointerEvents: 'none',
-  }
+  },
 }))
 
 export { useStyles };

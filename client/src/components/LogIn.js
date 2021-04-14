@@ -1,57 +1,117 @@
 import { React, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Grid, FormControl, InputLabel, Input, Button } from '@material-ui/core';
+import { Grid, TextField, Button, IconButton, InputAdornment } from '@material-ui/core';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { useHistory, Link } from 'react-router-dom';
+import useForm from './useForm';
+
+/* Still need to add validation for checking right username and password*/
+
+const initialValues = {
+  username: '',
+  password: '',
+}
 
 const LogIn = ({ onClick, styles }) => {
-
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const { values, setValues, errors, setErrors, handleChange } = useForm(initialValues);
+  const [showPassword, setShowPassword] = useState(false);
   const history = useHistory();
 
-  const handleSubmit = (e) =>{
-    e.preventDefault();
-    console.log(`username: ${username}`);
-    console.log(`password: ${password}`);
+  const validate = () => {
+    let temp= {};
+    temp.username = values.username ? "" : "This field is required";
+    temp.password = values.password ? "" : "This field is required";
+    setErrors({
+      ...temp
+    })
 
-    history.push("/home");
+    return Object.values(temp).every(x => x === "");
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(`username: ${values.username}`);
+    console.log(`password: ${values.password}`);
+
+    if(validate()){
+      history.push("/home");
+    }
   }
 
   return (
     <div>
-      <h2 style={{textAlign: 'center', fontSize: '2rem'}}>Log In</h2>
-      <form onSubmit= {handleSubmit}>
-        <FormControl margin="normal" className={styles.labelFocus}>
-          <InputLabel required shrink htmlFor="username" className={styles.inputLabel}>Username</InputLabel>
-          <Input required disableUnderline id="username" className={styles.input} onChange={(e) => setUsername(e.target.value)} />
-        </FormControl>
+      <h2 style={{ textAlign: 'center', fontSize: '2em' }}>Log In</h2>
+      <form onSubmit={handleSubmit} className={styles.label} autoComplete="off">
+        <TextField
+          fullWidth={true}
+          variant="standard"
+          label="Username"
+          name="username"
+          value={values.username}
+          onChange={handleChange}
+          error= {errors.username ? true : false}
+          helperText= {errors.username}
+          FormHelperTextProps= {{classes: {root: styles.helperTextRoot}}}
+          InputLabelProps={{ shrink: true, }}
+          InputProps={{ className: styles.textField, disableUnderline: true }}
+        />
+        <TextField
+          fullWidth={true}
+          variant="standard"
+          label="Password"
+          type={showPassword ? "text": "password"}
+          name="password"
+          value={values.password}
+          onChange={handleChange}
+          error= {errors.password ? true : false}
+          helperText= {errors.password}
+          FormHelperTextProps= {{classes: {root: styles.helperTextRoot}}}
+          InputLabelProps={{ shrink: true, }}
+          InputProps={{ 
+            className: styles.textField, 
+            disableUnderline: true,
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => setShowPassword(!showPassword)}
+                  onMouseDown={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            )
+          }}
+        />
 
-        <FormControl margin="normal" className={styles.labelFocus}>
-          <InputLabel required shrink htmlFor="password" margin="dense" className={styles.inputLabel}>Password</InputLabel>
-          <Input required disableUnderline id="password" type="password" className={styles.input} onChange={(e) => setPassword(e.target.value)} />
-        </FormControl>
-
-      <h3>Don't have an Account? <a href="#" className={styles.link} onClick= {onClick}>Register Here!</a></h3>
-      <Button size="large" fullWidth={true} variant="contained" color="primary" className={styles.button}>
-        Log In
-      </Button>
+        <h3>Don't have an Account? <a href="#" className={styles.link} onClick={onClick}>Register Here!</a></h3>
+        <Button
+          type="submit"
+          size="large"
+          fullWidth={true}
+          variant="contained"
+          color="primary"
+          className={styles.button}>
+          Log In
+        </Button>
       </ form>
-      
-      <Grid 
+
+      <Grid
         container
         direction="row"
         justify="center"
-        alignItems="center">
-          <Grid item>
-            <Link to="/about" className={styles.link} style={{padding: "10px"}}>About Us</Link>
-          </Grid>
-          <Grid item>
-            <Link to="#" className={styles.link} style={{borderLeft: "1px solid white", padding: "10px"}}>Terms of Use</Link>
-          </Grid>
+        alignItems="center"
+      >
+        <Grid item>
+          <Link to="/about" className={styles.link} style={{ paddingRight: "10px", marginRight: "3px" }}>About Us</Link>
+        </Grid>
+        <Grid item>
+          <Link to="#" className={styles.link} style={{ borderLeft: "1px solid white", paddingLeft: "15px", marginLeft: "3px" }}>Terms of Use</Link>
+        </Grid>
       </Grid>
 
       <h3>This is a non-profit website and all intellectual property is owned by MTA.</h3>
-    </div>
+    </div >
   )
 }
 

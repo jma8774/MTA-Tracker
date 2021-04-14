@@ -1,68 +1,161 @@
 import { React, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Grid, FormControl, InputLabel, Input, Button } from '@material-ui/core';
+import { Grid, TextField, Button, IconButton, InputAdornment } from '@material-ui/core';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { useHistory, Link } from 'react-router-dom';
+import useForm from './useForm';
 
-const LogIn = ({ onClick, styles }) => {
+/* Still need to add validation for checking if username/email exists*/
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [reEnterPassword, setReEnterPassword] = useState('');
+const initialValues = {
+  username: '',
+  password: '',
+  rePassword: '',
+  email: '',
+}
+
+const Register = ({ onClick, styles }) => {
+  const { values, setValues, errors, setErrors, handleChange } = useForm(initialValues);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRePassword, setShowRePassword] = useState(false);
   const history = useHistory();
 
-  const handleClick = (e) => {
+  const validate = () => {
+    let temp = {};
+    temp.username = values.username ? "" : "This field is required";
+    temp.email = (/$^|.+@.+..+/).test(values.email) ? "" : "Email is invalid";
+    temp.password = values.password.length > 6 ? "" : "Minimum 6 characters required";
+    temp.rePassword = values.password === values.rePassword ? "" : "Passwords do not match";
+
+    setErrors({
+      ...temp
+    })
+
+    return Object.values(temp).every(x => x === "");
+  }
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(`username: ${username}`);
-    console.log(`password: ${password}`);
+    console.log(`username: ${values.username}`);
+    console.log(`password: ${values.email}`);
+    console.log(`password: ${values.password}`);
+    console.log(`password: ${values.rePassword}`);
+
+    if (validate()) {
+      history.push("/login");
+    }
   }
 
   return (
     <div>
-      <h2 style={{ textAlign: 'center', fontSize: '2rem' }}>Register</h2>
-      <form>
-        <FormControl margin="normal" className={styles.labelFocus}>
-          <InputLabel required shrink htmlFor="username" className={styles.inputLabel}>Username</InputLabel>
-          <Input required disableUnderline id="username" className={styles.input} onChange={(e) => setUsername(e.target.value)} />
-        </FormControl>
-
-        <FormControl margin="normal" className={styles.labelFocus}>
-          <InputLabel required shrink htmlFor="email" inputProps={{ type: 'email' }} className={styles.inputLabel}>Email</InputLabel>
-          <Input required disableUnderline id="email" className={styles.input} onChange={(e) => setEmail(e.target.value)} />
-        </FormControl>
-
-        <FormControl margin="normal" className={styles.labelFocus}>
-          <InputLabel required shrink htmlFor="password" className={styles.inputLabel}>Password</InputLabel>
-          <Input required disableUnderline id="password" type="password" inputProps={{ minLength: 6 }} className={styles.input} onChange={(e) => setPassword(e.target.value)} />
-        </FormControl>
-
-        <FormControl margin="normal" className={styles.labelFocus}>
-          <InputLabel required shrink htmlFor="re-enter-password" className={styles.inputLabel}>Re-enter Password</InputLabel>
-          <Input required disableUnderline id="re-enter-password" type="password" inputProps={{ minLength: 6 }} className={styles.input} onChange={(e) => setReEnterPassword(e.target.value)} />
-        </FormControl>
-
+      <h2 style={{ textAlign: 'center', fontSize: '2em' }}>Register</h2>
+      <form onSubmit={handleSubmit} className={styles.label} autoComplete="off">
+        <TextField
+          fullWidth={true}
+          variant="standard"
+          label="Username"
+          name="username"
+          value={values.username}
+          onChange={handleChange}
+          error={errors.username ? true : false}
+          helperText={errors.username}
+          FormHelperTextProps={{ classes: { root: styles.helperTextRoot } }}
+          InputLabelProps={{ shrink: true, }}
+          InputProps={{ className: styles.textField, disableUnderline: true }}
+        />
+        <TextField
+          fullWidth={true}
+          variant="standard"
+          label="Email"
+          name="email"
+          placeholder="(Optional)"
+          value={values.email}
+          onChange={handleChange}
+          error={errors.email ? true : false}
+          helperText={errors.email}
+          FormHelperTextProps={{ classes: { root: styles.helperTextRoot } }}
+          InputLabelProps={{ shrink: true, }}
+          InputProps={{ className: styles.textField, disableUnderline: true }}
+        />
+        <TextField
+          fullWidth={true}
+          variant="standard"
+          label="Password"
+          type={showPassword ? "text": "password"}
+          name="password"
+          value={values.password}
+          onChange={handleChange}
+          error={errors.password ? true : false}
+          helperText={errors.password ? errors.password : "Password should be at least 6 characters long"}
+          FormHelperTextProps={{ classes: { root: styles.helperTextRoot } }}
+          InputLabelProps={{ shrink: true, }}
+          InputProps={{ 
+            className: styles.textField, 
+            disableUnderline: true, 
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => setShowPassword(!showPassword)}
+                  onMouseDown={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            )
+          }}
+        />
+        <TextField
+          fullWidth={true}
+          variant="standard"
+          label="Re-enter Password"
+          type={showRePassword ? "text": "password"}
+          name="rePassword"
+          value={values.rePassword}
+          onChange={handleChange}
+          error={errors.rePassword ? true : false}
+          helperText={errors.rePassword ? errors.rePassword : "Password must match"}
+          FormHelperTextProps={{ classes: { root: styles.helperTextRoot } }}
+          InputLabelProps={{ shrink: true, }}
+          InputProps={{ 
+            className: styles.textField, 
+            disableUnderline: true,
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle re-enter password visibility"
+                  onClick={() => setShowRePassword(!showRePassword)}
+                  onMouseDown={() => setShowRePassword(!showRePassword)}
+                >
+                  {showRePassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            ) 
+          }}
+        />
         <h3>Have an Account? <a href="#" onClick={onClick} className={styles.link}>Log In!</a></h3>
-        {password === reEnterPassword ?
-          <Button size="large" fullWidth="true" variant="contained" color="primary" onClick={handleClick} className={styles.button}>
-            Register
-        </Button> :
-          <Button size="large" fullWidth="true" variant="contained" color="default" className={`${styles.button} + ${styles.disabled}`}>
-            Register
+        <Button
+          type="submit"
+          size="large"
+          fullWidth="true"
+          variant="contained"
+          color="primary"
+          className={styles.button}>
+          Register
         </Button>
-        }
       </form>
 
-      <Grid 
+      <Grid
         container
         direction="row"
         justify="center"
         alignItems="center">
-          <Grid item>
-            <Link to="/about" className={styles.link} style={{padding: "10px"}}>About Us</Link>
-          </Grid>
-          <Grid item>
-            <Link to="#" className={styles.link} style={{borderLeft: "1px solid white", padding: "10px"}}>Terms of Use</Link>
-          </Grid>
+        <Grid item>
+          <Link to="/about" className={styles.link} style={{ paddingRight: "10px", marginRight: "3px" }}>About Us</Link>
+        </Grid>
+        <Grid item>
+          <Link to="#" className={styles.link} style={{ borderLeft: "1px solid white", paddingLeft: "15px", marginLeft: "3px" }}>Terms of Use</Link>
+        </Grid>
       </Grid>
 
       <h3 className={styles.margin}>This is a non-profit website and all intellectual property is owned by MTA.</h3>
@@ -71,4 +164,4 @@ const LogIn = ({ onClick, styles }) => {
   )
 }
 
-export default LogIn;
+export default Register;
