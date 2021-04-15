@@ -11,6 +11,7 @@ import LoginRegister from './pages/LoginRegisterPage';
 import HomePage from './pages/HomePage';
 import AboutUs from './pages/AboutUsPage';
 import LinePage from './pages/LinePage';
+import NearbyPage from './pages/NearbyPage';
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
           <AboutUs />
         </Route>
         <Route path="/line/:train" component={LinePage}/>
+        <Route path="/nearby" component={NearbyPage}/>
       </Switch>
     </Router>
   )
