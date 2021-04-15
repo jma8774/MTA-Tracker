@@ -33,8 +33,8 @@ export default function ButtonAppBar() {
             <Button component={Link} to="/home" color="inherit">Home</Button>
             <Button component={Link} to="/about" color="inherit">About us</Button>
             {/* For Testing */}
-            <Button component={Link} to="/line/d" color="inherit">D Train (Test)</Button>
-            <Button component={Link} to="/nearby" color="inherit">Nearby(Test)</Button>
+            <Button component={Link} to="/line/d" color="inherit">D Train</Button>
+            <Button component={Link} to="/nearby" color="inherit">Nearby</Button>
           </Box>
           <Button component={Link} to="/" color="inherit" >Login</Button>
         </Toolbar>
