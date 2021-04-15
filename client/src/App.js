@@ -12,10 +12,13 @@ import HomePage from './pages/HomePage';
 import AboutUs from './pages/AboutUsPage';
 import LinePage from './pages/LinePage';
 import NearbyPage from './pages/NearbyPage';
+import NavBar from './components/NavBar'
+
 
 const App = () => {
   return (
     <Router>
+      <NavBar/>
       <Switch>
         <Route exact path="/">
           <LoginRegister />
