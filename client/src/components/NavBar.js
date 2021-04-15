@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import {Toolbar, Button, AppBar} from '@material-ui/core/';
 import IconButton from '@material-ui/core/IconButton';
+import Box from '@material-ui/core/Box';
 import HomeIcon from '@material-ui/icons/Home';
 
 const useStyles = makeStyles((theme) => ({
@@ -11,9 +12,8 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
-  login: {
-    position: 'absolute',
-    left: '95%',
+  leftSide: {
+    flexGrow: 1,
   },
 }));
 
@@ -27,11 +27,13 @@ export default function ButtonAppBar() {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <HomeIcon></HomeIcon>
           </IconButton>
-          <Button color="inherit">Home</Button>
-          <Button color="inherit">About us</Button>
-          <Button color="inherit">Help</Button>
+          <Box className={classes.leftSide}>
+            <Button color="inherit">Home</Button>
+            <Button color="inherit">About us</Button>
+            <Button color="inherit">Help</Button>
+          </Box>
 
-          <Button className = {classes.login} color="inherit">Login</Button>
+          <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
     </div>
