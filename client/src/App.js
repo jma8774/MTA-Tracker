@@ -23,7 +23,6 @@ const App = () => {
           <LoginRegister />
         </Route>
         <Route path="/home">
-          <NavBar/>
           <HomePage />
         </Route>
         <Route path="/about">

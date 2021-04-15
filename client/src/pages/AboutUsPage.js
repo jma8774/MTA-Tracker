@@ -35,10 +35,10 @@ export default function AboutUsPage(props) {
       <NavBar/>
       <CssBaseline />
       <Container className={classes.root}>
+        <Typography>
+          Hello
+        </Typography>
       </Container>
-      <Typography>
-        Hello
-      </Typography>
     </ThemeProvider>
   );
 }

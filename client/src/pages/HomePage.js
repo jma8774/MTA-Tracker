@@ -12,6 +12,7 @@ import ExampleCard from '../components/ExampleCard.js'
 import ExampleChips from '../components/ExampleChips.js'
 import ExampleProgress from '../components/ExampleProgress.js'
 import ExampleBadges from '../components/ExampleBadges.js'
+import NavBar from '../components/NavBar'
 import StopCard from '../components/StopCard.js'
 
 // Material UI CSS
@@ -61,6 +62,7 @@ class App extends React.Component {
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        <NavBar/>
         <Container className={classes.root}>
           {/* Some Examples, find more at https://material-ui.com/components/button/ and https://material-ui.com/api/button/ */}
           <Alert variant="filled" severity="success" onClose={() => { }}>
