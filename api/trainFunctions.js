@@ -32,7 +32,7 @@ async function getTrips(urlList, tripData, callback) {
         numFetched ++
         // console.log(feed)
         if(numFetched === 8) {
-          console.log("\nFinished fetching live data from all 8 APIs")
+          console.log("\nFinished fetching live data from all 9 APIs")
           callback()
         }
       } 
@@ -118,6 +118,8 @@ function updateStops(tripData, stopsObj) {
     const stops = data.stopTimeUpdate;
 
     stops.forEach(stop => {
+      // const arrival = stop.arrival && parseFloat(stop.arrival.time) > curTimeEpoch  ? stop.arrival.time : null
+      // const departure = stop.departure && parseFloat(stop.departure.time) > curTimeEpoch ? stop.departure.time : null
       const arrival = stop.arrival ? stop.arrival.time : null
       const departure = stop.departure ? stop.departure.time : null
       var stopId = stop.stopId
