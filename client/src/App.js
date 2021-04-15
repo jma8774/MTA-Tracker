@@ -18,19 +18,21 @@ import NavBar from './components/NavBar'
 const App = () => {
   return (
     <Router>
-      <NavBar/>
       <Switch>
         <Route exact path="/">
           <LoginRegister />
         </Route>
-        <Route path="/home">
-          <HomePage />
+        <Route path='/'>
+          <NavBar/>
+          <Route path="/home">
+            <HomePage />
+          </Route>
+          <Route path="/about">
+            <AboutUs />
+          </Route>
+          <Route path="/line/:train" component={LinePage}/>
+          <Route path="/nearby" component={NearbyPage}/>
         </Route>
-        <Route path="/about">
-          <AboutUs />
-        </Route>
-        <Route path="/line/:train" component={LinePage}/>
-        <Route path="/nearby" component={NearbyPage}/>
       </Switch>
     </Router>
   )
