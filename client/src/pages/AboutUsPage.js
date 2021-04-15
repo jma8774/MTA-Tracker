@@ -1,9 +1,12 @@
 import React from 'react';
+import NavBar from '../components/NavBar'
 
-function AboutUsPage(props) {
+export default function AboutUsPage(props) {
   return (
-    <div>A little info about us.</div>
+    <div id = "page"> 
+      <NavBar/>
+      
+    </div>
   );
 }
 
-export default AboutUsPage;
