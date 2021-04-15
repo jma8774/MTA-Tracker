@@ -1,5 +1,6 @@
 import 'fontsource-roboto';
 import { useParams } from 'react-router';
+import axios from 'axios';
 import React from 'react';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import { CssBaseline, Typography, unstable_createMuiStrictModeTheme as createMuiTheme, Container, Box, Grid, Divider, IconButton, Backdrop, TextField} from '@material-ui/core';
@@ -70,29 +71,24 @@ export default function LinePage(props) {
   }
   
   React.useEffect(() => {
-    let ignore = false;
-
     async function fetchData() {
-      
-      const result = await fetch(
-        'http://localhost:8080/line/' + train.toUpperCase(),
-      );
-      console.log(result)
-      const response = await result.json()
-      console.log(response)
-      if (!ignore) {
+      axios.get('http://localhost:8080/line/' + train.toUpperCase())
+      .then(res => {
+        console.log("Response", res)
+        console.log("Data", res.data)
+        const data = res.data
         var tmp = []
-        for(var i in response) 
-          if(response[i].stopName)
-            tmp.push([i, response[i]]);
-        setStops(Object.keys(response).length > 0 ? tmp : null);
-      }
+        for(var i in data) 
+          if(data[i].stopName)
+            tmp.push([i, data[i]]);
+        setStops(Object.keys(data).length > 0 ? tmp : null);
+      })
+      .catch(error =>
+        console.log("Error", error)
+      )
     }
-
     fetchData();
-    return () => { ignore = true; }
   }, [train]);
-
   
   if(train.toLowerCase() in descriptions)
     return (
@@ -140,10 +136,10 @@ export default function LinePage(props) {
                 </Grid>
               </React.Fragment>
               :
-                <Backdrop className={classes.backdrop} open={!stops}>
+                <Backdrop open={!stops}>
                   <Box>
                     <Typography variant="h5" color="initial"> Please wait, fetching information... </Typography>
-                    <Typography variant="subtitle1" color="textSecondary"> Pleaes refresh the page if it takes longer than 5 seconds. Either that train is not currently running or the fetch failed. </Typography>
+                    <Typography variant="subtitle1" color="textSecondary"> Pleaes refresh the page if it takes longer than 5 seconds. Either that train is not currently running or the fetch from MTA failed. </Typography>
                   </Box>
                 </Backdrop>
             }
