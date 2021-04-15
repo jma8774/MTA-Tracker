@@ -70,7 +70,7 @@ export default function LinePage(props) {
   const handleReverse = () => {
     setStops(stops.slice().reverse())
   }
-  
+
   React.useEffect(() => {
     async function fetchData() {
       axios.get('http://localhost:8080/line/' + train.toUpperCase())
@@ -150,6 +150,8 @@ export default function LinePage(props) {
     )
   else
     return (
-      <div className={classes.root}> Invalid Train </div>
+      <Box className={classes.root} mt={3}> 
+        Train not supported 
+      </Box>
     )
 }
