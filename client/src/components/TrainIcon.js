@@ -6,7 +6,6 @@ import train2 from '../imgs/svg/2.svg';
 import train3 from '../imgs/svg/3.svg';
 import train4 from '../imgs/svg/4.svg';
 import train5 from '../imgs/svg/5.svg';
-import train5x from '../imgs/svg/5x.svg';
 import train6 from '../imgs/svg/6.svg';
 import train6x from '../imgs/svg/6x.svg';
 import train7 from '../imgs/svg/7.svg';
@@ -36,7 +35,7 @@ const paths = {
   '3': train3,
   '4': train4,
   '5': train5,
-  '5x': train5x,
+  '5x': train5,
   '6': train6,
   '6x': train6x,
   '7': train7,

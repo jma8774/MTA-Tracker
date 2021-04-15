@@ -1,35 +1,6 @@
 var GtfsRealtimeBindings = require('gtfs-realtime-bindings');
 var request = require("request");
 var traindb = require('./gtfsData')
-const supportedTrains = new Set([
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '5x',
-  '6',
-  '6x',
-  '7',
-  '7x',
-  'a',
-  'b',
-  'c',
-  'd',
-  'e',
-  'f',
-  'g',
-  'h',
-  'j',
-  'l',
-  'm',
-  'n',
-  'q',
-  'r',
-  'si',
-  'w',
-  'z'
-]);
 
 // Get all live train line information of API calls in urlList
 async function getTrips(urlList, tripData, callback) {
@@ -158,7 +129,7 @@ function updateStops(tripData, stopsObj) {
       stopId = stopId.substring(0, stopId.length-1)
       
       // Return if parsed stop is not nearby, else initialize stop if it doesn't exist yet
-      if(!(stopId in stopsObj) || !supportedTrains.has(trainType.toLowerCase()))
+      if(!(stopId in stopsObj))
         return
 
       // Create traintype for the stop if it doesn't exist already

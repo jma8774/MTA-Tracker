@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -57,13 +56,10 @@ export default function StopCard(props) {
   var trains = stopInfo.trains
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
-  React.useEffect(() => {
-    setExpanded(false)
-  }, [stopId]);
 
   const [favorite, setFavorite] = React.useState("default")
   const handleColor = () => {
@@ -85,7 +81,7 @@ export default function StopCard(props) {
       <Box ml={1}>
         {
           Object.keys(trains).map((key, i) => (
-            <Box component={Link} to={"/line/" + key} key={i} ml={1}>
+            <Box component="span" key={i} ml={1}>
               <TrainIcon key={i} train={key}/>
             </Box>
           ))
@@ -121,7 +117,7 @@ export default function StopCard(props) {
               {
                 Object.keys(trains).map((key, i) => 
                   <Typography key={i}>
-                    <Box component={Link} to={"/line/" + key} mr={2}>
+                    <Box component="span" mr={2}>
                       <TrainIcon train={key}/>
                     </Box>
                     {trains[key]['uptown'] ? getDifference(trains[key]['uptown'], curTime) : 'N/A'}
@@ -141,7 +137,7 @@ export default function StopCard(props) {
               {
                 Object.keys(trains).map((key, i) => 
                   <Typography key={i}>
-                    <Box component={Link} to={"/line/" + key} mr={2}>
+                    <Box component="span" mr={2}>
                       <TrainIcon train={key}/>
                     </Box>
                     {trains[key]['downtown'] ? getDifference(trains[key]['downtown'], curTime) : 'N/A'}
