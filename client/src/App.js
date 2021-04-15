@@ -22,17 +22,15 @@ const App = () => {
         <Route exact path="/">
           <LoginRegister />
         </Route>
-        <Route path='/'>
+        <Route path="/home">
           <NavBar/>
-          <Route path="/home">
-            <HomePage />
-          </Route>
-          <Route path="/about">
-            <AboutUs />
-          </Route>
-          <Route path="/line/:train" component={LinePage}/>
-          <Route path="/nearby" component={NearbyPage}/>
+          <HomePage />
         </Route>
+        <Route path="/about">
+          <AboutUs />
+        </Route>
+        <Route path="/line/:train" component={LinePage}/>
+        <Route path="/nearby" component={NearbyPage}/>
       </Switch>
     </Router>
   )

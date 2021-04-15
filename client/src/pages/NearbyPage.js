@@ -9,6 +9,8 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 // Custom Components
 import StopCard from '../components/StopCard.js'
 import TrainIcon from '../components/TrainIcon.js'
+import NavBar from '../components/NavBar'
+
 
 // Material UI CSS
 const useStyles = makeStyles((theme) => ({
@@ -99,41 +101,40 @@ export default function NearbyPage(props) {
     // fetchData();
   
   return (
-    <div className={classes.root}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Container>
-          <Box my={4}>
-            <Typography variant="h3">
-              Nearby Stops
-            </Typography>
-          </Box>
-          <Typography variant="h6" color="textSecondary">
-            If your browser allows it and you give permission, we can help look for stops near your location at a 2 KM radius.
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <NavBar/>
+      <Container className={classes.root}>
+        <Box my={4}>
+          <Typography variant="h3">
+            Nearby Stops
           </Typography>
-          <Divider className={classes.divider} variant="middle"/>
-            <Backdrop open={backdrop}>
-              <Typography variant="h6" color="initial"> 
-                {
-                  available
-                  ? 'Geolocation is supported by your browser, please give permission to get access to nearby stops.'
-                  : 'Geolocation is not supported by your browser.'
-                }
-                <br/> 
-                <br/> 
-                <CircularProgress/>
-              </Typography>
-            </Backdrop>
-            {
-              !backdrop && 
-              (
-                location
-                ? 'Geolocation location received, user is at (' + location.lat + ', ' + location.lon + ').'
-                : 'Geolocation denied by the user, please renable it for this website.'
-              )
-            }
-        </Container>
-      </ThemeProvider>
-    </div>
-  )
+        </Box>
+        <Typography variant="h6" color="textSecondary">
+          If your browser allows it and you give permission, we can help look for stops near your location at a 2 KM radius.
+        </Typography>
+        <Divider className={classes.divider} variant="middle"/>
+          <Backdrop open={backdrop}>
+            <Typography variant="h6" color="initial"> 
+              {
+                available
+                ? 'Geolocation is supported by your browser, please give permission to get access to nearby stops.'
+                : 'Geolocation is not supported by your browser.'
+              }
+              <br/> 
+              <br/> 
+              <CircularProgress/>
+            </Typography>
+          </Backdrop>
+          {
+            !backdrop && 
+            (
+              location
+              ? 'Geolocation location received, user is at (' + location.lat + ', ' + location.lon + ').'
+              : 'Geolocation denied by the user, please renable it for this website.'
+            )
+          }
+      </Container>
+    </ThemeProvider>
+)
 }

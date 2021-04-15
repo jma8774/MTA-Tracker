@@ -3,11 +3,12 @@ import { useParams } from 'react-router';
 import axios from 'axios';
 import React from 'react';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import { CssBaseline, Typography, unstable_createMuiStrictModeTheme as createMuiTheme, Container, Box, Grid, Divider, IconButton, Backdrop, TextField} from '@material-ui/core';
+import { CssBaseline, Typography, createMuiTheme, Container, Box, Grid, Divider, IconButton, Backdrop, TextField} from '@material-ui/core';
 import ReorderIcon from '@material-ui/icons/Reorder';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 // Custom Components
 import StopCard from '../components/StopCard.js'
+import NavBar from '../components/NavBar'
 import TrainIcon from '../components/TrainIcon.js'
 
 // Material UI CSS
@@ -92,61 +93,60 @@ export default function LinePage(props) {
   
   if(train.toLowerCase() in descriptions)
     return (
-      <div className={classes.root}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Container>
-            <Box my={4}>
-              <TrainIcon train={train} width={75}/>
-            </Box>
-            <Typography variant="h6" color="textSecondary">
-              {descriptions[train.toLowerCase()]}
-            </Typography>
-            <Divider className={classes.divider} variant="middle"/>
-            {
-            stops
-            ?
-              <React.Fragment>
-                <Grid container justify="flex-end">
-                  <Autocomplete
-                    id="search-stop"
-                    options={stops}
-                    getOptionLabel={(option) => option[1].stopName}
-                    style={{ width: 300 }}
-                    onChange={(e, val) => setSearch(val ? val[1].stopName : '')}
-                    renderInput={(params) => <TextField {...params} label="Search" variant="outlined"/>}
-                  />
-                  <Box mr={3}>
-                    <IconButton aria-label="sort" onClick={handleReverse}>
-                      <ReorderIcon fontSize="large"/>
-                    </IconButton>
-                  </Box>
-                </Grid>
-                <Grid container align="center">
-                  { 
-                    stops.map((val, i) => 
-                      val[1].stopName.toLowerCase().includes(search.toLowerCase()) &&
-                      <Grid key={i} item xs={12} md={6} lg={4}>
-                        <Box mt={3}>
-                          <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime}/>
-                        </Box>
-                      </Grid>
-                    )
-                  }
-                </Grid>
-              </React.Fragment>
-              :
-                <Backdrop open={!stops}>
-                  <Box>
-                    <Typography variant="h5" color="initial"> Please wait, fetching information... </Typography>
-                    <Typography variant="subtitle1" color="textSecondary"> Pleaes refresh the page if it takes longer than 5 seconds. Either that train is not currently running or the fetch from MTA failed. </Typography>
-                  </Box>
-                </Backdrop>
-            }
-            <Box my={4}/>
-          </Container>
-        </ThemeProvider>
-      </div>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <NavBar/>
+        <Container className={classes.root}>
+          <Box my={4}>
+            <TrainIcon train={train} width={75}/>
+          </Box>
+          <Typography variant="h6" color="textSecondary">
+            {descriptions[train.toLowerCase()]}
+          </Typography>
+          <Divider className={classes.divider} variant="middle"/>
+          {
+          stops
+          ?
+            <React.Fragment>
+              <Grid container justify="flex-end">
+                <Autocomplete
+                  id="search-stop"
+                  options={stops}
+                  getOptionLabel={(option) => option[1].stopName}
+                  style={{ width: 300 }}
+                  onChange={(e, val) => setSearch(val ? val[1].stopName : '')}
+                  renderInput={(params) => <TextField {...params} label="Search" variant="outlined"/>}
+                />
+                <Box mr={3}>
+                  <IconButton aria-label="sort" onClick={handleReverse}>
+                    <ReorderIcon fontSize="large"/>
+                  </IconButton>
+                </Box>
+              </Grid>
+              <Grid container align="center">
+                { 
+                  stops.map((val, i) => 
+                    val[1].stopName.toLowerCase().includes(search.toLowerCase()) &&
+                    <Grid key={i} item xs={12} md={6} lg={4}>
+                      <Box mt={3}>
+                        <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime}/>
+                      </Box>
+                    </Grid>
+                  )
+                }
+              </Grid>
+            </React.Fragment>
+            :
+              <Backdrop open={!stops}>
+                <Box>
+                  <Typography variant="h5" color="initial"> Please wait, fetching information... </Typography>
+                  <Typography variant="subtitle1" color="textSecondary"> Pleaes refresh the page if it takes longer than 5 seconds. Either that train is not currently running or the fetch from MTA failed. </Typography>
+                </Box>
+              </Backdrop>
+          }
+          <Box my={4}/>
+        </Container>
+      </ThemeProvider>
     )
   else
     return (

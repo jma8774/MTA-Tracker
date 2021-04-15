@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import {Toolbar, Button, AppBar} from '@material-ui/core/';
 import IconButton from '@material-ui/core/IconButton';
@@ -28,12 +29,11 @@ export default function ButtonAppBar() {
             <HomeIcon></HomeIcon>
           </IconButton>
           <Box className={classes.leftSide}>
-            <Button color="inherit">Home</Button>
-            <Button color="inherit">About us</Button>
-            <Button color="inherit">Help</Button>
+            <Button component={Link} to="/home" color="inherit">Home</Button>
+            <Button component={Link} to="/about" color="inherit">About us</Button>
+            <Button component={Link} to="/help" color="inherit">Help</Button>
           </Box>
-
-          <Button color="inherit">Login</Button>
+          <Button component={Link} to="/" color="inherit" >Login</Button>
         </Toolbar>
       </AppBar>
     </div>

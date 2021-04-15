@@ -59,41 +59,39 @@ class App extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div className={classes.root}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Container>
-            {/* Some Examples, find more at https://material-ui.com/components/button/ and https://material-ui.com/api/button/ */}
-            <Alert variant="filled" severity="success" onClose={() => { }}>
-              Material UI Alert!
-          </Alert>
-            <Box my={3}>
-              <TextField label="Material UI Textfield" variant="filled" size="small" />
-              <Button variant="contained" color="primary">
-                Material UI Button!
-            </Button>
-            </Box>
-            <ExampleCard />
-            <ExampleChips />
-            <ExampleProgress />
-            <ExampleBadges />
-          </Container>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Container className={classes.root}>
+          {/* Some Examples, find more at https://material-ui.com/components/button/ and https://material-ui.com/api/button/ */}
+          <Alert variant="filled" severity="success" onClose={() => { }}>
+            Material UI Alert!
+        </Alert>
+          <Box my={3}>
+            <TextField label="Material UI Textfield" variant="filled" size="small" />
+            <Button variant="contained" color="primary">
+              Material UI Button!
+          </Button>
+          </Box>
+          <ExampleCard />
+          <ExampleChips />
+          <ExampleProgress />
+          <ExampleBadges />
+        </Container>
 
-          {/* <Router>
-          <Navigation />
-          <div className="container-fluid text-center">
-            <div className="row justify-content-center">
-              <Switch>
-                <Route path="/posts/new" component={PostFormPage} />
-                <Route path="/posts/:id" component={ShowPostPage} />
-                <Route path="/about-us" component={AboutUsPage} />
-                <Route path="/" component={PostsListPage} />
-              </Switch>
-            </div>
+        {/* <Router>
+        <Navigation />
+        <div className="container-fluid text-center">
+          <div className="row justify-content-center">
+            <Switch>
+              <Route path="/posts/new" component={PostFormPage} />
+              <Route path="/posts/:id" component={ShowPostPage} />
+              <Route path="/about-us" component={AboutUsPage} />
+              <Route path="/" component={PostsListPage} />
+            </Switch>
           </div>
-        </Router> */}
-        </ThemeProvider>
-      </div>
+        </div>
+      </Router> */}
+      </ThemeProvider>
     );
   }
 }
