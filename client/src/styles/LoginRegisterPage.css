@@ -18,6 +18,9 @@ body {
   top: 0px;
   left: 0px;
   color: transparent;
+  -webkit-background-size:cover;
+  -moz-background-size:cover;
+  -o-background-size:cover;
   background-size: cover;
   background-position: 50% 50%;
   background-repeat: none;
@@ -56,20 +59,8 @@ body {
   opacity: 1;
 }
 
-.front{
-  position: relative;
-  z-index: 2;
-}
-
 .company-name{
   font-weight: bold;
   text-align: center;
   text-shadow: 4px 4px rgba(28,28,30,0.9);
-}
-
-.container{
-  padding-top: 5px;
-  padding-bottom: 5px;
-  background-color: rgba(0,0,0,0.8);
-  margin-bottom: 20px;
 }
