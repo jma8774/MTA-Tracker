@@ -1,5 +1,5 @@
-# Project Starter
-A starter repo for building CUNY Tech Prep projects with React, Express.js, and Sequelize.js
+# MTA-Tracker
+Re-working the MTA website so it's cleaner and easier to use with extra features
 
 ## Stack
 
