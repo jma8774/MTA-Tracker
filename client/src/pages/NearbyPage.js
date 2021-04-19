@@ -1,11 +1,10 @@
 import 'fontsource-roboto';
 import axios from 'axios';
 import React from 'react';
-import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import {
   CssBaseline,
   Typography,
-  unstable_createMuiStrictModeTheme as createMuiTheme,
   Container,
   Box,
   Grid,
@@ -18,11 +17,12 @@ import {
 } from "@material-ui/core";
 import ReorderIcon from '@material-ui/icons/Reorder';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import HelpIcon from '@material-ui/icons/Help';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import TimerIcon from '@material-ui/icons/Timer';
 // Custom Components
-import StopCard from '../components/StopCard.js'
+import StopCard from '../components/StopCard'
 import NavBar from '../components/NavBar'
+import AlertSnackbar from '../components/AlertSnackbar'
 
 
 // Material UI CSS
@@ -50,6 +50,7 @@ export default function NearbyPage(props) {
   const [available, setAvailable] = React.useState(null)
   const [backdrop, setBackdrop] = React.useState(true)
   const [location, setLocation] = React.useState(null)
+  const [status, setStatus] = React.useState(false)
   const [search, setSearch] = React.useState('')
   const handleReverse = () => {
     setStops(stops.slice().reverse())
@@ -93,8 +94,10 @@ export default function NearbyPage(props) {
   React.useEffect(() => {
     if(location === null)
       return
-
+    window.scrollTo(0, 0)
+    
     function fetchData() {
+      setStatus(false)
       axios.get(`http://localhost:8080/stops/nearby/lat/${location.lat}/lon/${location.lon}/dist/2`)
       .then(res => {
         console.log('Data refreshed')
@@ -106,6 +109,7 @@ export default function NearbyPage(props) {
           if(data[i].stopName)
           tmp.push([i, data[i]]);
         setStops(Object.keys(data).length > 0 ? tmp : null);
+        setStatus(true)
       })
       .catch(error =>
         console.log("Error", error)
@@ -122,6 +126,9 @@ export default function NearbyPage(props) {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <NavBar/>
+      { status &&
+        <AlertSnackbar msg="Stops updated!" duration={2000} severity='success'/>
+      }
       <Container className={classes.root}>
         <Backdrop open={backdrop}>
           <Typography variant="h6" color="initial"> 
@@ -160,7 +167,7 @@ export default function NearbyPage(props) {
                       </Box>
                       <Box mr={2} mt={2}>
                         <Tooltip title={<Typography variant='caption'>Click on any of the supported train icons to go to their respected page</Typography>}>
-                          <HelpIcon/>
+                          <HelpOutlineIcon/>
                         </Tooltip>
                       </Box>
                       <Autocomplete

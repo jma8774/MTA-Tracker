@@ -2,11 +2,10 @@ import 'fontsource-roboto';
 import { useParams } from 'react-router';
 import axios from 'axios';
 import React from 'react';
-import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import { 
   CssBaseline, 
-  Typography, 
-  createMuiTheme, 
+  Typography,  
   Container, 
   Box, 
   Grid, 
@@ -18,12 +17,13 @@ import {
 } from '@material-ui/core';
 import ReorderIcon from '@material-ui/icons/Reorder';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import HelpIcon from '@material-ui/icons/Help';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import TimerIcon from '@material-ui/icons/Timer';
 // Custom Components
 import StopCard from '../components/StopCard.js'
 import NavBar from '../components/NavBar'
 import TrainIcon from '../components/TrainIcon.js'
+import AlertSnackbar from '../components/AlertSnackbar'
 
 // Material UI CSS
 const useStyles = makeStyles((theme) => ({
@@ -80,13 +80,17 @@ export default function LinePage(props) {
   const { train } = useParams()
   const curTime = new Date()
   const [stops, setStops] = React.useState(null)
+  const [status, setStatus] = React.useState(false)
   const [search, setSearch] = React.useState('')
   const handleReverse = () => {
     setStops(stops.slice().reverse())
   }
 
   React.useEffect(() => {
+    window.scrollTo(0, 0)
+
     function fetchData() {
+      setStatus(false)
       axios.get('http://localhost:8080/line/' + train.toUpperCase())
       .then(res => {
         console.log('Data refreshed')
@@ -98,6 +102,7 @@ export default function LinePage(props) {
           if(data[i].stopName)
             tmp.push([i, data[i]]);
         setStops(Object.keys(data).length > 0 ? tmp : null);
+        setStatus(true)
       })
       .catch(error =>
         console.log("Error", error)
@@ -114,6 +119,9 @@ export default function LinePage(props) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <NavBar/>
+        { status &&
+        <AlertSnackbar msg="Stops updated!" duration={2000} severity='success'/>
+        }
         <Container className={classes.root}>
           <Box my={4}>
             <TrainIcon train={train} width={75}/>
@@ -134,7 +142,7 @@ export default function LinePage(props) {
                 </Box>
                 <Box mr={2} mt={2}>
                   <Tooltip title={<Typography variant='caption'>Click on any of the supported train icons to go to their respected page</Typography>}>
-                    <HelpIcon/>
+                    <HelpOutlineIcon/>
                   </Tooltip>
                 </Box>
                 <Autocomplete

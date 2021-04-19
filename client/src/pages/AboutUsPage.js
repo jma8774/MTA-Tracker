@@ -1,9 +1,8 @@
 import React from "react";
-import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
+import { createMuiTheme, makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import {
   CssBaseline,
   Typography,
-  createMuiTheme,
   Container,
   Box,
   Grid,
