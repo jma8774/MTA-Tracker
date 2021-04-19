@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import {Toolbar, Button, AppBar} from '@material-ui/core/';
 import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
-import HomeIcon from '@material-ui/icons/Home';
 import GitHubIcon from '@material-ui/icons/GitHub';
 
 const useStyles = makeStyles((theme) => ({

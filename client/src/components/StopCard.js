@@ -16,6 +16,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
 // Custom Components
 import TrainIcon from './TrainIcon.js'
 
@@ -55,6 +56,8 @@ function getDifference(epoch, curTime) {
 export default function StopCard(props) {
   const {stopId, stopInfo, curTime} = props
   var trains = stopInfo.trains
+
+  const {lat, lon} = stopInfo.coordinates
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
@@ -74,9 +77,14 @@ export default function StopCard(props) {
     <Box component={Card} className={classes.root} boxShadow={3}>
       <CardHeader
         action={
-          <IconButton aria-label="favorite" color = {favorite} onClick = {handleColor}>
-            <FavoriteIcon/>
-          </IconButton>
+          <Box mt={1} mr={1}>
+            <IconButton size='small' target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${lat},${lon}`} rel="noopener noreferrer">
+              <LocationOnIcon/>
+            </IconButton>
+            <IconButton size='small' aria-label="favorite" color = {favorite} onClick = {handleColor}>
+              <FavoriteIcon/>
+            </IconButton>
+          </Box>
         }
         title={stopInfo.stopName}
         subheader={stopId}

@@ -28,6 +28,7 @@ import trainr from '../imgs/svg/r.svg';
 import trainsir from '../imgs/svg/sir.svg';
 import trainw from '../imgs/svg/w.svg';
 import trainz from '../imgs/svg/z.svg';
+import trainna from '../imgs/svg/na.svg';
 
 
 const paths = {
@@ -57,7 +58,8 @@ const paths = {
   'r': trainr,
   'si': trainsir,
   'w': trainw,
-  'z': trainz
+  'z': trainz,
+  'n/a': trainna
 }
 const useStyles = makeStyles((theme) => ({
   imageIcon: {
@@ -71,12 +73,23 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function TrainIcon(props) {
-  const { train, width} = props
+  var { train, width} = props
   const classes = useStyles();
+  train = train.toLowerCase()
   
   return (
     <Icon classes={{root: classes.iconRoot}}>
-      <img alt="Train Icon" className={classes.imageIcon} width={width ? width : 25} src={paths[train.toLowerCase()]}/>
+      <img alt="Train Icon" 
+        className={classes.imageIcon} 
+        width={width ? width : 25} 
+        src={
+          train in paths
+          ?
+            paths[train]
+          :
+            paths['n/a']
+        }
+      />
     </Icon>
   )
 }

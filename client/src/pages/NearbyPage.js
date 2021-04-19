@@ -1,14 +1,27 @@
 import 'fontsource-roboto';
-import { useParams } from 'react-router';
 import axios from 'axios';
 import React from 'react';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import { CssBaseline, Typography, unstable_createMuiStrictModeTheme as createMuiTheme, Container, Box, Grid, Divider, IconButton, Backdrop, TextField, CircularProgress} from '@material-ui/core';
+import {
+  CssBaseline,
+  Typography,
+  unstable_createMuiStrictModeTheme as createMuiTheme,
+  Container,
+  Box,
+  Grid,
+  Divider,
+  IconButton,
+  Backdrop,
+  TextField,
+  CircularProgress,
+  Tooltip
+} from "@material-ui/core";
 import ReorderIcon from '@material-ui/icons/Reorder';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import HelpIcon from '@material-ui/icons/Help';
+import TimerIcon from '@material-ui/icons/Timer';
 // Custom Components
 import StopCard from '../components/StopCard.js'
-import TrainIcon from '../components/TrainIcon.js'
 import NavBar from '../components/NavBar'
 
 
@@ -49,7 +62,6 @@ export default function NearbyPage(props) {
       navigator.permissions.query({ name: "geolocation" })
       .then(result => {
         if (result.state === "granted") {
-          console.log(result.state);
           //If granted then you can directly call your function here
           navigator.geolocation.getCurrentPosition(pos => {
             var obj = {}
@@ -59,7 +71,6 @@ export default function NearbyPage(props) {
             setLocation(obj)
           });
         } else if (result.state === "prompt") {
-          console.log(result.state);
           navigator.geolocation.getCurrentPosition(pos => {
             var obj = {}
             obj['lat'] = pos.coords.latitude
@@ -70,8 +81,8 @@ export default function NearbyPage(props) {
         } else if (result.state === "denied") {
           //If denied then you have to show instructions to enable location
           setBackdrop(false)
-          console.log(result.state);
         }
+        console.log("Geolocation", result.state);
       })
     } else {
       setAvailable(false)
@@ -79,32 +90,51 @@ export default function NearbyPage(props) {
     }
   }, []);
 
-    // async function fetchData() {
-    //   axios.get('')
-    //   .then(res => {
-    //     console.log("Response", res)
-    //     console.log("Data", res.data)
-    //     const data = res.data
-    //     if (!ignore) {
-    //       var tmp = []
-    //       for(var i in data) 
-    //         if(data[i].stopName)
-    //           tmp.push([i, data[i]]);
-    //       setStops(Object.keys(data).length > 0 ? tmp : null);
-    //     }
-    //   })
-    //   .catch(error =>
-    //     console.log("Error", error)
-    //   )
-    // }
+  React.useEffect(() => {
+    if(location === null)
+      return
 
-    // fetchData();
+    function fetchData() {
+      axios.get(`http://localhost:8080/stops/nearby/lat/${location.lat}/lon/${location.lon}/dist/2`)
+      .then(res => {
+        console.log('Data refreshed')
+        console.log("Response", res)
+        const data = res.data
+        console.log("Data", data)
+        var tmp = []
+        for(var i in data) 
+          if(data[i].stopName)
+          tmp.push([i, data[i]]);
+        setStops(Object.keys(data).length > 0 ? tmp : null);
+      })
+      .catch(error =>
+        console.log("Error", error)
+      )
+    }
+
+    fetchData()
+    const interval = setInterval(fetchData, 10000)
+
+    return () => clearInterval(interval);
+  }, [location]);
   
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <NavBar/>
       <Container className={classes.root}>
+        <Backdrop open={backdrop}>
+          <Typography variant="h6" color="initial"> 
+            {
+              available
+              ? 'Geolocation is supported by your browser, please give permission to get access to nearby stops.'
+              : 'Geolocation is not supported by your browser.'
+            }
+            <br/> 
+            <br/> 
+            <CircularProgress/>
+          </Typography>
+        </Backdrop>
         <Box my={4}>
           <Typography variant="h3">
             Nearby Stops
@@ -114,27 +144,66 @@ export default function NearbyPage(props) {
           If your browser allows it and you give permission, we can help look for stops near your location at a 2 KM radius.
         </Typography>
         <Divider className={classes.divider} variant="middle"/>
-          <Backdrop open={backdrop}>
-            <Typography variant="h6" color="initial"> 
-              {
-                available
-                ? 'Geolocation is supported by your browser, please give permission to get access to nearby stops.'
-                : 'Geolocation is not supported by your browser.'
-              }
-              <br/> 
-              <br/> 
-              <CircularProgress/>
-            </Typography>
-          </Backdrop>
           {
             !backdrop && 
             (
               location
-              ? 'Geolocation location received, user is at (' + location.lat + ', ' + location.lon + ').'
+              ? 
+                stops
+                ?
+                  <React.Fragment>
+                    <Grid container justify="flex-end">
+                      <Box mr={1} mt={2}>
+                        <Tooltip title={<Typography variant='caption'>Information is refreshed every 10 seconds</Typography>}>
+                          <TimerIcon/>
+                        </Tooltip>
+                      </Box>
+                      <Box mr={2} mt={2}>
+                        <Tooltip title={<Typography variant='caption'>Click on any of the supported train icons to go to their respected page</Typography>}>
+                          <HelpIcon/>
+                        </Tooltip>
+                      </Box>
+                      <Autocomplete
+                        id="search-stop"
+                        options={stops}
+                        getOptionLabel={(option) => option[1].stopName}
+                        style={{ width: 300 }}
+                        onChange={(e, val) => setSearch(val ? val[1].stopName : '')}
+                        renderInput={(params) => <TextField {...params} label="Search" variant="outlined"/>}
+                      />
+                      <Box mr={3}>
+                        <Tooltip title={<Typography variant='caption'>Reverse Order</Typography>}>
+                          <IconButton aria-label="sort" onClick={handleReverse}>
+                            <ReorderIcon fontSize="large"/>
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+                    </Grid>
+                    <Grid container align="center">
+                      { 
+                        stops.map((val, i) => 
+                          val[1].stopName.toLowerCase().includes(search.toLowerCase()) &&
+                          <Grid key={i} item xs={12} md={6} lg={4}>
+                            <Box mt={3}>
+                              <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime}/>
+                            </Box>
+                          </Grid>
+                        )
+                      }
+                    </Grid>
+                  </React.Fragment>
+                :
+                  <Backdrop open={!stops}>
+                    <Box>
+                      <Typography variant="h5" color="initial"> Please wait, fetching information... </Typography>
+                      <Typography variant="subtitle1" color="textSecondary"> Pleaes refresh the page if it takes longer than 5 seconds. Either that train is not currently running or the fetch from MTA failed. </Typography>
+                    </Box>
+                  </Backdrop>
               : 'Geolocation denied by the user, please renable it for this website.'
             )
           }
+      <Box my={4}/>
       </Container>
     </ThemeProvider>
-)
+  )
 }

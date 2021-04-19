@@ -77,7 +77,11 @@ function findTrainStation(station, tripData, relevantStops){
         stopId = stopId.substring(0, stopId.length-1)
         relevantStops[stopId] = {
           stopName: row.stop_name,
-          trains: {}
+          trains: {},
+          coordinates: {
+            lat: traindb.findStopLat(stopId),
+            lon: traindb.findStopLon(stopId)
+          }
       }
     }
   })
@@ -100,7 +104,11 @@ function findTrainStops(train, tripData, stationMap) {
       if(!(stopId in stationMap)) {
         stationMap[stopId] = {
           stopName: stopName,
-          trains: {}
+          trains: {},
+          coordinates: {
+            lat: traindb.findStopLat(stopId),
+            lon: traindb.findStopLon(stopId)
+          }
         }
       }
     })
@@ -127,7 +135,11 @@ function findNearbyStops(lat, lon, dist, tripData, nearbyStops) {
         stopId = stopId.substring(0, stopId.length-1)
         nearbyStops[stopId] = {
           stopName: row.stop_name,
-          trains: {}
+          trains: {},
+          coordinates: {
+            lat: traindb.findStopLat(stopId),
+            lon: traindb.findStopLon(stopId)
+          }
       }
     }
   })

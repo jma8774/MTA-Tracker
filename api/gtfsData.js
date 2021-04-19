@@ -6,18 +6,18 @@ const records = parse(data, { columns: true });
 
 
 const stops = []
-const stopId = {};
 const stopName = {};
+const stopId = {};
 
 records.forEach((rec) => {
   stops.push(rec)
-  stopId[rec.stop_id] = rec
   stopName[rec.stop_name] = rec
+  stopId[rec.stop_id] = rec
 })
 
 // Find stop name using stop id
 function findStopName(_stopId) {
-  if(_stopId in this.stopId) {
+  if(_stopId in stopId) {
     return stopId[_stopId].stop_name
   }
   return null
@@ -25,10 +25,26 @@ function findStopName(_stopId) {
 
 // Find stop id using stop name
 function findStopId(_stopName) {
-  if(_stopName in this.stopName) {
+  if(_stopName in stopName) {
     return stopName[_stopName].stop_id
   }
   return null
 }
 
-module.exports = { stops, stopId, stopName, findStopName, findStopId};
+// Find stop latitude using stop id
+function findStopLat(_stopId) {
+  if(_stopId in stopId) {
+    return stopId[_stopId].stop_lat
+  }
+  return null
+}
+
+// Find stop latitude using stop id
+function findStopLon(_stopId) {
+  if(_stopId in stopId) {
+    return stopId[_stopId].stop_lon
+  }
+  return null
+}
+
+module.exports = { stops, stopId, stopName, findStopName, findStopId, findStopLat, findStopLon};

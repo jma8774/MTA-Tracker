@@ -3,9 +3,23 @@ import { useParams } from 'react-router';
 import axios from 'axios';
 import React from 'react';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import { CssBaseline, Typography, createMuiTheme, Container, Box, Grid, Divider, IconButton, Backdrop, TextField} from '@material-ui/core';
+import { 
+  CssBaseline, 
+  Typography, 
+  createMuiTheme, 
+  Container, 
+  Box, 
+  Grid, 
+  Divider, 
+  IconButton, 
+  Backdrop, 
+  TextField, 
+  Tooltip
+} from '@material-ui/core';
 import ReorderIcon from '@material-ui/icons/Reorder';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import HelpIcon from '@material-ui/icons/Help';
+import TimerIcon from '@material-ui/icons/Timer';
 // Custom Components
 import StopCard from '../components/StopCard.js'
 import NavBar from '../components/NavBar'
@@ -72,9 +86,10 @@ export default function LinePage(props) {
   }
 
   React.useEffect(() => {
-    async function fetchData() {
+    function fetchData() {
       axios.get('http://localhost:8080/line/' + train.toUpperCase())
       .then(res => {
+        console.log('Data refreshed')
         console.log("Response", res)
         console.log("Data", res.data)
         const data = res.data
@@ -88,7 +103,10 @@ export default function LinePage(props) {
         console.log("Error", error)
       )
     }
-    fetchData();
+    fetchData()
+    const interval = setInterval(fetchData, 10000)
+
+    return () => clearInterval(interval);
   }, [train]);
   
   if(train.toLowerCase() in descriptions)
@@ -109,6 +127,16 @@ export default function LinePage(props) {
           ?
             <React.Fragment>
               <Grid container justify="flex-end">
+                <Box mr={1} mt={2}>
+                  <Tooltip title={<Typography variant='caption'>Information is refreshed every 10 seconds</Typography>}>
+                    <TimerIcon/>
+                  </Tooltip>
+                </Box>
+                <Box mr={2} mt={2}>
+                  <Tooltip title={<Typography variant='caption'>Click on any of the supported train icons to go to their respected page</Typography>}>
+                    <HelpIcon/>
+                  </Tooltip>
+                </Box>
                 <Autocomplete
                   id="search-stop"
                   options={stops}
@@ -118,9 +146,11 @@ export default function LinePage(props) {
                   renderInput={(params) => <TextField {...params} label="Search" variant="outlined"/>}
                 />
                 <Box mr={3}>
-                  <IconButton aria-label="sort" onClick={handleReverse}>
-                    <ReorderIcon fontSize="large"/>
-                  </IconButton>
+                  <Tooltip title={<Typography variant='caption'>Reverse Order</Typography>}>
+                    <IconButton aria-label="sort" onClick={handleReverse}>
+                      <ReorderIcon fontSize="large"/>
+                    </IconButton>
+                  </Tooltip>
                 </Box>
               </Grid>
               <Grid container align="center">
