@@ -1,6 +1,19 @@
 var GtfsRealtimeBindings = require('gtfs-realtime-bindings');
 var request = require("request");
 var traindb = require('./gtfsData')
+
+const urls = [
+  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace',
+  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-bdfm',
+  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-g',
+  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-jz',
+  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw',
+  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-l',
+  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs',
+  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-7',
+  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-si',
+]
+
 const supportedTrains = new Set([
   '1',
   '2',
@@ -32,9 +45,9 @@ const supportedTrains = new Set([
 ]);
 
 // Get all live train line information of API calls in urlList
-async function getTrips(urlList, tripData, callback) {
+async function getTrips(tripData, callback) {
   var numFetched = 0
-  urlList.forEach(url => {
+  urls.forEach(url => {
     var requestSettings = {
       method: 'GET',
       url: url,

@@ -17,8 +17,10 @@ const { Post } = db;
 
 
 router.get('/', (req,res) => {
-  Post.findAll({})
-    .then(posts => res.json(posts));
+  res.json({
+    page: 'posts/',
+    test: 'Yay, I am here!'
+  });
 });
 
 

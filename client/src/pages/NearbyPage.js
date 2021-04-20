@@ -98,7 +98,7 @@ export default function NearbyPage(props) {
     
     function fetchData() {
       setStatus(false)
-      axios.get(`http://localhost:8080/stops/nearby/lat/${location.lat}/lon/${location.lon}/dist/2`)
+      axios.get(`http://localhost:8080/api/nearby/lat/${location.lat}/lon/${location.lon}/dist/2`)
       .then(res => {
         console.log('Data refreshed')
         console.log("Response", res)
@@ -119,6 +119,7 @@ export default function NearbyPage(props) {
     fetchData()
     const interval = setInterval(fetchData, 10000)
 
+    // Return does something when the page dismounts
     return () => clearInterval(interval);
   }, [location]);
   

@@ -91,7 +91,7 @@ export default function LinePage(props) {
 
     function fetchData() {
       setStatus(false)
-      axios.get('http://localhost:8080/line/' + train.toUpperCase())
+      axios.get('http://localhost:8080/api/line/' + train.toUpperCase())
       .then(res => {
         console.log('Data refreshed')
         console.log("Response", res)
@@ -111,6 +111,7 @@ export default function LinePage(props) {
     fetchData()
     const interval = setInterval(fetchData, 10000)
 
+    // Return does something when the page dismounts
     return () => clearInterval(interval);
   }, [train]);
   
@@ -189,7 +190,9 @@ export default function LinePage(props) {
   else
     return (
       <Box className={classes.root} mt={3}> 
-        Train not supported 
+        <Typography variant="h5">
+          Train not supported 
+        </Typography>
       </Box>
     )
 }
