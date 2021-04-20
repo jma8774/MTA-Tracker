@@ -18,7 +18,7 @@ const { Post } = db;
 
 router.get('/', (req,res) => {
   res.json({
-    page: 'posts/',
+    page: 'api/posts/',
     test: 'Yay, I am here!'
   });
 });
@@ -26,7 +26,7 @@ router.get('/', (req,res) => {
 
 router.post('/', (req, res) => {
   let { content } = req.body;
-  
+
   Post.create({ content })
     .then(post => {
       res.status(201).json(post);
