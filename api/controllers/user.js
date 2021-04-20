@@ -3,14 +3,24 @@ const router = express.Router();
 const db = require('../models');
 const { User } = db;
 
-// This is a simple example for providing basic CRUD routes for
-// a resource/model. It provides the following:
 //    POST   /
+//      Body: {
+//        "username": "test",
+//        "password": "test",
+//        "email": "test@test.com"
+//      }
+
 //    GET    /favorite/:username
+
 //    PUT    /favorite/:username
-//      Body: stopId
+//      Body: {
+// 	      "stopId": "D07"
+//      }
+
 //    DELETE /favorite/:username
-//      Body: stopId
+//      Body: {
+// 	      "stopId": "D07"
+//      }
 
 
 router.get('/', (req,res) => {
