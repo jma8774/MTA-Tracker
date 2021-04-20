@@ -7,7 +7,6 @@ const { User } = db;
 // a resource/model. It provides the following:
 //    POST   /
 //    GET    /favorite/:username
-//      Body: stopId
 //    PUT    /favorite/:username
 //      Body: stopId
 //    DELETE /favorite/:username
