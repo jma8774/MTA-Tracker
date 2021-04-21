@@ -16,35 +16,35 @@ const Home = () => {
     <div>
       <NavBar />
       <Container>
-        <Accordion square={true} classes={{root: classes.accordionRoot}}>
+        <Accordion square={true} classes={{ root: classes.accordionRoot }}>
           <AccordionSummary
-            classes= {{content: classes.accordionSummaryContent}}
-            expandIcon={<ExpandMoreIcon style={{fill: 'white'}}/>}
+            classes={{ content: classes.accordionSummaryContent }}
+            expandIcon={<ExpandMoreIcon style={{ fill: 'white' }} />}
             aria-controls="panel1a-content"
             id="panel1a-header"
           >
             <h2>Search by Line</h2>
           </AccordionSummary>
           <AccordionDetails>
-            <Grid container spacing= {10} justify="center" alignItems= "flex-start">
+            <Grid container spacing={10} justify="center" alignItems="flex-start">
               <Grid container item xs={10} sm={4} spacing={3}>
                 {numbertrains.map((train, index) => {
                   return (
-                    <TriLine key={index} train={train} classes={classes}/>
+                    <TriLine key={index} train={train} classes={classes} />
                   )
                 })}
               </Grid>
               <Grid container item xs={10} sm={4} spacing={3}>
                 {quadtrains.map((train, index) => {
                   return (
-                    <QuadLine key={index} train={train} classes={classes}/>
+                    <QuadLine key={index} train={train} classes={classes} />
                   )
                 })}
               </Grid>
-              <Grid container item xs={10} sm={4} spacing={3}>
+              <Grid container item spacing={2} xs={10} sm={4} spacing={3}>
                 {tritrains.map((train, index) => {
                   return (
-                    <TriLine key={index} train={train} classes={classes}/>
+                    <TriLine key={index} train={train} classes={classes} />
                   )
                 })}
               </Grid>
