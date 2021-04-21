@@ -1,54 +1,63 @@
-import 'fontsource-roboto';
 import React from 'react';
-import { withStyles, ThemeProvider } from '@material-ui/core/styles';
-import { CssBaseline, Typography, unstable_createMuiStrictModeTheme as createMuiTheme, Button, TextField, Container, Box } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
-// Custom Components
-import NavBar from '../components/NavBar'
+import { Container, Accordion, AccordionDetails, AccordionSummary, Grid, Box } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { useStyles } from '../styles/HomePageStyles';
+import NavBar from '../components/NavBar';
+import { TriLine, QuadLine } from '../components/AccordionFormRow';
 
-// Material UI CSS
-const styles = theme => ({
-  root: {
-  },
-  mt3: {
-    marginTop: theme.spacing(3),
-  },
-  mb3: {
-    marginBottom: theme.spacing(3),
-  }
-});
+const numbertrains = ["1", "2", "3", "4", "5", "6", "7", "5x", "6x", "7x"];
+const quadtrains = ["n", "q", "r", "w", "b", "d", "f", "m"];
+const tritrains = ["a", "c", "e", "z", "j", "g", "l"];
 
-// Material UI Theme
-const theme = createMuiTheme({
-  palette: {
-    type: 'dark',
-  },
-});
+const Home = () => {
+  const classes = useStyles();
 
-class App extends React.Component {
-  render() {
-    // Get MUI CSS
-    const { classes } = this.props;
+  return (
+    <div>
+      <NavBar />
+      <Container>
+        <Accordion square={true} classes={{ root: classes.accordionRoot }}>
+          <AccordionSummary
+            classes={{ content: classes.accordionSummaryContent }}
+            expandIcon={<ExpandMoreIcon style={{ fill: 'white' }} />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <h2>Search by Line</h2>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container spacing={10} justify="center" alignItems="flex-start">
+              <Grid container item xs={10} sm={4} spacing={3}>
+                {numbertrains.map((train, index) => {
+                  return (
+                    <TriLine key={index} train={train} classes={classes} />
+                  )
+                })}
+              </Grid>
+              <Grid container item xs={10} sm={4} spacing={3}>
+                {quadtrains.map((train, index) => {
+                  return (
+                    <QuadLine key={index} train={train} classes={classes} />
+                  )
+                })}
+              </Grid>
+              <Grid container item spacing={2} xs={10} sm={4} spacing={3}>
+                {tritrains.map((train, index) => {
+                  return (
+                    <TriLine key={index} train={train} classes={classes} />
+                  )
+                })}
+              </Grid>
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
 
-    return (
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <NavBar/>
-        <Container className={classes.root}>
-          {/* Some Examples, find more at https://material-ui.com/components/button/ and https://material-ui.com/api/button/ */}
-          <Alert variant="filled" severity="success" onClose={() => { }}>
-            Material UI Alert!
-        </Alert>
-          <Box my={3}>
-            <TextField label="Material UI Textfield" variant="filled" size="small" />
-            <Button variant="contained" color="primary">
-              Material UI Button!
-          </Button>
-          </Box>
-        </Container>
-      </ThemeProvider>
-    );
-  }
+        <Box className={classes.box}>
+          <h2>Your Bookmarks</h2>
+        </Box>
+      </Container>
+    </div>
+  )
 }
 
-export default withStyles(styles, { withTheme: true })(App);
+export default Home;

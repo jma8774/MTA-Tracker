@@ -4,7 +4,7 @@ const trainfn = require('./trainFunctions');
 
 router.get('/', (req,res) => {
   res.json({
-    page: 'api/line/',
+    page: 'api/line/'
   });
 });
 

@@ -16,6 +16,10 @@ const useStyles = makeStyles((theme) => ({
   leftSide: {
     flexGrow: 1,
   },
+  button: {
+    fontFamily: "Montserrat, san-serif",
+    fontSize: "1em"
+  }
 }));
 
 export default function ButtonAppBar() {
@@ -29,13 +33,13 @@ export default function ButtonAppBar() {
             <GitHubIcon/>
           </IconButton>
           <Box className={classes.leftSide}>
-            <Button component={Link} to="/home" color="inherit">Home</Button>
-            <Button component={Link} to="/about" color="inherit">About us</Button>
+            <Button component={Link} to="/home" color="inherit" className= {classes.button}>Home</Button>
+            <Button component={Link} to="/about" color="inherit" className= {classes.button}>About us</Button>
             {/* For Testing */}
-            <Button component={Link} to="/line/d" color="inherit">D Train</Button>
-            <Button component={Link} to="/nearby" color="inherit">Nearby</Button>
+            <Button component={Link} to="/line/d" color="inherit" className= {classes.button}>D Train</Button>
+            <Button component={Link} to="/nearby" color="inherit" className= {classes.button}>Nearby</Button>
           </Box>
-          <Button component={Link} to="/" color="inherit" >Login</Button>
+          <Button component={Link} to="/" color="inherit" className= {classes.button}>Login</Button>
         </Toolbar>
       </AppBar>
     </div>
