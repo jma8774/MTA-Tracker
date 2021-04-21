@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Accordion, AccordionDetails, AccordionSummary, Grid, Box } from '@material-ui/core';
+import { Container, Accordion, AccordionDetails, AccordionSummary, Grid } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useStyles } from '../styles/HomePageStyles';
 import NavBar from '../components/NavBar';
@@ -16,7 +16,7 @@ const Home = () => {
     <div>
       <NavBar />
       <Container>
-        <Accordion square={true} classes={{ root: classes.accordionRoot }}>
+        <Accordion square={true} defaultExpanded classes={{ root: classes.accordionRoot }}>
           <AccordionSummary
             classes={{ content: classes.accordionSummaryContent }}
             expandIcon={<ExpandMoreIcon style={{ fill: 'white' }} />}
@@ -41,7 +41,7 @@ const Home = () => {
                   )
                 })}
               </Grid>
-              <Grid container item spacing={2} xs={10} sm={4} spacing={3}>
+              <Grid container item xs={10} sm={4} spacing={3}>
                 {tritrains.map((train, index) => {
                   return (
                     <TriLine key={index} train={train} classes={classes} />
@@ -52,9 +52,19 @@ const Home = () => {
           </AccordionDetails>
         </Accordion>
 
-        <Box className={classes.box}>
-          <h2>Your Bookmarks</h2>
-        </Box>
+        <Accordion square={true} defaultExpanded classes={{ root: classes.accordionRoot }}>
+          <AccordionSummary
+            classes={{ content: classes.accordionSummaryContent }}
+            expandIcon={<ExpandMoreIcon style={{ fill: 'white' }} />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <h2>Your Bookmarks</h2>
+          </AccordionSummary>
+          <AccordionDetails>
+            Stop Cards go here
+          </AccordionDetails>
+        </Accordion>
       </Container>
     </div>
   )
