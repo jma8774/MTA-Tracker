@@ -3,8 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
   accordionRoot: {
     '&.MuiAccordion-root': {
-      backgroundColor: 'transparent',
-      color: 'rgb(255,255,255)'
+      backgroundColor: 'rgba(25,25,25,0.5)',
+      color: 'rgb(255,255,255)',
+      marginBottom: theme.spacing(2),
     },
   },
   accordionSummaryContent: {
@@ -16,10 +17,6 @@ const useStyles = makeStyles(theme => ({
     display: 'inline-block',
     position: 'relative', 
     padding: theme.spacing(0.5),
-  },
-  box: {
-    padding: theme.spacing(3),
-    backgroundColor: "rgba(0,0,0,0.3)",
   }
 }))
 
