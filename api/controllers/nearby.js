@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const trainfn = require('./trainFunctions');
+const passport = require('../middlewares/authentication');
 
 router.get('/', (req,res) => {
   res.json({
@@ -9,7 +10,7 @@ router.get('/', (req,res) => {
 });
 
 // Return nearby station names  based on lat,lon and min distance in KM
-router.get('/lat/:lat/lon/:lon/dist/:dist', (req, res) => {
+router.get('/lat/:lat/lon/:lon/dist/:dist', passport.isAuthenticated(), (req, res) => {
   const lat = req.params.lat
   const lon = req.params.lon
   const dist = req.params.dist

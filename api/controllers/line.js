@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const trainfn = require('./trainFunctions');
+const passport = require('../middlewares/authentication');
 
 router.get('/', (req,res) => {
   res.json({
@@ -9,7 +10,7 @@ router.get('/', (req,res) => {
 });
 
 // Return all the stations for a train line and the the live time of the trains going to those stations
-router.get('/:train', (req, res) => {
+router.get('/:train', passport.isAuthenticated(), (req, res) => {
   const train = req.params.train
   var tripData = []
   var stationMap = {}

@@ -57,7 +57,7 @@ router.post('/logout', (req, res) => {
 })
 
 // Get favorite array given a username
-router.get('/favorite/:username', (req, res) => {
+router.get('/favorite/:username', passport.isAuthenticated(), (req, res) => {
   const { username } = req.params;
   User.findByPk(username)
     .then(user => {
@@ -69,7 +69,7 @@ router.get('/favorite/:username', (req, res) => {
 });
 
 // Put a stopId into favorite for the given username 
-router.put('/favorite/:username', (req, res) => {
+router.put('/favorite/:username', passport.isAuthenticated(), (req, res) => {
   const { username } = req.params;
   User.findByPk(username)
     .then(user => {
@@ -95,7 +95,7 @@ router.put('/favorite/:username', (req, res) => {
 });
 
 // Delete a stopId from favorite for the given username 
-router.delete('/favorite/:username', (req, res) => {
+router.delete('/favorite/:username', passport.isAuthenticated(), (req, res) => {
   const { username } = req.params;
   User.findByPk(username)
     .then(user => {
