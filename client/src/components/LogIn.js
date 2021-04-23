@@ -4,6 +4,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { useHistory, Link } from 'react-router-dom';
 import useForm from './useForm';
+import auth from '../services/auth';
 
 /* Still need to add validation for checking right username and password*/
 
@@ -15,6 +16,7 @@ const initialValues = {
 const LogIn = ({ onClick, styles }) => {
   const { values, setValues, errors, setErrors, handleChange } = useForm(initialValues);
   const [showPassword, setShowPassword] = useState(false);
+  const [failed, setFailed] = useState(false);
   const history = useHistory();
 
   const validate = () => {
@@ -34,7 +36,13 @@ const LogIn = ({ onClick, styles }) => {
     console.log(`password: ${values.password}`);
 
     if(validate()){
-      history.push("/home");
+      auth.authenticate(values.username, values.password)
+        .then((user) => {
+          history.push("/home");
+        })
+        .catch((err) => {
+          setFailed(true);
+        });
     }
   }
 
@@ -42,6 +50,7 @@ const LogIn = ({ onClick, styles }) => {
     <div>
       <h2 style={{ textAlign: 'center', fontSize: '2em' }}>Log In</h2>
       <form onSubmit={handleSubmit} className={styles.label} autoComplete="off">
+        { failed ? <div style={{color: 'red'}}>Login Failed</div> : null}
         <TextField
           fullWidth={true}
           variant="standard"

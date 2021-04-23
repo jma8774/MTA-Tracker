@@ -12,24 +12,18 @@ import HomePage from './pages/HomePage';
 import AboutUs from './pages/AboutUsPage';
 import LinePage from './pages/LinePage';
 import NearbyPage from './pages/NearbyPage';
-import NavBar from './components/NavBar'
+import PrivateRoute from './components/PrivateRoute';
 
 
 const App = () => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/">
-          <LoginRegister />
-        </Route>
-        <Route path="/home">
-          <HomePage />
-        </Route>
-        <Route path="/about">
-          <AboutUs />
-        </Route>
-        <Route path="/line/:train" component={LinePage}/>
-        <Route path="/nearby" component={NearbyPage}/>
+        <Route exact path="/" component= {LoginRegister} />
+        <PrivateRoute path="/home" component= {HomePage} />
+        <Route path="/about" component= {AboutUs} />
+        <PrivateRoute path="/line/:train" component={LinePage}/>
+        <PrivateRoute path="/nearby" component={NearbyPage}/>
       </Switch>
     </Router>
   )

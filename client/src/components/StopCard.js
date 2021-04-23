@@ -94,7 +94,7 @@ export default function StopCard(props) {
         {
           Object.keys(trains).map((key, i) => (
             <Box component={Link} to={"/line/" + key} key={i} ml={1}>
-              <TrainIcon key={i} train={key}/>
+              <TrainIcon train={key}/>
             </Box>
           ))
         }

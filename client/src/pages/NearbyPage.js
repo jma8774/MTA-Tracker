@@ -98,7 +98,7 @@ export default function NearbyPage(props) {
     
     function fetchData() {
       setStatus(false)
-      axios.get(`http://localhost:8080/api/nearby/lat/${location.lat}/lon/${location.lon}/dist/2`)
+      axios.get(`http://localhost:8080/api/nearby/lat/${location.lat}/lon/${location.lon}/dist/2`, {withCredentials: true})
       .then(res => {
         console.log('Data refreshed')
         console.log("Response", res)
