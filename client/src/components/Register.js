@@ -77,7 +77,6 @@ const Register = ({ onClick, styles }) => {
           variant="standard"
           label="Email"
           name="email"
-          placeholder="(Optional)"
           value={values.email}
           onChange={handleChange}
           error={errors.email ? true : false}
@@ -146,7 +145,7 @@ const Register = ({ onClick, styles }) => {
         <Button
           type="submit"
           size="large"
-          fullWidth="true"
+          fullWidth={true}
           variant="contained"
           color="primary"
           className={styles.button}>
