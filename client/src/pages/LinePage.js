@@ -91,7 +91,7 @@ export default function LinePage(props) {
 
     function fetchData() {
       setStatus(false)
-      axios.get('http://localhost:8080/api/line/' + train.toUpperCase())
+      axios.get('http://localhost:8080/api/line/' + train.toUpperCase(), {withCredentials: true})
       .then(res => {
         console.log('Data refreshed')
         console.log("Response", res)

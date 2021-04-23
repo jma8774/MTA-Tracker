@@ -1,10 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import {Toolbar, Button, AppBar} from '@material-ui/core/';
 import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
 import GitHubIcon from '@material-ui/icons/GitHub';
+import auth from '../services/auth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,6 +32,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ButtonAppBar() {
   const classes = useStyles();
+  const history = useHistory();
+
+  const handleClick = () => {
+    auth.signout().then(() => history.push('/'));
+  }
 
   return (
     <div className={classes.root}>
@@ -46,7 +52,7 @@ export default function ButtonAppBar() {
             <Button component={Link} to="/line/d" color="inherit" className= {`${classes.button} + ${classes.divider}`}>D Train</Button>
             <Button component={Link} to="/nearby" color="inherit" className= {classes.button}>Nearby</Button>
           </Box>
-          <Button component={Link} to="/" color="inherit" className= {classes.button}>Logout</Button>
+          <Button component={Link} to="/" color="inherit" className= {classes.button} onClick={handleClick}>Logout</Button>
         </Toolbar>
       </AppBar>
     </div>

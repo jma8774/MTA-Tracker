@@ -4,12 +4,15 @@ const morgan = require('morgan');
 const path = require('path');
 const db = require('./models');
 const app = express();
-const cors = require('cors')
+const cors = require('cors');
 const passport = require('./middlewares/authentication');
 const PORT = process.env.PORT;
 
 // enable CORS
-app.use(cors())
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true
+}));
 
 // setup passport and session cookies
 app.use(expressSession({
@@ -19,6 +22,7 @@ app.use(expressSession({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 // this lets us parse 'application/json' content in http requests
 app.use(express.json());

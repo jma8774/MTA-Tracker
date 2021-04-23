@@ -4,6 +4,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { useHistory, Link } from 'react-router-dom';
 import useForm from './useForm';
+import auth from '../services/auth';
 
 /* Still need to add validation for checking if username/email exists*/
 
@@ -18,6 +19,7 @@ const Register = ({ onClick, styles }) => {
   const { values, setValues, errors, setErrors, handleChange } = useForm(initialValues);
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
+  const [failed, setFailed] = useState(false);
   const history = useHistory();
 
   const validate = () => {
@@ -42,7 +44,13 @@ const Register = ({ onClick, styles }) => {
     console.log(`password: ${values.rePassword}`);
 
     if (validate()) {
-      history.push("/login");
+      auth.signup(values.username, values.password, values.email)
+        .then((user) => {
+          history.push("/home");
+        })
+        .catch((err) => {
+          setFailed(true);
+        });
     }
   }
 
@@ -50,6 +58,7 @@ const Register = ({ onClick, styles }) => {
     <div>
       <h2 style={{ textAlign: 'center', fontSize: '2em' }}>Register</h2>
       <form onSubmit={handleSubmit} className={styles.label} autoComplete="off">
+        { failed ? <div style={{color: 'red'}}>Username or Email already taken</div> : null}
         <TextField
           fullWidth={true}
           variant="standard"
