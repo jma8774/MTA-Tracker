@@ -1,10 +1,11 @@
 import { React, useState } from 'react';
-import { Container, Grid, Typography } from '@material-ui/core';
+import { Container, Grid, Typography, Box } from '@material-ui/core';
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { useStyles } from '../styles/LoginRegisterStyles';
 import LogIn from '../components/LogIn';
 import Register from '../components/Register';
 import '../styles/LoginRegisterPage.css';
+import TrainIcon from '../components/TrainIcon.js'
 
 /*
 https://unsplash.com/photos/PJzeDJAw3oI
@@ -47,6 +48,8 @@ const LoginRegister = () => {
         <li><span>p3</span></li>
       </ul>
 
+      <Box mt={3}/>
+
       <Grid
         container
         spacing={2}
@@ -56,7 +59,9 @@ const LoginRegister = () => {
         className={`${classes.grid} + ${classes.root}`}
       >
         <Grid item>
-          <h2>img svg</h2>
+          <Box>
+            <TrainIcon train={'n'} width={45}/>
+          </Box>
         </Grid>
         <Grid item>
           <ThemeProvider theme={theme}>
@@ -64,6 +69,8 @@ const LoginRegister = () => {
           </ThemeProvider>
         </Grid>
       </Grid>
+
+      <Box mt={7}/>
 
       <Container maxWidth="sm" className={`${classes.containerContent} + ${classes.root}`}>
         {toggleView === 0 ? <LogIn onClick={toggleClick} styles={classes} /> : <Register onClick={toggleClick} styles={classes} />}

@@ -47,10 +47,8 @@ export default function ButtonAppBar() {
           </IconButton>
           <Box className={classes.leftSide}>
             <Button component={Link} to="/home" color="inherit" className= {`${classes.button} + ${classes.divider}`}>Home</Button>
-            <Button component={Link} to="/about" color="inherit" className= {`${classes.button} + ${classes.divider}`}>About us</Button>
-            {/* For Testing */}
-            <Button component={Link} to="/line/d" color="inherit" className= {`${classes.button} + ${classes.divider}`}>D Train</Button>
-            <Button component={Link} to="/nearby" color="inherit" className= {classes.button}>Nearby</Button>
+            <Button component={Link} to="/nearby" color="inherit" className= {`${classes.button} + ${classes.divider}`}>Nearby</Button>
+            <Button component={Link} to="/about" color="inherit" className= {classes.button}>About us</Button>
           </Box>
           <Button component={Link} to="/" color="inherit" className= {classes.button} onClick={handleClick}>Logout</Button>
         </Toolbar>
