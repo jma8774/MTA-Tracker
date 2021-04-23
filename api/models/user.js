@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
   User.init({
     username: {
       type: DataTypes.STRING,
-      primaryKey: true,
       unique: true,
       allowNull: false,
     },

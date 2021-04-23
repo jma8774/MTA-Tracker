@@ -36,7 +36,7 @@ router.get('/', (req, res) => {
 router.post('/signup', (req, res) => {
   let { username, password, email } = req.body;
 
-  User.create({ username, password, email })
+  User.create({ username: username , password: password, email: email })
     .then(user => {
       req.login(user, () => res.status(201).json(user));
     })
