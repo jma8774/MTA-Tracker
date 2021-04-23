@@ -150,7 +150,7 @@ export default function LinePage(props) {
                   id="search-stop"
                   options={stops}
                   getOptionLabel={(option) => option[1].stopName}
-                  style={{ width: 300 }}
+                  style={{ width: theme.spacing(30)}}
                   onChange={(e, val) => setSearch(val ? val[1].stopName : '')}
                   renderInput={(params) => <TextField {...params} label="Search" variant="outlined"/>}
                 />

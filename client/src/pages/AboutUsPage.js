@@ -29,12 +29,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 100,
   },
   gridClass: {
-    marginTop: 100,
+    marginTop: theme.spacing(10),
   },
-
-  textClass: {
-    marginTop: 100,
-  }
 }));
 
 // Material UI Theme
@@ -51,42 +47,46 @@ export default function AboutUsPage(props) {
     <ThemeProvider theme={theme}>
       <NavBar/>
       <CssBaseline />
-      
-        <Typography variant = "h4" className = {classes.textClass} align = "center"> <b>Team 1UP</b> </Typography>
-        
+      <Container>
+        <Box mt={4}>
+          <Typography variant = "h3" align = "center"> <b>Team 1UP</b> </Typography>
+          <br/>
+          <Typography variant = "body1" className = {classes.textClass} align = "center"> 
+            This project was created as part of the CUNY Tech Prep program. We wanted to make something impactful and useful for fellow New Yorkers.
+          </Typography>
+        </Box>
+
         <Grid container 
               direction="row"
-              justify="space-between"
+              justify="center"
               alignItems="center"
-              spacing = {3}
-              className = {classes.gridClass}>
-            <Grid item xs = {4}>
-              <Box borderRight = {1}>
-                <AboutUsCard message = {"Small description about what Sunny does maybe and his role in the project blah blah blah"}
-                             Image = {czImage}
-                             Link = {czRepo}
-                             Name = {"Chue Zhang"}
-                />
-              </Box>
-            </Grid>
-            <Grid item xs = {4}>
-              <Box borderRight = {1}>
-                <AboutUsCard message = {"Small description about what Sunny does maybe and his role in the project blah blah blah"}
-                             Image = {jmImage}
-                             Link = {jmRepo}
-                             Name = {"Jia Ming Ma"}
-                />
-              </Box>
-            </Grid>
-              <Grid item xs = {4}>
-              <AboutUsCard message = {"Small description about what Sunny does maybe and his role in the project blah blah blah"}
-                           Image = {xmImage}
-                           Link = {xmRepo}
-                           Name = {"Xiang Min Mo"}
-              />
-              </Grid>
+              alignContent="center"
+              className={classes.gridClass}
+              spacing={3}
+        >
+          <Grid item xs={12} md={4} align="center">
+            <AboutUsCard message = {"Small description about what Sunny does maybe and his role in the project blah blah blah"}
+                          Image = {czImage}
+                          Link = {czRepo}
+                          Name = {"Chue Zhang"}
+            />
           </Grid>
-      
+          <Grid item xs={12} md={4} align="center">
+            <AboutUsCard message = {"Small description about what Sunny does maybe and his role in the project blah blah blah"}
+                          Image = {jmImage}
+                          Link = {jmRepo}
+                          Name = {"Jia Ming Ma"}
+            />
+          </Grid>
+            <Grid item xs={12} md={4} align="center">
+            <AboutUsCard message = {"Small description about what Sunny does maybe and his role in the project blah blah blah"}
+                          Image = {xmImage}
+                          Link = {xmRepo}
+                          Name = {"Xiang Min Mo"}
+            />
+            </Grid>
+        </Grid>
+      </Container>
     </ThemeProvider>
   );
 }
