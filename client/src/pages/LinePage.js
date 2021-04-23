@@ -80,6 +80,7 @@ export default function LinePage(props) {
   const { train } = useParams()
   const curTime = new Date()
   const [stops, setStops] = React.useState(null)
+  const [favorites, setFavorites] = React.useState(new Set([]))
   const [status, setStatus] = React.useState(false)
   const [search, setSearch] = React.useState('')
   const handleReverse = () => {
@@ -89,13 +90,23 @@ export default function LinePage(props) {
   React.useEffect(() => {
     window.scrollTo(0, 0)
 
+    function fetchFavorites() {
+      axios.get('http://localhost:8080/api/user/favorite/', {withCredentials: true})
+      .then(res => {
+        console.log("Favorites", res.data)
+        const data = res.data
+        setFavorites(new Set(data))
+      })
+      .catch(error =>
+        console.log(error)
+      )
+    }
     function fetchData() {
       setStatus(false)
       axios.get('http://localhost:8080/api/line/' + train.toUpperCase(), {withCredentials: true})
       .then(res => {
         console.log('Data refreshed')
-        console.log("Response", res)
-        console.log("Data", res.data)
+        console.log("Stations", res.data)
         const data = res.data
         var tmp = []
         for(var i in data) 
@@ -105,9 +116,10 @@ export default function LinePage(props) {
         setStatus(true)
       })
       .catch(error =>
-        console.log("Error", error)
+        console.log(error)
       )
     }
+    fetchFavorites()
     fetchData()
     const interval = setInterval(fetchData, 10000)
 
@@ -166,9 +178,9 @@ export default function LinePage(props) {
                 { 
                   stops.map((val, i) => 
                     val[1].stopName.toLowerCase().includes(search.toLowerCase()) &&
-                    <Grid key={i} item xs={12} md={6} lg={4}>
+                    <Grid key={val[0]} item xs={12} md={6} lg={4}>
                       <Box mt={3}>
-                        <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime}/>
+                        <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
                       </Box>
                     </Grid>
                   )

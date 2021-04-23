@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -54,9 +55,9 @@ function getDifference(epoch, curTime) {
 }
 
 export default function StopCard(props) {
-  const {stopId, stopInfo, curTime} = props
+  const {stopId, stopInfo, curTime, isFavorite} = props
   var trains = stopInfo.trains
-
+  
   const {lat, lon} = stopInfo.coordinates
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
@@ -68,9 +69,24 @@ export default function StopCard(props) {
     setExpanded(false)
   }, [stopId]);
 
-  const [favorite, setFavorite] = React.useState("default")
-  const handleColor = () => {
-    setFavorite(favorite === "default" ? "secondary" : "default");
+  const [favorite, setFavorite] = React.useState(isFavorite)
+  const handleFavorite = () => {
+    const params = {
+      method: favorite === "default" ? "put" : "delete",
+      credentials: "include",
+      body: JSON.stringify({ "stopId": stopId }),
+      headers:{          
+        'Content-Type': 'application/json'
+      },
+    }
+    // For some reason axios is not working, so I'm using regular fetch
+    fetch('http://localhost:8080/api/user/favorite/', params)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("Favorites", data.favorites)
+      setFavorite(favorite === "default" ? "secondary" : "default");
+    })
+    .catch((err) => console.log(err))
   }
 
   return (
@@ -81,7 +97,7 @@ export default function StopCard(props) {
             <IconButton size='small' target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${lat},${lon}`} rel="noopener noreferrer">
               <LocationOnIcon/>
             </IconButton>
-            <IconButton size='small' aria-label="favorite" color = {favorite} onClick = {handleColor}>
+            <IconButton size='small' aria-label="favorite" color = {favorite} onClick = {handleFavorite}>
               <FavoriteIcon/>
             </IconButton>
           </Box>

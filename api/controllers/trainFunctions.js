@@ -74,7 +74,7 @@ async function getTrips(tripData, callback) {
         numFetched ++
         // console.log(feed)
         if(numFetched === 9) {
-          console.log("\nFinished fetching live data from all 9 APIs")
+          // console.log("\nFinished fetching live data from all 9 APIs")
           callback()
         }
       } 
@@ -126,7 +126,7 @@ function findTrainStops(train, tripData, stationMap) {
       }
     })
   })
-  console.log("Found all stations for line", train)
+  // console.log("Found all stations for line", train)
 }
 
 // Time given by GTFS is in seconds since epoch, this converts it to local date
@@ -156,7 +156,7 @@ function findNearbyStops(lat, lon, dist, tripData, nearbyStops) {
       }
     }
   })
-  console.log("Found all nearby stops at (", lat, lon, ") at a distance of", dist, "KM" )
+  // console.log("Found all nearby stops at (", lat, lon, ") at a distance of", dist, "KM" )
 }
 
 // Given a stops object that is initialize with 
@@ -204,7 +204,7 @@ function updateStops(tripData, stopsObj) {
         stopsObj[stopId]['trains'][trainType][direction] = newStationTime < oldStationTime ? newStationTime : oldStationTime
     })
   })
-  console.log("Updated nearby train stops")
+  // console.log("Updated nearby train stops")
 }
 
 // Distance in Default/Miles, 'K'/Kilometer
