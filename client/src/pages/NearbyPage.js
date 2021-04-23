@@ -145,7 +145,7 @@ export default function NearbyPage(props) {
         </Backdrop>
         <Box my={4}>
           <Typography variant="h3">
-            Nearby Stops
+            <b>Nearby Stops</b>
           </Typography>
         </Box>
         <Typography variant="h6" color="textSecondary">
@@ -175,7 +175,7 @@ export default function NearbyPage(props) {
                         id="search-stop"
                         options={stops}
                         getOptionLabel={(option) => option[1].stopName}
-                        style={{ width: 300 }}
+                        style={{ width: theme.spacing(30)}}
                         onChange={(e, val) => setSearch(val ? val[1].stopName : '')}
                         renderInput={(params) => <TextField {...params} label="Search" variant="outlined"/>}
                       />

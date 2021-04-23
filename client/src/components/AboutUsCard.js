@@ -7,6 +7,7 @@ import {
     Container,
     Box,
     Button,
+    Paper,
   } from "@material-ui/core";
 
 const useStyles = makeStyles({
@@ -14,43 +15,37 @@ const useStyles = makeStyles({
       border: "none",
       background: "none"
     },
-
-    container: {
-      textAlign: "center",
-    },
-
     imageClass: {
       maxHeight: 150,
       borderRadius: 250,
     },
-
-    textContainer: {
-      margin: 'auto',
-      paddingTop: 75,
-      maxWidth: 500,
-    },
-
     nameContainer: {
       paddingTop: 15,
     },
-
     nameText: {
       fontSize: 24,
+    },
+    paper: {
+      textAlign: "center",
+      maxWidth: 500,
+      backgroundColor: "#242424",
     }
 })
 
 export default function AboutUsCard({message, Image, Link, Name}) {
     const classes = useStyles()
     return(
-          <Box className = {classes.container}>
-            <a href = {Link}>
-              <img className = {classes.imageClass} src = {Image}/>
-            </a>
-            <Box className = {classes.nameContainer}>
+          <Box component={Paper} className = {classes.paper} px={2} my={2}>
+            <Box pt={3}>
+              <a href = {Link}>
+                <img className = {classes.imageClass} src = {Image}/>
+              </a>
+            </Box>
+            <Box className = {classes.nameContainer} mt={1} mb={3}>
               <Typography variant="h5"> {Name} </Typography>
             </Box>
-            <Box className = {classes.textContainer}>
-              <Typography align = "center"> {message}  </Typography>
+            <Box className = {classes.textContainer} pb={3}>
+              <Typography variant="body1" align = "center" color="textSecondary"> {message}  </Typography>
             </Box>
           </Box>
       )

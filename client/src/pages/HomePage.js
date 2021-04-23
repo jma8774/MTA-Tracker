@@ -1,5 +1,6 @@
 import React from 'react';
-import { Container, Accordion, AccordionDetails, AccordionSummary, Grid } from '@material-ui/core';
+import { Container, Accordion, AccordionDetails, AccordionSummary, Grid, CssBaseline, Box, Typography } from '@material-ui/core';
+import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useStyles } from '../styles/HomePageStyles';
 import NavBar from '../components/NavBar';
@@ -9,13 +10,29 @@ const numbertrains = ["1", "2", "3", "4", "5", "6", "7", "5x", "6x", "7x"];
 const quadtrains = ["n", "q", "r", "w", "b", "d", "f", "m"];
 const tritrains = ["a", "c", "e", "z", "j", "g", "l"];
 
+const theme = createMuiTheme({
+  palette: {
+    type: "dark",
+  },
+});
+
 const Home = () => {
   const classes = useStyles();
 
   return (
-    <div>
+    <ThemeProvider theme={theme}>
       <NavBar />
+      <CssBaseline />
       <Container>
+        <Box mt={4} mb={7} align="center">
+          <Typography variant="h4">
+            <b>Welcome Username!</b>
+          </Typography>
+          <br/>
+          <Typography variant="h6" color="textSecondary">
+            You can search for train stations and their train arrival times by clicking on one of the icons below.
+          </Typography>
+        </Box>
         <Accordion square={true} defaultExpanded classes={{ root: classes.accordionRoot }}>
           <AccordionSummary
             classes={{ content: classes.accordionSummaryContent }}
@@ -66,7 +83,7 @@ const Home = () => {
           </AccordionDetails>
         </Accordion>
       </Container>
-    </div>
+    </ThemeProvider>
   )
 }
 
