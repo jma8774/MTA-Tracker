@@ -24,7 +24,7 @@ const Register = ({ onClick, styles }) => {
     let temp = {};
     temp.username = values.username ? "" : "This field is required";
     temp.email = (/$^|.+@.+..+/).test(values.email) ? "" : "Email is invalid";
-    temp.password = values.password.length > 6 ? "" : "Minimum 6 characters required";
+    temp.password = values.password.length > 6 ? "" : "Minimum 7 characters required";
     temp.rePassword = values.password === values.rePassword ? "" : "Passwords do not match";
 
     setErrors({
@@ -86,7 +86,7 @@ const Register = ({ onClick, styles }) => {
           value={values.password}
           onChange={handleChange}
           error={errors.password ? true : false}
-          helperText={errors.password ? errors.password : "Password should be at least 6 characters long"}
+          helperText={errors.password ? errors.password : "Password should be at least 7 characters long"}
           FormHelperTextProps={{ classes: { root: styles.helperTextRoot } }}
           InputLabelProps={{ shrink: true, }}
           InputProps={{ 
