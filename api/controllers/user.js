@@ -30,6 +30,15 @@ router.get('/', (req, res) => {
   });
 });
 
+router.get('/data', (req, res) => {
+  if (req.user === undefined) {
+    // The user is not logged in
+    res.json({});
+  } else {
+    res.json(req.user);
+  }
+});
+
 
 // Post a new entry in the User table
 // Body needed: Username, password, email, and favorite stops (default empty) 

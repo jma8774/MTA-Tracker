@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { Container, Accordion, AccordionDetails, AccordionSummary, Grid, CssBaseline, Box, Typography } from '@material-ui/core';
 import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -18,6 +19,21 @@ const theme = createMuiTheme({
 
 const Home = () => {
   const classes = useStyles();
+  const [username, setUsername] = React.useState(null)
+
+  React.useEffect(() => {
+    function fetchData() {
+      axios.get('http://localhost:8080/api/user/data', {withCredentials: true})
+      .then(res => {
+        const data = res.data
+        setUsername(data.username)
+      })
+      .catch(error =>
+        console.log("Error", error)
+      )
+    }
+    fetchData()
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -26,7 +42,7 @@ const Home = () => {
       <Container>
         <Box mt={4} mb={7} align="center">
           <Typography variant="h4">
-            <b>Welcome Username!</b>
+            <b>Welcome {username}!</b>
           </Typography>
           <br/>
           <Typography variant="h6" color="textSecondary">
