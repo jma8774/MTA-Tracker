@@ -33,7 +33,6 @@ const LoginRegister = () => {
   const classes = useStyles();
 
   const [toggleView, setToggleView] = useState(0);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const toggleClick = (e) => {
     e.preventDefault();

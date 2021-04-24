@@ -7,12 +7,7 @@ import {
   Container,
   Box,
   Grid,
-  Divider,
-  IconButton,
-  Backdrop,
-  TextField,
 } from "@material-ui/core";
-import clsx from "clsx";
 // Custom Component
 import NavBar from '../components/NavBar'
 import AboutUsCard from '../components/AboutUsCard'

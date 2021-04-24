@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Container, Accordion, AccordionDetails, AccordionSummary, Grid, CssBaseline, Box, Typography } from '@material-ui/core';
-import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useStyles } from '../styles/HomePageStyles';
 import NavBar from '../components/NavBar';
@@ -114,7 +114,7 @@ const Home = () => {
           </AccordionDetails>
         </Accordion>
 
-        <Accordion square={true} classes={{ root: classes.accordionRoot }}>
+        <Accordion square={true} defaultExpanded classes={{ root: classes.accordionRoot }}>
           <AccordionSummary
             classes={{ content: classes.accordionSummaryContent }}
             expandIcon={<ExpandMoreIcon style={{ fill: 'white' }} />}

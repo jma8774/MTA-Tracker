@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import { Grid, TextField, Button, IconButton, InputAdornment } from '@material-ui/core';
+import { Grid, TextField, Button, IconButton, InputAdornment, Link as MUILink } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { useHistory, Link } from 'react-router-dom';
@@ -16,7 +16,7 @@ const initialValues = {
 }
 
 const Register = ({ onClick, styles }) => {
-  const { values, setValues, errors, setErrors, handleChange } = useForm(initialValues);
+  const { values, errors, setErrors, handleChange } = useForm(initialValues);
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -141,7 +141,7 @@ const Register = ({ onClick, styles }) => {
             ) 
           }}
         />
-        <h3>Have an Account? <a href="#" onClick={onClick} className={styles.link}>Log In!</a></h3>
+        <h3>Have an Account? <MUILink href="#" className={styles.link} onClick={onClick}>Register Here!</MUILink></h3>
         <Button
           type="submit"
           size="large"

@@ -1,12 +1,8 @@
 import React from 'react';
-import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import {
-    CssBaseline,
     Typography,
-    createMuiTheme,
-    Container,
     Box,
-    Button,
     Paper,
   } from "@material-ui/core";
 
@@ -38,7 +34,7 @@ export default function AboutUsCard({message, Image, Link, Name}) {
           <Box component={Paper} className = {classes.paper} px={2} my={2}>
             <Box pt={3}>
               <a href = {Link}>
-                <img className = {classes.imageClass} src = {Image}/>
+                <img alt="GitHub link" className = {classes.imageClass} src = {Image}/>
               </a>
             </Box>
             <Box className = {classes.nameContainer} mt={1} mb={3}>
