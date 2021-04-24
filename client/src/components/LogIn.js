@@ -104,7 +104,8 @@ const LogIn = ({ onClick, styles }) => {
           Log In
         </Button>
       </ form>
-
+      
+      {/* Feel like with the way our routers/private routes are setup, we should let them see about us after logging in
       <Grid
         container
         direction="row"
@@ -117,7 +118,7 @@ const LogIn = ({ onClick, styles }) => {
         <Grid item>
           <Link to="#" className={styles.link} style={{ borderLeft: "1px solid white", paddingLeft: "15px", marginLeft: "3px" }}>Terms of Use</Link>
         </Grid>
-      </Grid>
+      </Grid> */}
 
       <h3>This is a non-profit website and all intellectual property is owned by MTA.</h3>
     </div >
