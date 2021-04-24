@@ -6,6 +6,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useStyles } from '../styles/HomePageStyles';
 import NavBar from '../components/NavBar';
 import { TriLine, QuadLine } from '../components/AccordionFormRow';
+import StopCard from '../components/StopCard.js'
+import AlertSnackbar from '../components/AlertSnackbar'
 
 const numbertrains = ["1", "2", "3", "4", "5", "6", "7", "5x", "6x", "7x"];
 const quadtrains = ["n", "q", "r", "w", "b", "d", "f", "m"];
@@ -20,9 +22,30 @@ const theme = createMuiTheme({
 const Home = () => {
   const classes = useStyles();
   const [username, setUsername] = React.useState(null)
+  const [status, setStatus] = React.useState(false)
+  const [stops, setStops] = React.useState(null)
+  const curTime = new Date()
+
 
   React.useEffect(() => {
-    function fetchData() {
+    function fetchFavoriteStops() {
+      setStatus(false)
+      axios.get('http://localhost:8080/api/station/favorite/', {withCredentials: true})
+      .then(res => {
+        console.log("Favorite Stations", res.data)
+        const data = res.data
+        var tmp = []
+        for(var i in data) 
+          if(data[i].stopName)
+          tmp.push([i, data[i]]);
+        setStops(Object.keys(data).length > 0 ? tmp : null);
+        setStatus(true)
+      })
+      .catch(error =>
+        console.log(error)
+      )
+    }
+    function fetchUser() {
       axios.get('http://localhost:8080/api/user/data', {withCredentials: true})
       .then(res => {
         const data = res.data
@@ -32,13 +55,19 @@ const Home = () => {
         console.log("Error", error)
       )
     }
-    fetchData()
+    fetchUser()
+    fetchFavoriteStops()
+    const interval = setInterval(fetchFavoriteStops, 10000)
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <ThemeProvider theme={theme}>
       <NavBar />
       <CssBaseline />
+      { status &&
+        <AlertSnackbar msg="Stops updated!" duration={2000} severity='success'/>
+      }
       <Container>
         <Box mt={4} mb={7} align="center">
           <Typography variant="h4">
@@ -85,7 +114,7 @@ const Home = () => {
           </AccordionDetails>
         </Accordion>
 
-        <Accordion square={true} defaultExpanded classes={{ root: classes.accordionRoot }}>
+        <Accordion square={true} classes={{ root: classes.accordionRoot }}>
           <AccordionSummary
             classes={{ content: classes.accordionSummaryContent }}
             expandIcon={<ExpandMoreIcon style={{ fill: 'white' }} />}
@@ -95,7 +124,24 @@ const Home = () => {
             <h2>Your Bookmarks</h2>
           </AccordionSummary>
           <AccordionDetails>
-            Stop Cards go here
+            {
+              stops
+              ?
+                <Grid container align="center">
+                  { 
+                    stops.map((val, i) => 
+                      <Grid key={val[0]} item xs={12} md={6} lg={4}>
+                        <Box mt={3}>
+                          <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={"secondary"}/>
+                        </Box>
+                      </Grid>
+                    )
+                  }
+                </Grid>
+              :
+                <Typography>
+                </Typography>
+            }
           </AccordionDetails>
         </Accordion>
       </Container>

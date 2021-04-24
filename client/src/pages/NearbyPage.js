@@ -51,6 +51,7 @@ export default function NearbyPage(props) {
   const [backdrop, setBackdrop] = React.useState(true)
   const [location, setLocation] = React.useState(null)
   const [status, setStatus] = React.useState(false)
+  const [favorites, setFavorites] = React.useState(new Set([]))
   const [search, setSearch] = React.useState('')
   const handleReverse = () => {
     setStops(stops.slice().reverse())
@@ -96,14 +97,24 @@ export default function NearbyPage(props) {
       return
     window.scrollTo(0, 0)
     
+    function fetchFavorites() {
+      axios.get('http://localhost:8080/api/user/favorite/', {withCredentials: true})
+      .then(res => {
+        console.log("Favorites", res.data)
+        const data = res.data
+        setFavorites(new Set(data))
+      })
+      .catch(error =>
+        console.log(error)
+      )
+    }
     function fetchData() {
       setStatus(false)
       axios.get(`http://localhost:8080/api/nearby/lat/${location.lat}/lon/${location.lon}/dist/2`, {withCredentials: true})
       .then(res => {
         console.log('Data refreshed')
-        console.log("Response", res)
         const data = res.data
-        console.log("Data", data)
+        console.log("Stations", data)
         var tmp = []
         for(var i in data) 
           if(data[i].stopName)
@@ -116,6 +127,7 @@ export default function NearbyPage(props) {
       )
     }
 
+    fetchFavorites()
     fetchData()
     const interval = setInterval(fetchData, 10000)
 
@@ -193,7 +205,7 @@ export default function NearbyPage(props) {
                           val[1].stopName.toLowerCase().includes(search.toLowerCase()) &&
                           <Grid key={i} item xs={12} md={6} lg={4}>
                             <Box mt={3}>
-                              <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime}/>
+                              <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
                             </Box>
                           </Grid>
                         )

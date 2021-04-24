@@ -41,11 +41,11 @@ passport.use(new LocalStrategy({
 );
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user.username);
 });
 
-passport.deserializeUser((id, done) => {
-  User.findByPk(id)
+passport.deserializeUser((username, done) => {
+  User.findByPk(username)
     .then((user) => {
       if (!user) {
         done(null, false);
@@ -60,7 +60,9 @@ passport.deserializeUser((id, done) => {
 
 // Use this protect api routes that require a user to be logged in.
 passport.isAuthenticated = () => 
-  (req, res, next) => (req.user ? next() : res.sendStatus(401));
+  (req, res, next) => {
+    return req.user ? next() : res.sendStatus(401)
+  };
 
 
 module.exports = passport;
