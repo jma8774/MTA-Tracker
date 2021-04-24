@@ -66,7 +66,7 @@ const Home = () => {
       <NavBar />
       <CssBaseline />
       { status &&
-        <AlertSnackbar msg="Stops updated!" duration={2000} severity='success'/>
+        <AlertSnackbar msg="Bookmarks updated!" duration={2000} severity='success'/>
       }
       <Container>
         <Box mt={4} mb={7} align="center">
@@ -88,7 +88,7 @@ const Home = () => {
             <h2>Search by Line</h2>
           </AccordionSummary>
           <AccordionDetails>
-            <Grid container spacing={10} justify="center" alignItems="flex-start">
+            <Grid container spacing={10} align="center" justify="center" alignItems="flex-start">
               <Grid container item xs={10} sm={4} spacing={3}>
                 {numbertrains.map((train, index) => {
                   return (
@@ -112,6 +112,7 @@ const Home = () => {
               </Grid>
             </Grid>
           </AccordionDetails>
+          <Box mb={3}/>
         </Accordion>
 
         <Accordion square={true} defaultExpanded classes={{ root: classes.accordionRoot }}>
@@ -145,6 +146,7 @@ const Home = () => {
           </AccordionDetails>
         </Accordion>
       </Container>
+      <Box mb={3}/>
     </ThemeProvider>
   )
 }
