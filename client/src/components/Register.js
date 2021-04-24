@@ -38,10 +38,10 @@ const Register = ({ onClick, styles }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(`username: ${values.username}`);
-    console.log(`password: ${values.email}`);
-    console.log(`password: ${values.password}`);
-    console.log(`password: ${values.rePassword}`);
+    // console.log(`username: ${values.username}`);
+    // console.log(`password: ${values.email}`);
+    // console.log(`password: ${values.password}`);
+    // console.log(`password: ${values.rePassword}`);
 
     if (validate()) {
       auth.signup(values.username, values.password, values.email)

@@ -32,7 +32,7 @@ const Home = () => {
       setStatus(false)
       axios.get('http://localhost:8080/api/station/favorite/', {withCredentials: true})
       .then(res => {
-        console.log("Favorite Stations", res.data)
+        console.log("Updated Favorite Stations")
         const data = res.data
         var tmp = []
         for(var i in data) 

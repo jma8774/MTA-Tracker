@@ -32,8 +32,8 @@ const LogIn = ({ onClick, styles }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(`username: ${values.username}`);
-    console.log(`password: ${values.password}`);
+    // console.log(`username: ${values.username}`);
+    // console.log(`password: ${values.password}`);
 
     if(validate()){
       auth.authenticate(values.username, values.password)

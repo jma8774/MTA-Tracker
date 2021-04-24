@@ -93,7 +93,7 @@ export default function LinePage(props) {
     function fetchFavorites() {
       axios.get('http://localhost:8080/api/user/favorite/', {withCredentials: true})
       .then(res => {
-        console.log("Favorites", res.data)
+        console.log("Favorite Stations", res.data)
         const data = res.data
         setFavorites(new Set(data))
       })
@@ -105,8 +105,7 @@ export default function LinePage(props) {
       setStatus(false)
       axios.get('http://localhost:8080/api/line/' + train.toUpperCase(), {withCredentials: true})
       .then(res => {
-        console.log('Data refreshed')
-        console.log("Stations", res.data)
+        console.log("Updated Stations")
         const data = res.data
         var tmp = []
         for(var i in data) 

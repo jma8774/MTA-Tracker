@@ -100,7 +100,7 @@ export default function NearbyPage(props) {
     function fetchFavorites() {
       axios.get('http://localhost:8080/api/user/favorite/', {withCredentials: true})
       .then(res => {
-        console.log("Favorites", res.data)
+        console.log("Favorite Stations", res.data)
         const data = res.data
         setFavorites(new Set(data))
       })
@@ -112,9 +112,8 @@ export default function NearbyPage(props) {
       setStatus(false)
       axios.get(`http://localhost:8080/api/nearby/lat/${location.lat}/lon/${location.lon}/dist/2`, {withCredentials: true})
       .then(res => {
-        console.log('Data refreshed')
+        console.log("Updated Stations")
         const data = res.data
-        console.log("Stations", data)
         var tmp = []
         for(var i in data) 
           if(data[i].stopName)
