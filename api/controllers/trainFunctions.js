@@ -100,6 +100,24 @@ function findTrainStation(station, tripData, relevantStops){
   })
 }
 
+// Initialize object with favorite stops (ready to update)
+function findFavorites(stationMap) {
+  Object.keys(stationMap).forEach(stopId => {
+    stopName = traindb.findStopName(stopId)
+    lat = traindb.findStopLat(stopId)
+    lon = traindb.findStopLon(stopId)
+    stationMap[stopId] = {
+      stopName: traindb.findStopName(stopId),
+      trains: {},
+      coordinates: {
+        lat: traindb.findStopLat(stopId),
+        lon: traindb.findStopLon(stopId)
+      }
+    }
+
+  })
+}
+
 
 // Initialize stationMap with all stations of a certain line
 function findTrainStops(train, tripData, stationMap) {
@@ -230,4 +248,4 @@ function distance(lat1, lon1, lat2, lon2, unit) {
 	}
 }
 
-module.exports = { distance, convertEpochToLocalDate, findNearbyStops, updateStops, findTrainStops, getTrips, findTrainStation};
+module.exports = { distance, convertEpochToLocalDate, findFavorites, findNearbyStops, updateStops, findTrainStops, getTrips, findTrainStation};
