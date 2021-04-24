@@ -1,8 +1,8 @@
 import { React, useState } from 'react';
-import { Grid, TextField, Button, IconButton, InputAdornment, Link as MUILink } from '@material-ui/core';
+import { TextField, Button, IconButton, InputAdornment, Link as MUILink } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import useForm from './useForm';
 import auth from '../services/auth';
 
