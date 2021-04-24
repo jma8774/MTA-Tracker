@@ -141,7 +141,7 @@ const Register = ({ onClick, styles }) => {
             ) 
           }}
         />
-        <h3>Have an Account? <MUILink href="#" className={styles.link} onClick={onClick}>Register Here!</MUILink></h3>
+        <h3>Have an Account? <MUILink href="#" className={styles.link} onClick={onClick}>Login Here!</MUILink></h3>
         <Button
           type="submit"
           size="large"
