@@ -66,7 +66,7 @@ export default function StopCard(props) {
 
   React.useEffect(() => {
     setExpanded(false)
-  }, [trains]);
+  }, [stopId]);
 
   const [favorite, setFavorite] = React.useState(isFavorite)
   const handleFavorite = () => {
