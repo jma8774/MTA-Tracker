@@ -30,7 +30,7 @@ const Home = () => {
   React.useEffect(() => {
     function fetchFavoriteStops() {
       setStatus(false)
-      axios.get('http://localhost:8080/api/station/favorite/', {withCredentials: true})
+      axios.get('/api/station/favorite/', {withCredentials: true})
       .then(res => {
         console.log("Updated Favorite Stations")
         const data = res.data
@@ -46,7 +46,7 @@ const Home = () => {
       )
     }
     function fetchUser() {
-      axios.get('http://localhost:8080/api/user/data', {withCredentials: true})
+      axios.get('/api/user/data', {withCredentials: true})
       .then(res => {
         const data = res.data
         setUsername(data.username)
