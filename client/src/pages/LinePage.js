@@ -113,10 +113,10 @@ export default function LinePage(props) {
     }
     function fetchData() {
       setStatus(false)
-      axios.get('/api/line/' + train.toUpperCase(), {withCredentials: true})
-      .then(res => {
+      fetch('/api/line/' + train.toUpperCase(), params)
+      .then((res) => res.json())
+      .then((data) => {
         console.log("Updated Stations")
-        const data = res.data
         var tmp = []
         for(var i in data) 
           if(data[i].stopName)
