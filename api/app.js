@@ -9,7 +9,7 @@ const passport = require('./middlewares/authentication');
 const PORT = process.env.PORT;
 
 // enable CORS
-
+// we need coors for our favorites system
 app.use(cors({
   
   //origin: 'http://localhost:3000', //temp fix, comment out for deployment purposes 
