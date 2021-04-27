@@ -99,24 +99,22 @@ export default function LinePage(props) {
     }
 
     function fetchFavorites() {
-      console.log("CALLED")
-      fetch('/api/user/favorite/', params)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Favorite Stations", data)
+      axios.get('/api/user/favorite/', {withCredentials: true})
+      .then(res => {
+        console.log("Favorite Stations", res.data)
+        const data = res.data
         setFavorites(new Set(data))
       })
       .catch(error => {
-        console.log("ERROR")
         console.log(error)
       })
     }
     function fetchData() {
       setStatus(false)
-      fetch('/api/line/' + train.toUpperCase(), params)
-      .then((res) => res.json())
-      .then((data) => {
+      axios.get('/api/line/' + train.toUpperCase(), {withCredentials: true})
+      .then(res => {
         console.log("Updated Stations")
+        const data = res.data
         var tmp = []
         for(var i in data) 
           if(data[i].stopName)
@@ -124,10 +122,9 @@ export default function LinePage(props) {
         setStops(Object.keys(data).length > 0 ? tmp : null);
         setStatus(true)
       })
-      .catch(error => {
-        console.log("ERROR")
+      .catch(error =>
         console.log(error)
-      })
+      )
     }
     fetchFavorites()
     fetchData()
