@@ -8,7 +8,7 @@
 const auth = {
   isAuthenticated: false,
   signup(username, password, email){
-    return fetch('../api/user/signup', {
+    return fetch('/api/user/signup', {
       method: 'POST',
       body: JSON.stringify({ username, password, email }),
       credentials: "include",
@@ -28,7 +28,7 @@ const auth = {
       })
   },
   authenticate(username, password) {
-    return fetch('../api/user/login', { 
+    return fetch('/api/user/login', { 
       method: 'POST',
       body: JSON.stringify({ username, password }),
       credentials: "include",
@@ -49,7 +49,7 @@ const auth = {
       });
   },
   signout(cb) {
-    return fetch('../api/user/logout', { 
+    return fetch('/api/user/logout', { 
       method: 'POST',
       credentials: "include",
       headers: {
