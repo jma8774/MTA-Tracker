@@ -27,7 +27,7 @@ router.get('/stationName/:station', passport.isAuthenticated(), (req, res) => {
   trainfn.getTrips(tripData, () => {
     trainfn.findTrainStation(station, tripData, relevantStops)
     trainfn.updateStops(tripData, relevantStops)
-    res.send(JSON.stringify(relevantStops))
+    return res.send(JSON.stringify(relevantStops))
   })
 })
 
@@ -48,7 +48,7 @@ router.get('/favorite', passport.isAuthenticated(), (req, res) => {
     trainfn.getTrips(tripData, () => {
       trainfn.findFavorites(stationMap)
       trainfn.updateStops(tripData, stationMap)
-      res.status(200).json(stationMap)
+      return res.status(200).json(stationMap)
     })
   });
 })

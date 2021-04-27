@@ -46,39 +46,6 @@ const supportedTrains = new Set([
   'z'
 ]);
 
-// process the feed
-function parse(res) {
-  // gather the data chunks into a list
-  var data = [];
-  res.on("data", function(chunk) {
-      data.push(chunk);
-  });
-  res.on("end", function() {
-      // merge the data to one buffer, since it's in a list
-      data = Buffer.concat(data);
-      // create a FeedMessage object by decooding the data with the protobuf object
-      var feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(data);
-      // do whatever with the object
-      feed.entity.forEach(function(entity) {
-        if (entity.tripUpdate) {
-          tripData.push(entity.tripUpdate)
-          // console.log(entity.tripUpdate);
-        }
-        if (entity.serviceAlert) {
-          console.log(entity.serviceAlert);
-        }
-        if (entity.vehicle) {
-          // console.log(entity.vehicle);
-        }
-      });
-      numFetched ++
-      console.log("\nCompleted one")
-      if(numFetched === 9) {
-        console.log("\nFinished fetching live data from all 9 APIs")
-      }
-  }); 
-};
-
 
 // Get all live train line information of API calls in urlList
 async function getTrips(tripData, callback) {
