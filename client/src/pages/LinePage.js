@@ -128,7 +128,7 @@ export default function LinePage(props) {
     }
     fetchFavorites()
     fetchData()
-    const interval = setInterval(fetchData, 10000)
+    const interval = setInterval(fetchData, 30000)
 
     // Return does something when the page dismounts
     return () => clearInterval(interval);
@@ -156,7 +156,7 @@ export default function LinePage(props) {
             <React.Fragment>
               <Grid container justify="flex-end">
                 <Box mr={1} mt={2}>
-                  <Tooltip title={<Typography variant='caption'>Information is refreshed every 10 seconds</Typography>}>
+                  <Tooltip title={<Typography variant='caption'>Information is refreshed every 30 seconds</Typography>}>
                     <TimerIcon/>
                   </Tooltip>
                 </Box>

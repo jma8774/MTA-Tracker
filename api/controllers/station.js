@@ -5,6 +5,8 @@ const {stopName} = require('./gtfsData');
 const db = require('../models');
 const { User } = db;
 const passport = require('../middlewares/authentication');
+const cache = require('../middlewares/cache')
+
 
 router.get('/', (req,res) => {
   res.json({
@@ -32,9 +34,8 @@ router.get('/stationName/:station', passport.isAuthenticated(), (req, res) => {
 })
 
 // Return favorite stations to update cards
-router.get('/favorite', passport.isAuthenticated(), (req, res) => {
+router.get('/favorite', cache(30), passport.isAuthenticated(), (req, res) => {
   const username = req.user.dataValues.username;
-  return res.status(200).json({})
   User.findByPk(username)
   .then(user => {
     if (!user) {

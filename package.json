@@ -20,6 +20,7 @@
     "express-session": "^1.17.1",
     "gtfs-realtime-bindings": "^0.0.6",
     "https": "^1.0.0",
+    "memory-cache": "^0.2.0",
     "morgan": "^1.10.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",

@@ -57,7 +57,7 @@ const Home = () => {
     }
     fetchUser()
     fetchFavoriteStops()
-    const interval = setInterval(fetchFavoriteStops, 10000)
+    const interval = setInterval(fetchFavoriteStops, 30000)
     return () => clearInterval(interval);
   }, []);
 
