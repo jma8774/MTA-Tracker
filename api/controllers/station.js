@@ -34,6 +34,7 @@ router.get('/stationName/:station', passport.isAuthenticated(), (req, res) => {
 // Return favorite stations to update cards
 router.get('/favorite', passport.isAuthenticated(), (req, res) => {
   const username = req.user.dataValues.username;
+  return res.status(200).json({})
   User.findByPk(username)
   .then(user => {
     if (!user) {
