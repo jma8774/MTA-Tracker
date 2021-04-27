@@ -90,16 +90,26 @@ export default function LinePage(props) {
   React.useEffect(() => {
     window.scrollTo(0, 0)
 
+    const params = {
+      method: "get",
+      credentials: "include",
+      headers:{          
+        'Content-Type': 'application/json'
+      },
+    }
+
     function fetchFavorites() {
-      axios.get('/api/user/favorite/', {withCredentials: true})
-      .then(res => {
-        console.log("Favorite Stations", res.data)
-        const data = res.data
+      console.log("CALLED")
+      fetch('/api/user/favorite/', params)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Favorite Stations", data)
         setFavorites(new Set(data))
       })
-      .catch(error =>
+      .catch(error => {
+        console.log("ERROR")
         console.log(error)
-      )
+      })
     }
     function fetchData() {
       setStatus(false)
@@ -114,9 +124,10 @@ export default function LinePage(props) {
         setStops(Object.keys(data).length > 0 ? tmp : null);
         setStatus(true)
       })
-      .catch(error =>
+      .catch(error => {
+        console.log("ERROR")
         console.log(error)
-      )
+      })
     }
     fetchFavorites()
     fetchData()

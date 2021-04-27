@@ -12,8 +12,7 @@ const PORT = process.env.PORT;
 // we need coors for our favorites system
 app.use(cors({
   
-  //origin: 'http://localhost:3000', //temp fix, comment out for deployment purposes 
-  origin: 'https://team1up-mta.herokuapp.com/', //comment this out and uncomment above for dev purposes
+  origin: ['http://localhost:3000','https://team1up-mta.herokuapp.com/'],
   credentials: true
 }));
 
