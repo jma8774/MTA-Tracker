@@ -46,6 +46,7 @@ const supportedTrains = new Set([
 
 // Get all live train line information of API calls in urlList
 async function getTrips(tripData, callback) {
+  console.log("\nStarted fetching getTrips")
   var numFetched = 0
   urls.forEach(url => {
     var requestSettings = {
@@ -72,9 +73,10 @@ async function getTrips(tripData, callback) {
           }
         });
         numFetched ++
+        console.log("\nCompleted one")
         // console.log(feed)
         if(numFetched === 9) {
-          // console.log("\nFinished fetching live data from all 9 APIs")
+          console.log("\nFinished fetching live data from all 9 APIs")
           callback()
         }
       } 
