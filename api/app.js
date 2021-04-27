@@ -9,8 +9,13 @@ const passport = require('./middlewares/authentication');
 const PORT = process.env.PORT;
 
 // enable CORS
+
+
+
 app.use(cors({
-  origin: "http://localhost:3000",
+  
+  //origin: 'http://localhost:3000', //temp fix, comment out for deployment purposes 
+  origin: 'https://team1up-mta.herokuapp.com/', //comment this out and uncomment above for dev purposes
   credentials: true
 }));
 
