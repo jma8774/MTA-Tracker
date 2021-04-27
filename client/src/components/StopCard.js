@@ -79,7 +79,7 @@ export default function StopCard(props) {
       },
     }
     // For some reason axios is not working, so I'm using regular fetch
-    fetch('http://localhost:8080/api/user/favorite/', params)
+    fetch('/api/user/favorite/', params)
     .then((res) => res.json())
     .then((data) => {
       console.log("Favorites", data.favorites)
