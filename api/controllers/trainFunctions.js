@@ -46,10 +46,22 @@ const supportedTrains = new Set([
   'z'
 ]);
 
+function callbackHelper(callback, arg1) {
+  callback(arg1)
+}
+
+// For Testing Heroku
+const staticData = require('../google_transit/staticData')
 
 // Get all live train line information of API calls in urlList
-async function getTrips(tripData, callback) {
+async function getTrips(callback) {
+  // TESTING
+  callbackHelper(callback, staticData)
+  return
+  // TESTING
+
   // console.log("\nStarted fetching getTrips")
+  var tripData = []
   var numFetched = 0
   const getCallback = function(res) {
     // gather the data chunks into a list
@@ -79,7 +91,7 @@ async function getTrips(tripData, callback) {
         // console.log("\nCompleted one")
         if(numFetched === 9) {
           // console.log("\nFinished fetching live data from all 9 APIs")
-          callback()
+          callbackHelper(callback, tripData)
         }
     }); 
   }
@@ -177,9 +189,9 @@ function findTrainStops(train, tripData, stationMap) {
   tripData.forEach(data => {
     const trip = data.trip
     const trainType = trip.routeId
-    if(trainType !== train)
-      return
     const stops = data.stopTimeUpdate;
+    if(trainType !== train || !stops)
+      return
     stops.forEach(stop => {
       var stopId = stop.stopId
       stopName = traindb.findStopName(stopId)
@@ -241,7 +253,8 @@ function updateStops(tripData, stopsObj) {
     const trip = data.trip
     const trainType = trip.routeId
     const stops = data.stopTimeUpdate;
-
+    if(!stops)
+      return
     stops.forEach(stop => {
       // const arrival = stop.arrival && parseFloat(stop.arrival.time) > curTimeEpoch  ? stop.arrival.time : null
       // const departure = stop.departure && parseFloat(stop.departure.time) > curTimeEpoch ? stop.departure.time : null

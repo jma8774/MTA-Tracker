@@ -43,11 +43,12 @@ router.get('/favorite', cache(30), passport.isAuthenticated(), (req, res) => {
     }
     const favorites = user['favorites']
     var stationMap = {}
-    var tripData = []
     favorites.forEach(val => {
       stationMap[val] = {}
     })
-    trainfn.getTrips(tripData, () => {
+    trainfn.getTrips((tripData) => {
+      trainfn.findFavorites(stationMap)
+      trainfn.updateStops(tripData, stationMap)
       return res.status(200).json(stationMap)
     })
   });

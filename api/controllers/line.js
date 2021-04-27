@@ -13,9 +13,8 @@ router.get('/', (req,res) => {
 // Return all the stations for a train line and the the live time of the trains going to those stations
 router.get('/:train', cache(30), passport.isAuthenticated(), (req, res) => {
   const train = req.params.train
-  var tripData = []
   var stationMap = {}
-  trainfn.getTrips(tripData, () => {
+  trainfn.getTrips((tripData) => {
     trainfn.findTrainStops(train, tripData, stationMap)
     trainfn.updateStops(tripData, stationMap)
     // Sort by StopId
