@@ -58,12 +58,18 @@ export default function StopCard(props) {
   var trains = stopInfo.trains
   const {lat, lon} = stopInfo.coordinates
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(true);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
   React.useEffect(() => {
+    setExpanded(true)
+    setExpanded(false)
+  }, []);
+  
+  React.useEffect(() => {
+    setExpanded(true)
     setExpanded(false)
   }, [stopId]);
 
