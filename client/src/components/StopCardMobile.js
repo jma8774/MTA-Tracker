@@ -53,12 +53,12 @@ function getDifference(epoch, curTime) {
     return "Now"
 }
 
-export default function StopCard(props) {
+export default function StopCardMobile(props) {
   const {stopId, stopInfo, curTime, isFavorite} = props
   var trains = stopInfo.trains
   const {lat, lon} = stopInfo.coordinates
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false)
+  const [expanded, setExpanded] = React.useState(true)
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
