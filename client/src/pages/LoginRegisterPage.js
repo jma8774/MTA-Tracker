@@ -1,33 +1,16 @@
 import { React, useState } from 'react';
-import { Container, Grid, Typography, Box } from '@material-ui/core';
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { Container, Grid } from '@material-ui/core';
 import { useStyles } from '../styles/LoginRegisterStyles';
 import LogIn from '../components/LogIn';
 import Register from '../components/Register';
 import '../styles/LoginRegisterPage.css';
-import TrainIcon from '../components/TrainIcon.js'
+import logo from '../imgs/svg/mticon.svg';
 
 /*
 https://unsplash.com/photos/PJzeDJAw3oI
 https://unsplash.com/photos/k_j7olQiqAw
 https://unsplash.com/photos/8mswK-LU5Vs
 */
-
-const theme = createMuiTheme({
-  typography: {
-    fontFamily: 'Montserrat, san-serif'
-  }
-});
-
-theme.typography.h1 = {
-  fontSize: '2.5rem',
-  [theme.breakpoints.up('sm')]: {
-    fontSize: '3rem',
-  },
-  [theme.breakpoints.up('md')]: {
-    fontSize: '4rem',
-  },
-}
 
 const LoginRegister = () => {
   const classes = useStyles();
@@ -47,8 +30,6 @@ const LoginRegister = () => {
         <li><span>p3</span></li>
       </ul>
 
-      <Box mt={3}/>
-
       <Grid
         container
         spacing={2}
@@ -58,18 +39,12 @@ const LoginRegister = () => {
         className={`${classes.grid} + ${classes.root}`}
       >
         <Grid item>
-          <Box>
-            <TrainIcon train={'n'} width={45}/>
-          </Box>
+          <img src={logo} width="120px" height="120px" alt="icon with train and magnifying glass"/>
         </Grid>
         <Grid item>
-          <ThemeProvider theme={theme}>
-            <Typography variant="h1" className="company-name">MTA Tracker</Typography>
-          </ThemeProvider>
+          <h1 className={classes.title}>MTA Tracker</h1>
         </Grid>
       </Grid>
-
-      <Box mt={7}/>
 
       <Container maxWidth="sm" className={`${classes.containerContent} + ${classes.root}`}>
         {toggleView === 0 ? <LogIn onClick={toggleClick} styles={classes} /> : <Register onClick={toggleClick} styles={classes} />}
