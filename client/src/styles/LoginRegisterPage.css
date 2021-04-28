@@ -58,9 +58,3 @@ body {
 .no-cssanimations .cb-slideshow li span{
   opacity: 1;
 }
-
-.company-name{
-  font-weight: bold;
-  text-align: center;
-  text-shadow: 4px 4px rgba(28,28,30,0.9);
-}

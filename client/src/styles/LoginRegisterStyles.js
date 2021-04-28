@@ -7,14 +7,16 @@ const useStyles = makeStyles(theme => ({
   },
   grid: {
     marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(0.25),
+    marginBottom: theme.spacing(0.25)
+  },
+  title: {
+    textShadow: "4px 4px rgba(28,28,30,0.9)",
+    fontSize: "2em",
     '@media (min-width:960px)': {
-      marginTop: theme.spacing(3),
-      marginBottom: theme.spacing(1.25),
+      fontSize: "3em",
     },
     '@media (min-width:1280px)': {
-      marginTop: theme.spacing(5),
-      marginBottom: theme.spacing(2.25),
+      fontSize: "3.5em",
     }
   },
   label: {
@@ -35,6 +37,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3),
     backgroundColor: "rgba(0,0,0,0.8)",
     boxShadow: '0 0 2px 5px rgba(0,0,0,0.5)',
+    marginBottom: theme.spacing(3),
   },
   textField: {
     'label + &': {
@@ -64,6 +67,6 @@ const useStyles = makeStyles(theme => ({
   disabled: {
     pointerEvents: 'none',
   },
-}))
+}), {index: 1})
 
 export { useStyles };
