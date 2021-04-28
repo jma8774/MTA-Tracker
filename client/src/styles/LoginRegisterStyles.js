@@ -67,6 +67,6 @@ const useStyles = makeStyles(theme => ({
   disabled: {
     pointerEvents: 'none',
   },
-}))
+}), {index: 1})
 
 export { useStyles };
