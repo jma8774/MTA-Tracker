@@ -47,7 +47,9 @@ export default function AboutUsPage(props) {
           <Typography variant = "h3" align = "center"> <b>Team 1UP</b> </Typography>
           <br/>
           <Typography variant = "body1" className = {classes.textClass} align = "center"> 
-            This project was created as part of the CUNY Tech Prep program. We wanted to make something impactful and useful for fellow New Yorkers.
+            This project was created as part of the CUNY Tech Prep program. We wanted to make something impactful and useful for fellow New Yorkers, so we decided to make a MTA tracker. 
+            <br/>
+            Hopefully this is useful for the 5+ million New Yorkers that take the MTA trains daily.
           </Typography>
         </Box>
 
@@ -60,21 +62,21 @@ export default function AboutUsPage(props) {
               spacing={3}
         >
           <Grid item xs={12} md={4} align="center">
-            <AboutUsCard message = {"Small description about what Sunny does maybe and his role in the project blah blah blah"}
+            <AboutUsCard message = {"Short description here"}
                           Image = {czImage}
                           Link = {czRepo}
                           Name = {"Chue Zhang"}
             />
           </Grid>
           <Grid item xs={12} md={4} align="center">
-            <AboutUsCard message = {"Small description about what Sunny does maybe and his role in the project blah blah blah"}
+            <AboutUsCard message = {"Short description here"}
                           Image = {jmImage}
                           Link = {jmRepo}
                           Name = {"Jia Ming Ma"}
             />
           </Grid>
             <Grid item xs={12} md={4} align="center">
-            <AboutUsCard message = {"Small description about what Sunny does maybe and his role in the project blah blah blah"}
+            <AboutUsCard message = {"Short description here"}
                           Image = {xmImage}
                           Link = {xmRepo}
                           Name = {"Xiang Min Mo"}
