@@ -47,16 +47,7 @@ const theme = createMuiTheme({
   },
 });
 
-var successHandler = function(position) { 
-  alert(position.coords.latitude); 
-  alert(position.coords.longitude); 
-}; 
-  
-var errorHandler = function (errorObj) { 
-  alert(errorObj.code + ": " + errorObj.message); 
-};
-
-export default function NearbyPage(props) {
+export default function NearbyPageMobile(props) {
   const classes = useStyles()
   const curTime = new Date()
   const [stops, setStops] = React.useState(null)
@@ -71,45 +62,38 @@ export default function NearbyPage(props) {
   }
   
   React.useEffect(() => {
-    console.log("START")
-    navigator.geolocation.getCurrentPosition( 
-      successHandler, 
-      errorHandler, 
-      {enableHighAccuracy: true, maximumAge: 10000}
-    );
-    console.log("END")
-    // if (navigator.geolocation) {
-    //   setAvailable(true)
-    //   console.log('GeoLocation is available!')
-    //   navigator.permissions.query({ name: "geolocation" })
-    //   .then(result => {
-    //     if (result.state === "granted") {
-    //       //If granted then you can directly call your function here
-    //       navigator.geolocation.getCurrentPosition(pos => {
-    //         var obj = {}
-    //         obj['lat'] = pos.coords.latitude
-    //         obj['lon'] = pos.coords.longitude
-    //         setBackdrop(false)
-    //         setLocation(obj)
-    //       });
-    //     } else if (result.state === "prompt") {
-    //       navigator.geolocation.getCurrentPosition(pos => {
-    //         var obj = {}
-    //         obj['lat'] = pos.coords.latitude
-    //         obj['lon'] = pos.coords.longitude
-    //         setBackdrop(false)
-    //         setLocation(obj)
-    //       });
-    //     } else if (result.state === "denied") {
-    //       //If denied then you have to show instructions to enable location
-    //       setBackdrop(false)
-    //     }
-    //     console.log("Geolocation", result.state);
-    //   })
-    // } else {
-    //   setAvailable(false)
-    //   console.log('GeoLocation not available!')
-    // }
+    if (navigator.geolocation) {
+      setAvailable(true)
+      console.log('GeoLocation is available!')
+      navigator.permissions.query({ name: "geolocation" })
+      .then(result => {
+        if (result.state === "granted") {
+          //If granted then you can directly call your function here
+          navigator.geolocation.getCurrentPosition(pos => {
+            var obj = {}
+            obj['lat'] = pos.coords.latitude
+            obj['lon'] = pos.coords.longitude
+            setBackdrop(false)
+            setLocation(obj)
+          });
+        } else if (result.state === "prompt") {
+          navigator.geolocation.getCurrentPosition(pos => {
+            var obj = {}
+            obj['lat'] = pos.coords.latitude
+            obj['lon'] = pos.coords.longitude
+            setBackdrop(false)
+            setLocation(obj)
+          });
+        } else if (result.state === "denied") {
+          //If denied then you have to show instructions to enable location
+          setBackdrop(false)
+        }
+        console.log("Geolocation", result.state);
+      })
+    } else {
+      setAvailable(false)
+      console.log('GeoLocation not available!')
+    }
   }, []);
 
   React.useEffect(() => {
