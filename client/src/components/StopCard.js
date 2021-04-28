@@ -56,16 +56,18 @@ function getDifference(epoch, curTime) {
 export default function StopCard(props) {
   const {stopId, stopInfo, curTime, isFavorite} = props
   var trains = stopInfo.trains
-  
+  const [, forceUpdate] = React.useReducer(x => x + 1, 0);
   const {lat, lon} = stopInfo.coordinates
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
+    forceUpdate()
   };
 
   React.useEffect(() => {
     setExpanded(false)
+    forceUpdate()
   }, [stopId]);
 
   const [favorite, setFavorite] = React.useState(isFavorite)
@@ -141,7 +143,7 @@ export default function StopCard(props) {
                 <ArrowUpwardIcon/>
               </Grid>
               <Box mt={2}/>
-              { expanded &&
+              {
                 Object.keys(trains).map((key, i) => 
                   <Box mt={1.5} key={i}>
                     <Typography>
@@ -163,7 +165,7 @@ export default function StopCard(props) {
                   <ArrowDownwardIcon/>
               </Grid>
               <Box mt={2}/>
-              { expanded &&
+              { 
                 Object.keys(trains).map((key, i) => 
                   <Box mt={1.5} key={i}>
                     <Typography>
