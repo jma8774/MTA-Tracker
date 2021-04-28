@@ -127,8 +127,7 @@ export default function StopCard(props) {
           <ExpandMoreIcon />
         </IconButton>
       </CardActions>
-      <Collapse in={expanded}>
-        {expanded &&
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Divider className={classes.divider}/>
           <Box mt={2}/>
@@ -142,7 +141,7 @@ export default function StopCard(props) {
                 <ArrowUpwardIcon/>
               </Grid>
               <Box mt={2}/>
-              {
+              { expanded &&
                 Object.keys(trains).map((key, i) => 
                   <Box mt={1.5} key={i}>
                     <Typography>
@@ -164,7 +163,7 @@ export default function StopCard(props) {
                   <ArrowDownwardIcon/>
               </Grid>
               <Box mt={2}/>
-              {
+              { expanded &&
                 Object.keys(trains).map((key, i) => 
                   <Box mt={1.5} key={i}>
                     <Typography>
@@ -179,7 +178,6 @@ export default function StopCard(props) {
             </Grid>
           </Grid>
         </CardContent>
-      }
       </Collapse>
     </Box>
   );
