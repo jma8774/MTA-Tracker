@@ -14,7 +14,8 @@ import {
   IconButton, 
   Backdrop, 
   TextField, 
-  Tooltip
+  Tooltip,
+  CircularProgress
 } from '@material-ui/core';
 import ReorderIcon from '@material-ui/icons/Reorder';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -85,6 +86,7 @@ export default function LinePage(props) {
   const classes = useStyles()
   const { train } = useParams()
   const curTime = new Date()
+  const [fetchBackdrop, setFetchBackdrop] = React.useState(true)
   const [stops, setStops] = React.useState(null)
   const [favorites, setFavorites] = React.useState(new Set([]))
   const [status, setStatus] = React.useState(false)
@@ -191,10 +193,18 @@ export default function LinePage(props) {
               </Grid>
             </React.Fragment>
             :
-              <Backdrop className={classes.backdrop} open={!stops}>
+              <Backdrop className={classes.backdrop} open={fetchBackdrop && !stops} onClick={() => setFetchBackdrop(false)}>
                 <Box>
-                  <Typography variant="h5" color="initial"> Please wait, fetching information... </Typography>
-                  <Typography variant="subtitle1" color="textSecondary"> Pleaes refresh the page if it takes longer than 5 seconds. Either that train is not currently running or the fetch from MTA failed. </Typography>
+                  <Typography variant="h5" color="initial"> 
+                    Please wait, fetching information...
+                  </Typography>
+                  <Typography variant="subtitle1" color="initial"> 
+                    If it takes longer than a few seconds, then either that train is not currently running or the fetch from MTA failed.
+                  </Typography>
+                  <Box mt={2}/>
+                  <Typography variant="subtitle2" color="textSecondary"> Click anywhere to close message </Typography>
+                  <Box mt={5}/>
+                  <CircularProgress/>
                 </Box>
               </Backdrop>
           }
