@@ -78,18 +78,16 @@ export default function TrainIcon(props) {
   train = train.toLowerCase()
   
   return (
-    <Icon classes={{root: classes.iconRoot}}>
-      <img alt="Train Icon" 
-        className={classes.imageIcon} 
-        width={width ? width : 25} 
-        src={
-          train in paths
-          ?
-            paths[train]
-          :
-            paths['n/a']
-        }
-      />
-    </Icon>
+    <img alt="Train Icon" 
+      className={classes.imageIcon} 
+      width={width ? width : 25} 
+      src={
+        train in paths
+        ?
+          paths[train]
+        :
+          paths['n/a']
+      }
+    />
   )
 }

@@ -143,12 +143,14 @@ export default function StopCard(props) {
               <Box mt={2}/>
               {
                 Object.keys(trains).map((key, i) => 
-                  <Typography key={i}>
-                    <Box component={Link} to={"/line/" + key} mr={2}>
-                      <TrainIcon train={key}/>
-                    </Box>
-                    {trains[key]['uptown'] ? getDifference(trains[key]['uptown'], curTime) : 'N/A'}
-                  </Typography>
+                  <Box mt={1.5} key={i}>
+                    <Typography>
+                      <Box component={Link} to={"/line/" + key} mr={2}>
+                        <TrainIcon train={key}/>
+                      </Box>
+                      {trains[key]['uptown'] ? getDifference(trains[key]['uptown'], curTime) : 'N/A'}
+                    </Typography>
+                  </Box>
                 )
               }
             </Grid>
@@ -163,12 +165,14 @@ export default function StopCard(props) {
               <Box mt={2}/>
               {
                 Object.keys(trains).map((key, i) => 
-                  <Typography key={i}>
-                    <Box component={Link} to={"/line/" + key} mr={2}>
-                      <TrainIcon train={key}/>
-                    </Box>
-                    {trains[key]['downtown'] ? getDifference(trains[key]['downtown'], curTime) : 'N/A'}
-                  </Typography>
+                  <Box mt={1.5} key={i}>
+                    <Typography>
+                      <Box component={Link} to={"/line/" + key} mr={2}>
+                        <TrainIcon train={key}/>
+                      </Box>
+                      {trains[key]['downtown'] ? getDifference(trains[key]['downtown'], curTime) : 'N/A'}
+                    </Typography>
+                  </Box>
                 )
               }
             </Grid>
