@@ -59,10 +59,14 @@ export default function StopCard(props) {
   
   const {lat, lon} = stopInfo.coordinates
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(true);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  React.useEffect(() => {
+    setExpanded(false)
+  }, []);
 
   React.useEffect(() => {
     setExpanded(false)
@@ -127,7 +131,7 @@ export default function StopCard(props) {
           <ExpandMoreIcon />
         </IconButton>
       </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <Collapse in={expanded} timeout="auto" mountOnEnter>
         <CardContent>
           <Divider className={classes.divider}/>
           <Box mt={2}/>
