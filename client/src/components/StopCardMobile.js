@@ -58,7 +58,7 @@ export default function StopCardMobile(props) {
   var trains = stopInfo.trains
   const {lat, lon} = stopInfo.coordinates
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(true)
+  const [expanded, setExpanded] = React.useState(false)
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
