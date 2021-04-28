@@ -55,12 +55,15 @@ function getDifference(epoch, curTime) {
 
 export default function StopCard(props) {
   const {stopId, stopInfo, curTime, isFavorite} = props
+  const [, updateState] = React.useState();
+  const forceUpdate = React.useCallback(() => updateState({}), []);
   var trains = stopInfo.trains
   const {lat, lon} = stopInfo.coordinates
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(true);
   const handleExpandClick = () => {
     setExpanded(!expanded);
+    forceUpdate()
   };
 
   React.useEffect(() => {
