@@ -13,7 +13,7 @@ const urls = [
   'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-l',
   'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs',
   'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-7',
-  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-si',
+  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-si'
 ]
 
 const supportedTrains = new Set([
@@ -58,15 +58,16 @@ const staticData = require('../google_transit/staticData')
 
 // Get all live train line information of API calls in urlList
 async function getTrips(callback) {
-  // // TESTING
+  // // // TESTING
   callbackHelper(callback, staticData)
   return
-  // // TESTING
+  // // // TESTING
 
   // const newTime = new Date()
   // const difference = (newTime.getTime() - time.getTime()) / 1000;
+
+  // callbackHelper(callback, tripData)
   // if(difference < 30 && tripData.length > 0) {
-  //   callbackHelper(callback, tripData)
   //   return
   // }
   // // console.log("\nStarted fetching getTrips")
@@ -131,30 +132,43 @@ async function getTrips(callback) {
     //     console.log("Error: " + err.message);
     //   });
 
-    // request(requestSettings, (error, response, body) => {
-    //   if (!error && response.statusCode === 200) {
-    //     var feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(body);
-    //     feed.entity.forEach(function(entity) {
-    //       if (entity.tripUpdate) {
-    //         tripData.push(entity.tripUpdate)
-    //         // console.log(entity.tripUpdate);
-    //       }
-    //       if (entity.serviceAlert) {
-    //         console.log(entity.serviceAlert);
-    //       }
-    //       if (entity.vehicle) {
-    //         // console.log(entity.vehicle);
-    //       }
-    //     });
-    //     numFetched ++
-    //     console.log("\nCompleted one")
-    //     // console.log(feed)
-    //     if(numFetched === 9) {
-    //       console.log("\nFinished fetching live data from all 9 APIs")
-    //       callback()
-    //     }
-    //   } 
-    // })
+  // var numFetched = 0
+  
+  // urls.forEach(url => {
+  //   var requestSettings = {
+  //     method: 'GET',
+  //     url: url,
+  //     headers: {"x-api-key": process.env.KEY},
+  //     encoding: null
+  //   };
+  //   request(requestSettings, (error, response, body) => {
+  //     if (!error && response.statusCode === 200) {
+  //       console.log("HELLO WORLD")
+  //       var feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(body);
+  //       feed.entity.forEach(function(entity) {
+  //         if (entity.tripUpdate) {
+  //           tripData.push(entity.tripUpdate)
+  //           // console.log(entity.tripUpdate);
+  //         }
+  //         if (entity.serviceAlert) {
+  //           console.log(entity.serviceAlert);
+  //         }
+  //         if (entity.vehicle) {
+  //           // console.log(entity.vehicle);
+  //         }
+  //       });
+  //       numFetched ++
+  //       console.log("\nCompleted one")
+  //       // console.log(feed)
+  //       if(numFetched === 9) {
+  //         console.log("\nFinished fetching live data from all 9 APIs")
+  //         callback()
+  //       }
+  //     } else {
+  //       console.log("ERROR:", error)
+  //     }
+  //   })
+  // })
 }
 
 function findTrainStation(station, tripData, relevantStops){
