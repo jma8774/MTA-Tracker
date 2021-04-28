@@ -73,6 +73,7 @@ export default function StopCardMobile(props) {
 
   const [favorite, setFavorite] = React.useState(isFavorite)
   const handleFavorite = () => {
+    setFavorite(favorite === "default" ? "secondary" : "default");
     const params = {
       method: favorite === "default" ? "put" : "delete",
       credentials: "include",
@@ -86,7 +87,6 @@ export default function StopCardMobile(props) {
     .then((res) => res.json())
     .then((data) => {
       console.log("Favorites", data.favorites)
-      setFavorite(favorite === "default" ? "secondary" : "default");
     })
     .catch((err) => console.log(err))
   }

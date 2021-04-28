@@ -13,7 +13,7 @@ const urls = [
   'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-l',
   'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs',
   'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-7',
-  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-si',
+  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-si'
 ]
 
 const supportedTrains = new Set([
@@ -58,60 +58,61 @@ const staticData = require('../google_transit/staticData')
 
 // Get all live train line information of API calls in urlList
 async function getTrips(callback) {
-  // // TESTING
-  callbackHelper(callback, staticData)
-  return
-  // // TESTING
+  // // // TESTING
+  // callbackHelper(callback, staticData)
+  // return
+  // // // TESTING
 
-  // const newTime = new Date()
-  // const difference = (newTime.getTime() - time.getTime()) / 1000;
-  // if(difference < 30 && tripData.length > 0) {
-  //   callbackHelper(callback, tripData)
-  //   return
-  // }
-  // // console.log("\nStarted fetching getTrips")
-  // time = newTime
-  // tripData = []
-  // var numFetched = 0
-  // const getCallback = function(res) {
-  //   // gather the data chunks into a list
-  //   var data = [];
-  //   res.on("data", function(chunk) {
-  //       data.push(chunk);
-  //   });
-  //   res.on("end", function() {
-  //       // merge the data to one buffer, since it's in a list
-  //       data = Buffer.concat(data);
-  //       // create a FeedMessage object by decooding the data with the protobuf object
-  //       var feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(data);
-  //       // do whatever with the object
-  //       feed.entity.forEach(function(entity) {
-  //         if (entity.tripUpdate) {
-  //           tripData.push(entity.tripUpdate)
-  //           // console.log(entity.tripUpdate);
-  //         }
-  //         if (entity.serviceAlert) {
-  //           console.log(entity.serviceAlert);
-  //         }
-  //         if (entity.vehicle) {
-  //           // console.log(entity.vehicle);
-  //         }
-  //       });
-  //       numFetched ++
-  //       // console.log("\nCompleted one")
-  //       if(numFetched === 9) {
-  //         // console.log("\nFinished fetching live data from all 9 APIs")
-  //         callbackHelper(callback, tripData)
-  //       }
-  //   }); 
-  // }
+  const newTime = new Date()
+  const difference = (newTime.getTime() - time.getTime()) / 1000;
 
-  // urls.forEach(url => {
-  //   https.get(
-  //     url, 
-  //     { headers: { "x-api-key": process.env.KEY} },
-  //     getCallback);
-  // })
+  if(difference < 30 && tripData.length > 0) {
+    callbackHelper(callback, tripData)
+    return
+  }
+  // console.log("\nStarted fetching getTrips")
+  time = newTime
+  tripData = []
+  var numFetched = 0
+  const getCallback = function(res) {
+    // gather the data chunks into a list
+    var data = [];
+    res.on("data", function(chunk) {
+        data.push(chunk);
+    });
+    res.on("end", function() {
+        // merge the data to one buffer, since it's in a list
+        data = Buffer.concat(data);
+        // create a FeedMessage object by decooding the data with the protobuf object
+        var feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(data);
+        // do whatever with the object
+        feed.entity.forEach(function(entity) {
+          if (entity.tripUpdate) {
+            tripData.push(entity.tripUpdate)
+            // console.log(entity.tripUpdate);
+          }
+          if (entity.serviceAlert) {
+            console.log(entity.serviceAlert);
+          }
+          if (entity.vehicle) {
+            // console.log(entity.vehicle);
+          }
+        });
+        numFetched ++
+        // console.log("\nCompleted one")
+        if(numFetched === 9) {
+          // console.log("\nFinished fetching live data from all 9 APIs")
+          callbackHelper(callback, tripData)
+        }
+    }); 
+  }
+
+  urls.forEach(url => {
+    https.get(
+      url, 
+      { headers: { "x-api-key": process.env.KEY} },
+      getCallback);
+  })
     
     // Request API data from MTA
     // https.get(
@@ -131,30 +132,43 @@ async function getTrips(callback) {
     //     console.log("Error: " + err.message);
     //   });
 
-    // request(requestSettings, (error, response, body) => {
-    //   if (!error && response.statusCode === 200) {
-    //     var feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(body);
-    //     feed.entity.forEach(function(entity) {
-    //       if (entity.tripUpdate) {
-    //         tripData.push(entity.tripUpdate)
-    //         // console.log(entity.tripUpdate);
-    //       }
-    //       if (entity.serviceAlert) {
-    //         console.log(entity.serviceAlert);
-    //       }
-    //       if (entity.vehicle) {
-    //         // console.log(entity.vehicle);
-    //       }
-    //     });
-    //     numFetched ++
-    //     console.log("\nCompleted one")
-    //     // console.log(feed)
-    //     if(numFetched === 9) {
-    //       console.log("\nFinished fetching live data from all 9 APIs")
-    //       callback()
-    //     }
-    //   } 
-    // })
+  // var numFetched = 0
+  
+  // urls.forEach(url => {
+  //   var requestSettings = {
+  //     method: 'GET',
+  //     url: url,
+  //     headers: {"x-api-key": process.env.KEY},
+  //     encoding: null
+  //   };
+  //   request(requestSettings, (error, response, body) => {
+  //     if (!error && response.statusCode === 200) {
+  //       console.log("HELLO WORLD")
+  //       var feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(body);
+  //       feed.entity.forEach(function(entity) {
+  //         if (entity.tripUpdate) {
+  //           tripData.push(entity.tripUpdate)
+  //           // console.log(entity.tripUpdate);
+  //         }
+  //         if (entity.serviceAlert) {
+  //           console.log(entity.serviceAlert);
+  //         }
+  //         if (entity.vehicle) {
+  //           // console.log(entity.vehicle);
+  //         }
+  //       });
+  //       numFetched ++
+  //       console.log("\nCompleted one")
+  //       // console.log(feed)
+  //       if(numFetched === 9) {
+  //         console.log("\nFinished fetching live data from all 9 APIs")
+  //         callback()
+  //       }
+  //     } else {
+  //       console.log("ERROR:", error)
+  //     }
+  //   })
+  // })
 }
 
 function findTrainStation(station, tripData, relevantStops){

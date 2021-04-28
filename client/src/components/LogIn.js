@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import { TextField, Button, IconButton, InputAdornment, Link as MUILink } from '@material-ui/core';
+import { TextField, Button, IconButton, InputAdornment, Link as MUILink, Box } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { useHistory } from 'react-router-dom';
@@ -50,7 +50,7 @@ const LogIn = ({ onClick, styles }) => {
     <div>
       <h2 style={{ textAlign: 'center', fontSize: '2em' }}>Login</h2>
       <form onSubmit={handleSubmit} className={styles.label} autoComplete="off">
-        { failed ? <div style={{color: 'red'}}>Login Failed</div> : null}
+        { failed ? <Box style={{color: 'red'}} mb={2}>Incorrect email or username/password combination.</Box> : null}
         <TextField
           fullWidth={true}
           variant="standard"

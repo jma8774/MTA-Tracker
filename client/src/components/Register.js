@@ -58,7 +58,7 @@ const Register = ({ onClick, styles }) => {
     <div>
       <h2 style={{ textAlign: 'center', fontSize: '2em' }}>Register</h2>
       <form onSubmit={handleSubmit} className={styles.label} autoComplete="off">
-        { failed ? <div style={{color: 'red'}}>Username or Email already taken</div> : null}
+        { failed ? <div style={{color: 'red'}}>Username or email already taken</div> : null}
         <TextField
           fullWidth={true}
           variant="standard"

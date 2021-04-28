@@ -45,11 +45,13 @@ export default function AboutUsPage(props) {
       <Container>
         <Box mt={4}>
           <Typography variant = "h3" align = "center"> <b>Team 1UP</b> </Typography>
-          <br/>
+          <Box mt={3}/>
           <Typography variant = "body1" className = {classes.textClass} align = "center"> 
-            This project was created as part of the CUNY Tech Prep program. We wanted to make something impactful and useful for fellow New Yorkers, so we decided to make a MTA tracker. 
-            <br/>
-            Hopefully this is useful for the 5+ million New Yorkers that take the MTA trains daily.
+            This project was created as part of the CUNY Tech Prep program. We wanted to make something impactful and useful for fellow New Yorkers. 
+          </Typography>
+          <Box mt={1}/>
+          <Typography variant = "body1" className = {classes.textClass} align = "center"> 
+            So we decided to make the MTA tracker in hope that the 5+ million New Yorkers that take the MTA trains daily will use it.
           </Typography>
         </Box>
 
