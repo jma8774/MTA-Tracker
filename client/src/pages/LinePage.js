@@ -77,6 +77,7 @@ const descriptions = {
 
 export default function LinePage(props) {
   const classes = useStyles()
+  const [, forceUpdate] = React.useReducer(x => x + 1, 0);
   const { train } = useParams()
   const curTime = new Date()
   const [stops, setStops] = React.useState(null)
@@ -86,6 +87,12 @@ export default function LinePage(props) {
   const handleReverse = () => {
     setStops(stops.slice().reverse())
   }
+
+  React.useEffect(() => {
+    const interval = setInterval(forceUpdate, 1000)
+    // Return does something when the page dismounts
+    return () => clearInterval(interval);
+  }, []);
 
   React.useEffect(() => {
     window.scrollTo(0, 0)
