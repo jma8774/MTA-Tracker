@@ -108,7 +108,6 @@ export default function StopCard(props) {
         title={stopInfo.stopName}
         subheader={stopId}
       />
-      {!expanded &&
       <Box ml={1}>
         {
           Object.keys(trains).map((key, i) => (
@@ -118,7 +117,6 @@ export default function StopCard(props) {
           ))
         }
       </Box>
-      }
       <CardActions disableSpacing>
         <IconButton
           className={clsx(classes.expand, {
