@@ -24,6 +24,7 @@ import TimerIcon from '@material-ui/icons/Timer';
 import StopCard from '../components/StopCard'
 import NavBar from '../components/NavBar'
 import AlertSnackbar from '../components/AlertSnackbar'
+import StopCardMobile from '../components/StopCardMobile';
 
 
 // Material UI CSS
