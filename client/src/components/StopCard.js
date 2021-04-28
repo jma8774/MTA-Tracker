@@ -127,7 +127,8 @@ export default function StopCard(props) {
           <ExpandMoreIcon />
         </IconButton>
       </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <Collapse in={expanded}>
+        {expanded &&
         <CardContent>
           <Divider className={classes.divider}/>
           <Box mt={2}/>
@@ -178,6 +179,7 @@ export default function StopCard(props) {
             </Grid>
           </Grid>
         </CardContent>
+      }
       </Collapse>
     </Box>
   );
