@@ -47,15 +47,6 @@ const theme = createMuiTheme({
   },
 });
 
-var successHandler = function(position) { 
-  alert(position.coords.latitude); 
-  alert(position.coords.longitude); 
-}; 
-  
-var errorHandler = function (errorObj) { 
-  alert(errorObj.code + ": " + errorObj.message); 
-};
-
 export default function NearbyPage(props) {
   const classes = useStyles()
   const curTime = new Date()
@@ -70,46 +61,23 @@ export default function NearbyPage(props) {
     setStops(stops.slice().reverse())
   }
   
+  const successHandler = function(position) { 
+    var obj = {}
+    obj['lat'] = position.coords.latitude
+    obj['lon'] = position.coords.longitude
+    setLocation(obj)
+  }; 
+    
+  const errorHandler = function (errorObj) { 
+    console.log(errorObj.code + ": " + errorObj.message); 
+  };
+
   React.useEffect(() => {
-    console.log("START")
     navigator.geolocation.getCurrentPosition( 
       successHandler, 
       errorHandler, 
       {enableHighAccuracy: true, maximumAge: 10000}
     );
-    console.log("END")
-    // if (navigator.geolocation) {
-    //   setAvailable(true)
-    //   console.log('GeoLocation is available!')
-    //   navigator.permissions.query({ name: "geolocation" })
-    //   .then(result => {
-    //     if (result.state === "granted") {
-    //       //If granted then you can directly call your function here
-    //       navigator.geolocation.getCurrentPosition(pos => {
-    //         var obj = {}
-    //         obj['lat'] = pos.coords.latitude
-    //         obj['lon'] = pos.coords.longitude
-    //         setBackdrop(false)
-    //         setLocation(obj)
-    //       });
-    //     } else if (result.state === "prompt") {
-    //       navigator.geolocation.getCurrentPosition(pos => {
-    //         var obj = {}
-    //         obj['lat'] = pos.coords.latitude
-    //         obj['lon'] = pos.coords.longitude
-    //         setBackdrop(false)
-    //         setLocation(obj)
-    //       });
-    //     } else if (result.state === "denied") {
-    //       //If denied then you have to show instructions to enable location
-    //       setBackdrop(false)
-    //     }
-    //     console.log("Geolocation", result.state);
-    //   })
-    // } else {
-    //   setAvailable(false)
-    //   console.log('GeoLocation not available!')
-    // }
   }, []);
 
   React.useEffect(() => {
@@ -156,18 +124,6 @@ export default function NearbyPage(props) {
         <AlertSnackbar msg="Stops updated!" duration={2000} severity='success'/>
       }
       <Container className={classes.root}>
-        <Backdrop className={classes.backdrop} open={backdrop}>
-          <Typography variant="h6" color="initial"> 
-            {
-              available
-              ? 'Geolocation is supported by your browser, please give permission to get access to nearby stops.'
-              : 'Geolocation is not supported by your browser.'
-            }
-            <br/> 
-            <br/> 
-            <CircularProgress/>
-          </Typography>
-        </Backdrop>
         <Box my={4}>
           <Typography variant="h3">
             <b>Nearby Stops</b>
@@ -178,62 +134,67 @@ export default function NearbyPage(props) {
         </Typography>
         <Divider className={classes.divider} variant="middle"/>
           {
-            !backdrop && 
-            (
-              location
-              ? 
-                stops
-                ?
-                  <React.Fragment>
-                    <Grid container justify="flex-end">
-                      <Box mr={1} mt={2}>
-                        <Tooltip title={<Typography variant='caption'>Information is refreshed every 30 seconds</Typography>}>
-                          <TimerIcon/>
-                        </Tooltip>
-                      </Box>
-                      <Box mr={2} mt={2}>
-                        <Tooltip title={<Typography variant='caption'>Click on any of the supported train icons to go to their respected page</Typography>}>
-                          <HelpOutlineIcon/>
-                        </Tooltip>
-                      </Box>
-                      <Autocomplete
-                        id="search-stop"
-                        options={stops}
-                        getOptionLabel={(option) => option[1].stopName}
-                        style={{ width: theme.spacing(25)}}
-                        onChange={(e, val) => setSearch(val ? val[1].stopName : '')}
-                        renderInput={(params) => <TextField {...params} label="Search" variant="outlined"/>}
-                      />
-                      <Box mr={3}>
-                        <Tooltip title={<Typography variant='caption'>Reverse Order</Typography>}>
-                          <IconButton aria-label="sort" onClick={handleReverse}>
-                            <ReorderIcon fontSize="large"/>
-                          </IconButton>
-                        </Tooltip>
-                      </Box>
-                    </Grid>
-                    <Grid container align="center">
-                      { 
-                        stops.map((val, i) => 
-                          val[1].stopName.toLowerCase().includes(search.toLowerCase()) &&
-                          <Grid key={i} item xs={12} md={6} lg={4}>
-                            <Box mt={3}>
-                              <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
-                            </Box>
-                          </Grid>
-                        )
-                      }
-                    </Grid>
-                  </React.Fragment>
-                :
-                  <Backdrop className={classes.backdrop} open={!stops}>
-                    <Box>
-                      <Typography variant="h5" color="initial"> Please wait, fetching information... </Typography>
-                      <Typography variant="subtitle1" color="textSecondary"> Pleaes refresh the page if it takes longer than 5 seconds. Either that train is not currently running or the fetch from MTA failed. </Typography>
+            location === null
+            ? 
+            <Backdrop className={classes.backdrop} open={location===null}>
+              <Typography variant="h6" color="initial"> 
+                Geolocation is either not supported by your browser, or you have not given location permission.
+                <br/> 
+                <br/> 
+                <CircularProgress/>
+              </Typography>
+            </Backdrop>
+            : 
+            stops
+              ?
+                <React.Fragment>
+                  <Grid container justify="flex-end">
+                    <Box mr={1} mt={2}>
+                      <Tooltip title={<Typography variant='caption'>Information is refreshed every 30 seconds</Typography>}>
+                        <TimerIcon/>
+                      </Tooltip>
                     </Box>
-                  </Backdrop>
-              : 'Geolocation denied by the user, please renable it for this website.'
-            )
+                    <Box mr={2} mt={2}>
+                      <Tooltip title={<Typography variant='caption'>Click on any of the supported train icons to go to their respected page</Typography>}>
+                        <HelpOutlineIcon/>
+                      </Tooltip>
+                    </Box>
+                    <Autocomplete
+                      id="search-stop"
+                      options={stops}
+                      getOptionLabel={(option) => option[1].stopName}
+                      style={{ width: theme.spacing(25)}}
+                      onChange={(e, val) => setSearch(val ? val[1].stopName : '')}
+                      renderInput={(params) => <TextField {...params} label="Search" variant="outlined"/>}
+                    />
+                    <Box mr={3}>
+                      <Tooltip title={<Typography variant='caption'>Reverse Order</Typography>}>
+                        <IconButton aria-label="sort" onClick={handleReverse}>
+                          <ReorderIcon fontSize="large"/>
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                  </Grid>
+                  <Grid container align="center">
+                    { 
+                      stops.map((val, i) => 
+                        val[1].stopName.toLowerCase().includes(search.toLowerCase()) &&
+                        <Grid key={i} item xs={12} md={6} lg={4}>
+                          <Box mt={3}>
+                            <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
+                          </Box>
+                        </Grid>
+                      )
+                    }
+                  </Grid>
+                </React.Fragment>
+              :
+                <Backdrop className={classes.backdrop} open={!stops}>
+                  <Box>
+                    <Typography variant="h5" color="initial"> Please wait, fetching information... </Typography>
+                    <Typography variant="subtitle1" color="textSecondary"> Pleaes refresh the page if it takes longer than 5 seconds. Either that train is not currently running or the fetch from MTA failed. </Typography>
+                  </Box>
+                </Backdrop>
           }
       <Box my={4}/>
       </Container>
