@@ -96,19 +96,14 @@ export default function NearbyPage(props) {
     if(location === null)
       return
     window.scrollTo(0, 0)
-    
-    function fetchFavorites() {
-      axios.get('/api/user/favorite/', {withCredentials: true})
-      .then(res => {
-        console.log("Favorite Stations", res.data)
-        const data = res.data
-        setFavorites(new Set(data))
-      })
-      .catch(error =>
-        console.log(error)
-      )
-    }
-    function fetchData() {
+
+    async function fetchData() {
+      // Fetch favorites first
+      const favorites = await axios.get('/api/user/favorite/', {withCredentials: true})
+      console.log("Favorite Stations", favorites.data)
+      const data = favorites.data
+      setFavorites(new Set(data))
+
       setStatus(false)
       axios.get(`/api/nearby/lat/${location.lat}/lon/${location.lon}/dist/2`, {withCredentials: true})
       .then(res => {
@@ -126,9 +121,8 @@ export default function NearbyPage(props) {
       )
     }
 
-    fetchFavorites()
     fetchData()
-    const interval = setInterval(fetchData, 10000)
+    const interval = setInterval(fetchData, 30000)
 
     // Return does something when the page dismounts
     return () => clearInterval(interval);
@@ -173,7 +167,7 @@ export default function NearbyPage(props) {
                   <React.Fragment>
                     <Grid container justify="flex-end">
                       <Box mr={1} mt={2}>
-                        <Tooltip title={<Typography variant='caption'>Information is refreshed every 10 seconds</Typography>}>
+                        <Tooltip title={<Typography variant='caption'>Information is refreshed every 30 seconds</Typography>}>
                           <TimerIcon/>
                         </Tooltip>
                       </Box>
@@ -186,7 +180,7 @@ export default function NearbyPage(props) {
                         id="search-stop"
                         options={stops}
                         getOptionLabel={(option) => option[1].stopName}
-                        style={{ width: theme.spacing(30)}}
+                        style={{ width: theme.spacing(25)}}
                         onChange={(e, val) => setSearch(val ? val[1].stopName : '')}
                         renderInput={(params) => <TextField {...params} label="Search" variant="outlined"/>}
                       />

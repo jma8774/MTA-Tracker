@@ -90,26 +90,13 @@ export default function LinePage(props) {
   React.useEffect(() => {
     window.scrollTo(0, 0)
 
-    const params = {
-      method: "get",
-      credentials: "include",
-      headers:{          
-        'Content-Type': 'application/json'
-      },
-    }
+    async function fetchData() {
+      // Fetch favorites first
+      const favorites = await axios.get('/api/user/favorite/', {withCredentials: true})
+      console.log("Favorite Stations", favorites.data)
+      const data = favorites.data
+      setFavorites(new Set(data))
 
-    function fetchFavorites() {
-      axios.get('/api/user/favorite/', {withCredentials: true})
-      .then(res => {
-        console.log("Favorite Stations", res.data)
-        const data = res.data
-        setFavorites(new Set(data))
-      })
-      .catch(error => {
-        console.log(error)
-      })
-    }
-    function fetchData() {
       setStatus(false)
       axios.get('/api/line/' + train.toUpperCase(), {withCredentials: true})
       .then(res => {
@@ -126,9 +113,8 @@ export default function LinePage(props) {
         console.log(error)
       )
     }
-    fetchFavorites()
     fetchData()
-    const interval = setInterval(fetchData, 10000)
+    const interval = setInterval(fetchData, 30000)
 
     // Return does something when the page dismounts
     return () => clearInterval(interval);
@@ -156,7 +142,7 @@ export default function LinePage(props) {
             <React.Fragment>
               <Grid container justify="flex-end">
                 <Box mr={1} mt={2}>
-                  <Tooltip title={<Typography variant='caption'>Information is refreshed every 10 seconds</Typography>}>
+                  <Tooltip title={<Typography variant='caption'>Information is refreshed every 30 seconds</Typography>}>
                     <TimerIcon/>
                   </Tooltip>
                 </Box>
@@ -169,7 +155,7 @@ export default function LinePage(props) {
                   id="search-stop"
                   options={stops}
                   getOptionLabel={(option) => option[1].stopName}
-                  style={{ width: theme.spacing(30)}}
+                  style={{ width: theme.spacing(25)}}
                   onChange={(e, val) => setSearch(val ? val[1].stopName : '')}
                   renderInput={(params) => <TextField {...params} label="Search" variant="outlined"/>}
                 />

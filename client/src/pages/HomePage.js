@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Container, Accordion, AccordionDetails, AccordionSummary, Grid, CssBaseline, Box, Typography } from '@material-ui/core';
+import { Container, Accordion, AccordionDetails, AccordionSummary, Grid, CssBaseline, Box, Typography, Tooltip } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useStyles } from '../styles/HomePageStyles';
@@ -8,6 +8,8 @@ import NavBar from '../components/NavBar';
 import { TriLine, QuadLine } from '../components/AccordionFormRow';
 import StopCard from '../components/StopCard.js'
 import AlertSnackbar from '../components/AlertSnackbar'
+import TimerIcon from '@material-ui/icons/Timer';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 
 const numbertrains = ["1", "2", "3", "4", "5", "6", "7", "5x", "6x", "7x"];
 const quadtrains = ["n", "q", "r", "w", "b", "d", "f", "m"];
@@ -57,7 +59,7 @@ const Home = () => {
     }
     fetchUser()
     fetchFavoriteStops()
-    const interval = setInterval(fetchFavoriteStops, 10000)
+    const interval = setInterval(fetchFavoriteStops, 30000)
     return () => clearInterval(interval);
   }, []);
 
@@ -129,6 +131,20 @@ const Home = () => {
               stops
               ?
                 <Grid container align="center">
+                  <Grid item xs={12}>
+                    <Grid container direction="row" justify="flex-end">
+                      <Box mr={1} mt={2}>
+                        <Tooltip title={<Typography variant='caption'>Information is refreshed every 30 seconds</Typography>}>
+                          <TimerIcon/>
+                        </Tooltip>
+                      </Box>
+                      <Box mr={2} mt={2}>
+                        <Tooltip title={<Typography variant='caption'>Click on any of the supported train icons to go to their respected page</Typography>}>
+                          <HelpOutlineIcon/>
+                        </Tooltip>
+                      </Box>
+                    </Grid>
+                  </Grid>
                   { 
                     stops.map((val, i) => 
                       <Grid key={val[0]} item xs={12} md={6} lg={4}>
