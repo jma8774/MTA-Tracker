@@ -36,6 +36,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(4),
     marginBottom: theme.spacing(2)
   },
+  backdrop: {
+    zIndex: 2,
+    backgroundColor: '#242424',
+  },
 }));
 
 // Material UI Theme
@@ -187,7 +191,7 @@ export default function LinePage(props) {
               </Grid>
             </React.Fragment>
             :
-              <Backdrop open={!stops}>
+              <Backdrop className={classes.backdrop} open={!stops}>
                 <Box>
                   <Typography variant="h5" color="initial"> Please wait, fetching information... </Typography>
                   <Typography variant="subtitle1" color="textSecondary"> Pleaes refresh the page if it takes longer than 5 seconds. Either that train is not currently running or the fetch from MTA failed. </Typography>
