@@ -3,17 +3,18 @@ var request = require("request");
 var traindb = require('./gtfsData')
 var ProtoBuf = require('protobufjs');
 var https = require('https');
+var axios = require('axios');
 
 const urls = [
-  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace',
+  // 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace',
   'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-bdfm',
-  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-g',
-  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-jz',
-  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw',
-  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-l',
-  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs',
-  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-7',
-  'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-si'
+  // 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-g',
+  // 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-jz',
+  // 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw',
+  // 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-l',
+  // 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs',
+  // 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-7',
+  // 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-si'
 ]
 
 const supportedTrains = new Set([
@@ -63,59 +64,76 @@ async function getTrips(callback) {
   // return
   // // // TESTING
 
-  const newTime = new Date()
-  const difference = (newTime.getTime() - time.getTime()) / 1000;
 
-  if(difference < 30 && tripData.length > 0) {
-    callbackHelper(callback, tripData)
-    return
-  }
-  // console.log("\nStarted fetching getTrips")
-  time = newTime
-  tripData = []
-  var numFetched = 0
-  const getCallback = function(res) {
-    // gather the data chunks into a list
-    var data = [];
-    res.on("data", function(chunk) {
-      data.push(chunk);
-    });
-    res.on("error", function(error) {
-      console.log("ERROR", error)
-    });
-    res.on("end", function() {
-      // merge the data to one buffer, since it's in a list
-      data = Buffer.concat(data);
-      // create a FeedMessage object by decooding the data with the protobuf object
-      var feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(data);
-      // do whatever with the object
-      feed.entity.forEach(function(entity) {
-        if (entity.tripUpdate) {
-          tripData.push(entity.tripUpdate)
-          // console.log(entity.tripUpdate);
-        }
-        if (entity.serviceAlert) {
-          console.log(entity.serviceAlert);
-        }
-        if (entity.vehicle) {
-          // console.log(entity.vehicle);
-        }
-      });
-      numFetched ++
-      // console.log("\nCompleted one")
-      if(numFetched === 9) {
-        // console.log("\nFinished fetching live data from all 9 APIs")
-        callbackHelper(callback, tripData)
-      }
-    }); 
-  }
-
-  urls.forEach(url => {
-    https.get(
-      url, 
-      { headers: { "x-api-key": process.env.KEY} },
-      getCallback);
+  axios.get('https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-bdfm',
+  {
+    responseType: 'arraybuffer',
+    headers: {
+      "x-api-key": process.env.KEY,
+      'Content-Type': 'application/json',
+      'Accept': 'application/pdf'
+    }
   })
+  .then((response) => {
+    console.log("AXIOS", GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(response.data).entity.length)
+  })
+  .catch((error) => console.log(error));
+
+  // const newTime = new Date()
+  // const difference = (newTime.getTime() - time.getTime()) / 1000;
+
+  // if(difference < 30 && tripData.length > 0) {
+  //   callbackHelper(callback, tripData)
+  //   return
+  // }
+  // // console.log("\nStarted fetching getTrips")
+  // time = newTime
+  // tripData = []
+  // var numFetched = 0
+  // const getCallback = function(res) {
+  //   // gather the data chunks into a list
+  //   var data = [];
+  //   res.on("data", function(chunk) {
+  //     data.push(chunk);
+  //     console.log("CHUNK", chunk)
+  //   });
+  //   res.on("error", function(error) {
+  //     console.log("ERROR", error)
+  //   });
+  //   res.on("end", function() {
+  //     // merge the data to one buffer, since it's in a list
+  //     data = Buffer.concat(data);
+  //     // create a FeedMessage object by decooding the data with the protobuf object
+  //     var feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(data);
+  //     console.log("HTTPS", feed.entity.length)
+  //     // do whatever with the object
+  //     feed.entity.forEach(function(entity) {
+  //       if (entity.tripUpdate) {
+  //         tripData.push(entity.tripUpdate)
+  //         // console.log(entity.tripUpdate);
+  //       }
+  //       if (entity.serviceAlert) {
+  //         console.log(entity.serviceAlert);
+  //       }
+  //       if (entity.vehicle) {
+  //         // console.log(entity.vehicle);
+  //       }
+  //     });
+  //     numFetched ++
+  //     // console.log("\nCompleted one")
+  //     if(numFetched === 9) {
+  //       // console.log("\nFinished fetching live data from all 9 APIs")
+  //       callbackHelper(callback, tripData)
+  //     }
+  //   }); 
+  // }
+
+  // urls.forEach(url => {
+  //   https.get(
+  //     url, 
+  //     { headers: { "x-api-key": process.env.KEY} },
+  //     getCallback);
+  // })
     
     // Request API data from MTA
     // https.get(
