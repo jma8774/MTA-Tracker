@@ -1,5 +1,6 @@
 import 'fontsource-roboto';
 import { useParams } from 'react-router';
+import { isMobile } from 'react-device-detect';
 import axios from 'axios';
 import React from 'react';
 import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
@@ -21,6 +22,7 @@ import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import TimerIcon from '@material-ui/icons/Timer';
 // Custom Components
 import StopCard from '../components/StopCard.js'
+import StopCardMobile from '../components/StopCardMobile.js'
 import NavBar from '../components/NavBar'
 import TrainIcon from '../components/TrainIcon.js'
 import AlertSnackbar from '../components/AlertSnackbar'
@@ -173,7 +175,11 @@ export default function LinePage(props) {
                     val[1].stopName.toLowerCase().includes(search.toLowerCase()) &&
                     <Grid key={val[0]} item xs={12} md={6} lg={4}>
                       <Box mt={3}>
-                        <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
+                        {
+                          isMobile
+                          ? <StopCardMobile stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
+                          : <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
+                        }   
                       </Box>
                     </Grid>
                   )

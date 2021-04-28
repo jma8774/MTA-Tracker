@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Icon from '@material-ui/core/Icon';
 import train1 from '../imgs/svg/1.svg';
 import train2 from '../imgs/svg/2.svg';
 import train3 from '../imgs/svg/3.svg';
