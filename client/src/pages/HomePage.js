@@ -1,4 +1,5 @@
 import React from 'react';
+import { isMobile } from 'react-device-detect';
 import axios from 'axios';
 import { Container, Accordion, AccordionDetails, AccordionSummary, Grid, CssBaseline, Box, Typography, Tooltip } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
@@ -7,6 +8,7 @@ import { useStyles } from '../styles/HomePageStyles';
 import NavBar from '../components/NavBar';
 import { TriLine, QuadLine } from '../components/AccordionFormRow';
 import StopCard from '../components/StopCard.js'
+import StopCardMobile from '../components/StopCardMobile.js'
 import AlertSnackbar from '../components/AlertSnackbar'
 import TimerIcon from '@material-ui/icons/Timer';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
@@ -149,7 +151,11 @@ const Home = () => {
                     stops.map((val, i) => 
                       <Grid key={val[0]} item xs={12} md={6} lg={4}>
                         <Box mt={3}>
-                          <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={"secondary"}/>
+                          {
+                            isMobile
+                            ? <StopCardMobile stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={"secondary"}/>
+                            : <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={"secondary"}/>
+                          }
                         </Box>
                       </Grid>
                     )

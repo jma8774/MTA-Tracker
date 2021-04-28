@@ -1,5 +1,6 @@
 import 'fontsource-roboto';
 import axios from 'axios';
+import { isMobile } from 'react-device-detect';
 import React from 'react';
 import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import {
@@ -185,7 +186,11 @@ export default function NearbyPage(props) {
                         val[1].stopName.toLowerCase().includes(search.toLowerCase()) &&
                         <Grid key={i} item xs={12} md={6} lg={4}>
                           <Box mt={3}>
-                            <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
+                            {
+                              isMobile
+                              ? <StopCardMobile stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
+                              : <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
+                            }
                           </Box>
                         </Grid>
                       )
