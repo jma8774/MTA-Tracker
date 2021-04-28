@@ -91,13 +91,13 @@ export default function LinePage(props) {
     window.scrollTo(0, 0)
 
     async function fetchData() {
+      setStatus(false)
       // Fetch favorites first
       const favorites = await axios.get('/api/user/favorite/', {withCredentials: true})
       console.log("Favorite Stations", favorites.data)
       const data = favorites.data
       setFavorites(new Set(data))
 
-      setStatus(false)
       axios.get('/api/line/' + train.toUpperCase(), {withCredentials: true})
       .then(res => {
         console.log("Updated Stations")

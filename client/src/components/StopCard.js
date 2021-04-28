@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
+import { isMobile } from 'react-device-detect';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -59,7 +60,8 @@ export default function StopCard(props) {
   
   const {lat, lon} = stopInfo.coordinates
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(true);
+  // Cards don't render right on mobile unless it is true at first...
+  const [expanded, setExpanded] = React.useState(true)
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
