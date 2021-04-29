@@ -73,6 +73,7 @@ export default function NearbyPage(props) {
     
   const errorHandler = function (errorObj) { 
     console.log(errorObj.code + ": " + errorObj.message); 
+    alert(errorObj.code + ": " + errorObj.message); 
   };
 
   React.useEffect(() => {

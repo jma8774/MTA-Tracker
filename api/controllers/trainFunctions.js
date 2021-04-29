@@ -272,7 +272,8 @@ function findNearbyStops(lat, lon, dist, tripData, nearbyStops) {
 //   trains: {}
 // We will update it with all trains and time
 function updateStops(tripData, stopsObj) {
-  // const curTimeEpoch = new Date().getTime() / 1000
+  const curTimeEpoch = new Date().getTime() / 1000
+  // console.log("START TIME", curTimeEpoch)
   tripData.forEach(data => {
     const trip = data.trip
     const trainType = trip.routeId
@@ -280,10 +281,10 @@ function updateStops(tripData, stopsObj) {
     if(!stops)
       return
     stops.forEach(stop => {
-      // const arrival = stop.arrival && parseFloat(stop.arrival.time) > curTimeEpoch  ? stop.arrival.time : null
-      // const departure = stop.departure && parseFloat(stop.departure.time) > curTimeEpoch ? stop.departure.time : null
-      const arrival = stop.arrival ? stop.arrival.time : null
-      const departure = stop.departure ? stop.departure.time : null
+      const arrival = stop.arrival && parseFloat(stop.arrival.time) > curTimeEpoch  ? stop.arrival.time : null
+      const departure = stop.departure && parseFloat(stop.departure.time) > curTimeEpoch ? stop.departure.time : null
+      // const arrival = stop.arrival ? stop.arrival.time : null
+      // const departure = stop.departure ? stop.departure.time : null
       var stopId = stop.stopId
       delete stopsObj[stopId]
       const direction = stopId.charAt(stopId.length-1) === 'N' ? "uptown" : "downtown"
@@ -306,9 +307,14 @@ function updateStops(tripData, stopsObj) {
       // Update Uptown/Downtown Time for each stop
       var oldStationTime = stopsObj[stopId]['trains'][trainType][direction]
       var newStationTime = parseFloat(arrival ? arrival : departure)
-      if(oldStationTime === null)
+      // if(direction === 'uptown' && trainType === 'D' && stopId === 'A15') {
+      //   console.log('ARRIVAL', parseFloat(stop.arrival.time), curTimeEpoch, arrival)
+      //   console.log('DEPARTURE', parseFloat(stop.departure.time), curTimeEpoch, departure)
+      //   console.log("NEW TIME", newStationTime)
+      // }
+      if(!oldStationTime)
         stopsObj[stopId]['trains'][trainType][direction] = newStationTime
-      else
+      else if(!newStationTime)
         stopsObj[stopId]['trains'][trainType][direction] = newStationTime < oldStationTime ? newStationTime : oldStationTime
     })
   })

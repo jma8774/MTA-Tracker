@@ -5,6 +5,7 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
+import HttpsRedirect from 'react-https-redirect';
 import LoginRegister from './pages/LoginRegisterPage';
 import HomePage from './pages/HomePage';
 import AboutUs from './pages/AboutUsPage';
@@ -15,15 +16,17 @@ import PrivateRoute from './components/PrivateRoute';
 
 const App = () => {
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/" component= {LoginRegister} />
-        <PrivateRoute path="/home" component= {HomePage} />
-        <Route path="/about" component= {AboutUs} />
-        <PrivateRoute path="/line/:train" component={LinePage}/>
-        <PrivateRoute path="/nearby" component={NearbyPage}/>
-      </Switch>
-    </Router>
+    <HttpsRedirect>
+      <Router>
+        <Switch>
+          <Route exact path="/" component= {LoginRegister} />
+          <PrivateRoute path="/home" component= {HomePage} />
+          <Route path="/about" component= {AboutUs} />
+          <PrivateRoute path="/line/:train" component={LinePage}/>
+          <PrivateRoute path="/nearby" component={NearbyPage}/>
+        </Switch>
+      </Router>
+    </HttpsRedirect>
   )
 }
 
