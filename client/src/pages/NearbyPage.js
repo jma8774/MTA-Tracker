@@ -10,13 +10,11 @@ import {
   Box,
   Grid,
   Divider,
-  IconButton,
   Backdrop,
   TextField,
   CircularProgress,
   Tooltip
 } from "@material-ui/core";
-import ReorderIcon from '@material-ui/icons/Reorder';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import TimerIcon from '@material-ui/icons/Timer';
@@ -59,9 +57,6 @@ export default function NearbyPage(props) {
   const [status, setStatus] = React.useState(false)
   const [favorites, setFavorites] = React.useState(new Set([]))
   const [search, setSearch] = React.useState('')
-  const handleReverse = () => {
-    setStops(stops.slice().reverse())
-  }
   
   const successHandler = function(position) { 
     var obj = {}
@@ -166,20 +161,15 @@ export default function NearbyPage(props) {
                         <HelpOutlineIcon/>
                       </Tooltip>
                     </Box>
-                    <Autocomplete
-                      id="search-stop"
-                      options={stops}
-                      getOptionLabel={(option) => option[1].stopName}
-                      style={{ width: theme.spacing(25)}}
-                      onChange={(e, val) => setSearch(val ? val[1].stopName : '')}
-                      renderInput={(params) => <TextField {...params} label="Search" variant="outlined"/>}
-                    />
-                    <Box mr={3}>
-                      <Tooltip title={<Typography variant='caption'>Reverse Order</Typography>}>
-                        <IconButton aria-label="sort" onClick={handleReverse}>
-                          <ReorderIcon fontSize="large"/>
-                        </IconButton>
-                      </Tooltip>
+                    <Box mr={4}>
+                      <Autocomplete
+                        id="search-stop"
+                        options={stops}
+                        getOptionLabel={(option) => option[1].stopName}
+                        style={{ width: theme.spacing(25)}}
+                        onChange={(e, val) => setSearch(val ? val[1].stopName : '')}
+                        renderInput={(params) => <TextField {...params} label="Search" variant="outlined"/>}
+                      />
                     </Box>
                   </Grid>
                   <Grid container align="center">

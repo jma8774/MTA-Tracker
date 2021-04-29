@@ -91,9 +91,26 @@ export default function LinePage(props) {
   const [favorites, setFavorites] = React.useState(new Set([]))
   const [status, setStatus] = React.useState(false)
   const [search, setSearch] = React.useState('')
+  const [disableReverse, setDisableReverse] = React.useState(false)
+  const [reverse, setReverse] = React.useState(false)
   const handleReverse = () => {
-    setStops(stops.slice().reverse())
+    setDisableReverse(true)
   }
+
+  React.useEffect(() => {
+    // If disableReverse change from true to false, ignore the call
+    if(!disableReverse)
+      return
+
+    setReverse(reverse => !reverse)
+    setStops(stops => stops ? stops.slice().reverse() : null)
+
+    setTimeout(() => setDisableReverse(false), 2000)
+  }, [disableReverse])
+
+  const getReverse = React.useCallback(() => {
+    return reverse
+  }, [reverse])
 
   React.useEffect(() => {
     window.scrollTo(0, 0)
@@ -112,8 +129,9 @@ export default function LinePage(props) {
         const data = res.data
         var tmp = []
         for(var i in data) 
-          if(data[i].stopName)
-            tmp.push([i, data[i]]);
+          tmp.push([i, data[i]]);
+        if(getReverse())
+          tmp.reverse()
         setStops(Object.keys(data).length > 0 ? tmp : null);
         setStatus(true)
       })
@@ -126,7 +144,7 @@ export default function LinePage(props) {
 
     // Return does something when the page dismounts
     return () => clearInterval(interval);
-  }, [train]);
+  }, [train, getReverse]);
   
   if(train.toLowerCase() in descriptions)
     return (
@@ -169,9 +187,11 @@ export default function LinePage(props) {
                 />
                 <Box mr={3}>
                   <Tooltip title={<Typography variant='caption'>Reverse Order</Typography>}>
-                    <IconButton aria-label="sort" onClick={handleReverse}>
+                    <span>
+                    <IconButton aria-label="sort" disabled={disableReverse} onClick={handleReverse}>
                       <ReorderIcon fontSize="large"/>
                     </IconButton>
+                    </span>
                   </Tooltip>
                 </Box>
               </Grid>
