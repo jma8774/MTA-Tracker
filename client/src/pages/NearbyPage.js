@@ -72,7 +72,9 @@ export default function NearbyPage(props) {
 
     setReverse(reverse => !reverse)
 
-    setTimeout(() => setDisableReverse(false), 2000)
+    let timer = setTimeout(() => setDisableReverse(false), 2000)
+    
+    return(() => { clearTimeout(timer) })
   }, [disableReverse])
 
   const successHandler = function(position) { 
@@ -139,8 +141,8 @@ export default function NearbyPage(props) {
         <Box mt={3}>
           {
             isMobile
-            ? <StopCardMobile stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
-            : <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
+            ? <StopCardMobile stopId={val[0]} stopName={val[1].stopName} trains={val[1].trains} coordinates={val[1].coordinates} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
+            : <StopCard stopId={val[0]} stopName={val[1].stopName} trains={val[1].trains} coordinates={val[1].coordinates} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
           }
         </Box>
       </Grid>

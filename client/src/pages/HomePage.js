@@ -40,7 +40,6 @@ const Home = () => {
         const data = res.data
         var tmp = []
         for(var i in data) 
-          if(data[i].stopName)
           tmp.push([i, data[i]]);
         setStops(Object.keys(data).length > 0 ? tmp : null);
         setStatus(true)
@@ -153,8 +152,8 @@ const Home = () => {
                         <Box mt={3}>
                           {
                             isMobile
-                            ? <StopCardMobile stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={"secondary"}/>
-                            : <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={"secondary"}/>
+                            ? <StopCardMobile stopId={val[0]} stopName={val[1].stopName} trains={val[1].trains} coordinates={val[1].coordinates} curTime={curTime} isFavorite={"secondary"}/>
+                            : <StopCard stopId={val[0]} stopName={val[1].stopName} trains={val[1].trains} coordinates={val[1].coordinates} curTime={curTime} isFavorite={"secondary"}/>
                           }
                         </Box>
                       </Grid>

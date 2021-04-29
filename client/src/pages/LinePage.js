@@ -104,7 +104,9 @@ export default function LinePage(props) {
 
     setReverse(reverse => !reverse)
 
-    setTimeout(() => setDisableReverse(false), 2000)
+    let timer = setTimeout(() => setDisableReverse(false), 2000)
+    
+    return(() => { clearTimeout(timer) })
   }, [disableReverse])
 
   React.useEffect(() => {
@@ -120,12 +122,9 @@ export default function LinePage(props) {
 
       axios.get('/api/line/' + train.toUpperCase(), {withCredentials: true})
       .then(res => {
-        console.log("Updated Stations")
+        console.log("Updated Stations", train.toUpperCase())
         const data = res.data
-        var tmp = []
-        for(var i in data) 
-          tmp.push([i, data[i]]);
-        setStops(Object.keys(data).length > 0 ? tmp : null);
+        setStops(data.length > 0 ? data : null);
         setStatus(true)
       })
       .catch(error =>
@@ -141,13 +140,13 @@ export default function LinePage(props) {
   
   const renderCards = (val, i) => {
     return (
-      val[1].stopName.toLowerCase().includes(search.toLowerCase()) &&
-      <Grid key={val[0]} item xs={12} md={6} lg={4}>
+      val.stopName.toLowerCase().includes(search.toLowerCase()) &&
+      <Grid key={val.stopId} item xs={12} md={6} lg={4}>
         <Box mt={3}>
           {
             isMobile
-            ? <StopCardMobile stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
-            : <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
+            ? <StopCardMobile stopId={val.stopId} stopName={val.stopName} trains={val.trains} coordinates={val.coordinates} curTime={curTime} isFavorite={favorites.has(val.stopId) ? "secondary" : "default"}/>
+            : <StopCard stopId={val.stopId} stopName={val.stopName} trains={val.trains} coordinates={val.coordinates} curTime={curTime} isFavorite={favorites.has(val.stopId) ? "secondary" : "default"}/>
           }   
         </Box>
       </Grid>
@@ -188,9 +187,9 @@ export default function LinePage(props) {
                 <Autocomplete
                   id="search-stop"
                   options={stops}
-                  getOptionLabel={(option) => option[1].stopName}
+                  getOptionLabel={(option) => option.stopName}
                   style={{ width: theme.spacing(25)}}
-                  onChange={(e, val) => setSearch(val ? val[1].stopName : '')}
+                  onChange={(e, val) => setSearch(val ? val.stopName : '')}
                   renderInput={(params) => <TextField {...params} label="Search" variant="outlined"/>}
                 />
                 <Box mr={3}>

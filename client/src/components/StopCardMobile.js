@@ -54,9 +54,8 @@ function getDifference(epoch, curTime) {
 }
 
 export default function StopCardMobile(props) {
-  const {stopId, stopInfo, curTime, isFavorite} = props
-  var trains = stopInfo.trains
-  const {lat, lon} = stopInfo.coordinates
+  const {stopId, stopName, trains, coordinates, curTime, isFavorite} = props
+  const {lat, lon} = coordinates
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(true)
   const handleExpandClick = () => {
@@ -104,7 +103,7 @@ export default function StopCardMobile(props) {
             </IconButton>
           </Box>
         }
-        title={stopInfo.stopName}
+        title={stopName}
         subheader={stopId}
       />
       <Box ml={1}>
