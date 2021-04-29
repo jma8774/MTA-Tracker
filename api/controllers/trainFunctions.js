@@ -58,10 +58,10 @@ async function getTrips(callback) {
   const newTime = new Date()
   const difference = (newTime.getTime() - time.getTime()) / 1000;
 
-  // if(difference < 30 && tripData.length > 0) {
-  //   callbackHelper(callback, tripData)
-  //   return
-  // }
+  if(difference < 30 && tripData.length > 0) {
+    callbackHelper(callback, tripData)
+    return
+  }
   // console.log("\nStarted fetching getTrips")
   time = newTime
   tripData = []
