@@ -68,9 +68,9 @@ export default function StopCardMobile(props) {
   }, []);
 
   React.useEffect(() => {
-    setExpanded(false)
-  }, [stopId]);
-
+    setFavorite(isFavorite)
+  }, [isFavorite]);
+  
   const [favorite, setFavorite] = React.useState(isFavorite)
   const handleFavorite = () => {
     setFavorite(favorite === "default" ? "secondary" : "default");

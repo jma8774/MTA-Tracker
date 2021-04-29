@@ -10,11 +10,13 @@ import {
   Box,
   Grid,
   Divider,
+  IconButton,
   Backdrop,
   TextField,
   CircularProgress,
   Tooltip
 } from "@material-ui/core";
+import ReorderIcon from '@material-ui/icons/Reorder';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import TimerIcon from '@material-ui/icons/Timer';
@@ -57,7 +59,22 @@ export default function NearbyPage(props) {
   const [status, setStatus] = React.useState(false)
   const [favorites, setFavorites] = React.useState(new Set([]))
   const [search, setSearch] = React.useState('')
+  const [disableReverse, setDisableReverse] = React.useState(false)
+  const [reverse, setReverse] = React.useState(false)
+  const handleReverse = () => {
+    setDisableReverse(true)
+  }
   
+  React.useEffect(() => {
+    // If disableReverse change from true to false, ignore the call
+    if(!disableReverse)
+      return
+
+    setReverse(reverse => !reverse)
+
+    setTimeout(() => setDisableReverse(false), 2000)
+  }, [disableReverse])
+
   const successHandler = function(position) { 
     var obj = {}
     obj['lat'] = position.coords.latitude
@@ -115,6 +132,20 @@ export default function NearbyPage(props) {
     return () => clearInterval(interval);
   }, [location]);
   
+  const renderCards = (val, i) => {
+    return ( 
+      val[1].stopName.toLowerCase().includes(search.toLowerCase()) &&
+      <Grid key={i} item xs={12} md={6} lg={4}>
+        <Box mt={3}>
+          {
+            isMobile
+            ? <StopCardMobile stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
+            : <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
+          }
+        </Box>
+      </Grid>
+    )
+  }
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -161,32 +192,32 @@ export default function NearbyPage(props) {
                         <HelpOutlineIcon/>
                       </Tooltip>
                     </Box>
-                    <Box mr={4}>
-                      <Autocomplete
-                        id="search-stop"
-                        options={stops}
-                        getOptionLabel={(option) => option[1].stopName}
-                        style={{ width: theme.spacing(25)}}
-                        onChange={(e, val) => setSearch(val ? val[1].stopName : '')}
-                        renderInput={(params) => <TextField {...params} label="Search" variant="outlined"/>}
-                      />
+                    <Autocomplete
+                      id="search-stop"
+                      options={stops}
+                      getOptionLabel={(option) => option[1].stopName}
+                      style={{ width: theme.spacing(25)}}
+                      onChange={(e, val) => setSearch(val ? val[1].stopName : '')}
+                      renderInput={(params) => <TextField {...params} label="Search" variant="outlined"/>}
+                    />
+                    <Box mr={3}>
+                      <Tooltip title={<Typography variant='caption'>Reverse Order</Typography>}>
+                        <span>
+                        <IconButton aria-label="sort" disabled={disableReverse} onClick={handleReverse}>
+                          <ReorderIcon fontSize="large"/>
+                        </IconButton>
+                        </span>
+                      </Tooltip>
                     </Box>
                   </Grid>
                   <Grid container align="center">
-                    { 
-                      stops.map((val, i) => 
-                        val[1].stopName.toLowerCase().includes(search.toLowerCase()) &&
-                        <Grid key={i} item xs={12} md={6} lg={4}>
-                          <Box mt={3}>
-                            {
-                              isMobile
-                              ? <StopCardMobile stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
-                              : <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
-                            }
-                          </Box>
-                        </Grid>
-                      )
-                    }
+                  { 
+                    reverse
+                    ?
+                    stops.slice().reverse().map((val, i) => renderCards(val, i))
+                    :
+                    stops.map((val, i) => renderCards(val, i))
+                  }
                   </Grid>
                 </React.Fragment>
               :

@@ -103,14 +103,9 @@ export default function LinePage(props) {
       return
 
     setReverse(reverse => !reverse)
-    setStops(stops => stops ? stops.slice().reverse() : null)
 
     setTimeout(() => setDisableReverse(false), 2000)
   }, [disableReverse])
-
-  const getReverse = React.useCallback(() => {
-    return reverse
-  }, [reverse])
 
   React.useEffect(() => {
     window.scrollTo(0, 0)
@@ -130,8 +125,6 @@ export default function LinePage(props) {
         var tmp = []
         for(var i in data) 
           tmp.push([i, data[i]]);
-        if(getReverse())
-          tmp.reverse()
         setStops(Object.keys(data).length > 0 ? tmp : null);
         setStatus(true)
       })
@@ -144,8 +137,23 @@ export default function LinePage(props) {
 
     // Return does something when the page dismounts
     return () => clearInterval(interval);
-  }, [train, getReverse]);
+  }, [train]);
   
+  const renderCards = (val, i) => {
+    return (
+      val[1].stopName.toLowerCase().includes(search.toLowerCase()) &&
+      <Grid key={val[0]} item xs={12} md={6} lg={4}>
+        <Box mt={3}>
+          {
+            isMobile
+            ? <StopCardMobile stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
+            : <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
+          }   
+        </Box>
+      </Grid>
+    )
+  }
+
   if(train.toLowerCase() in descriptions)
     return (
       <ThemeProvider theme={theme}>
@@ -197,18 +205,11 @@ export default function LinePage(props) {
               </Grid>
               <Grid container align="center">
                 { 
-                  stops.map((val, i) => 
-                    val[1].stopName.toLowerCase().includes(search.toLowerCase()) &&
-                    <Grid key={val[0]} item xs={12} md={6} lg={4}>
-                      <Box mt={3}>
-                        {
-                          isMobile
-                          ? <StopCardMobile stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
-                          : <StopCard stopId = {val[0]} stopInfo={val[1]} curTime={curTime} isFavorite={favorites.has(val[0]) ? "secondary" : "default"}/>
-                        }   
-                      </Box>
-                    </Grid>
-                  )
+                  reverse
+                  ?
+                  stops.slice().reverse().map((val, i) => renderCards(val, i))
+                  :
+                  stops.map((val, i) => renderCards(val, i))
                 }
               </Grid>
             </React.Fragment>
