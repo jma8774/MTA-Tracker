@@ -101,11 +101,7 @@ export default function NearbyPage(props) {
       .then(res => {
         console.log("Updated Stations")
         const data = res.data
-        var tmp = []
-        for(var i in data) 
-          if(data[i].stopName)
-          tmp.push([i, data[i]]);
-        setStops(Object.keys(data).length > 0 ? tmp : null);
+        setStops(data.length > 0 ? data : null);
         setStatus(true)
       })
       .catch(error =>

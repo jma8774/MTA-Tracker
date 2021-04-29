@@ -53,23 +53,15 @@ function callbackHelper(callback, arg1) {
   callback(arg1)
 }
 
-// For Testing Heroku
-const staticData = require('../google_transit/staticData')
-
 // Get all live train line information of API calls in urlList
 async function getTrips(callback) {
-  // // // TESTING
-  // callbackHelper(callback, staticData)
-  // return
-  // // // TESTING
-
   const newTime = new Date()
   const difference = (newTime.getTime() - time.getTime()) / 1000;
 
-  if(difference < 30 && tripData.length > 0) {
-    callbackHelper(callback, tripData)
-    return
-  }
+  // if(difference < 30 && tripData.length > 0) {
+  //   callbackHelper(callback, tripData)
+  //   return
+  // }
   // console.log("\nStarted fetching getTrips")
   time = newTime
   tripData = []
@@ -113,62 +105,6 @@ async function getTrips(callback) {
       { headers: { "x-api-key": process.env.KEY} },
       getCallback);
   })
-    
-    // Request API data from MTA
-    // https.get(
-    //   url,
-    //   { headers: { "x-api-key": process.env.KEY}
-    //   },
-    //   (resp) => {
-    //     resp.on('data', (chunk) => {
-    //       console.log(url)
-    //       console.log("CHUNK", chunk)
-    //       console.log("Receiving Data:", GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(chunk));
-    //     });
-    //     resp.on('end', () => {
-    //       console.log("Finished receiving data");
-    //     });
-    //   }).on("error", (err) => {
-    //     console.log("Error: " + err.message);
-    //   });
-
-  // var numFetched = 0
-  
-  // urls.forEach(url => {
-  //   var requestSettings = {
-  //     method: 'GET',
-  //     url: url,
-  //     headers: {"x-api-key": process.env.KEY},
-  //     encoding: null
-  //   };
-  //   request(requestSettings, (error, response, body) => {
-  //     if (!error && response.statusCode === 200) {
-  //       console.log("HELLO WORLD")
-  //       var feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(body);
-  //       feed.entity.forEach(function(entity) {
-  //         if (entity.tripUpdate) {
-  //           tripData.push(entity.tripUpdate)
-  //           // console.log(entity.tripUpdate);
-  //         }
-  //         if (entity.serviceAlert) {
-  //           console.log(entity.serviceAlert);
-  //         }
-  //         if (entity.vehicle) {
-  //           // console.log(entity.vehicle);
-  //         }
-  //       });
-  //       numFetched ++
-  //       console.log("\nCompleted one")
-  //       // console.log(feed)
-  //       if(numFetched === 9) {
-  //         console.log("\nFinished fetching live data from all 9 APIs")
-  //         callback()
-  //       }
-  //     } else {
-  //       console.log("ERROR:", error)
-  //     }
-  //   })
-  // })
 }
 
 function findTrainStation(station, tripData, relevantStops){
@@ -193,6 +129,8 @@ function findTrainStation(station, tripData, relevantStops){
 function findFavorites(stationMap) {
   Object.keys(stationMap).forEach(stopId => {
     stopName = traindb.findStopName(stopId)
+    if(!stopName)
+      return
     lat = traindb.findStopLat(stopId)
     lon = traindb.findStopLon(stopId)
     stationMap[stopId] = {
@@ -221,7 +159,7 @@ function findTrainStops(train, tripData, stationMap) {
       stopName = traindb.findStopName(stopId)
       stopId = stopId.substring(0, stopId.length-1)
       // Create station if it doesn't exist
-      if(!(stopId in stationMap)) {
+      if(!(stopId in stationMap) && stopName) {
         stationMap[stopId] = {
           stopName: stopName,
           trains: {},
@@ -233,7 +171,6 @@ function findTrainStops(train, tripData, stationMap) {
       }
     })
   })
-  // console.log("Found all stations for line", train)
 }
 
 // Time given by GTFS is in seconds since epoch, this converts it to local date
@@ -249,6 +186,8 @@ function convertEpochToLocalDate(epoch) {
 // Find all nearby stops and initialize nearbyStops object
 function findNearbyStops(lat, lon, dist, tripData, nearbyStops) {
   traindb.stops.forEach(row => {
+    if(!row.stop_name)
+      return
     if(distance(lat, lon, row.stop_lat, row.stop_lon, 'K') < dist && !(row.stop_name in nearbyStops)) {
       var stopId = row.stop_id
       if(stopId.charAt(stopId.length-1) == 'N' || stopId.charAt(stopId.length-1) == 'S')
