@@ -64,24 +64,28 @@ export default function AboutUsPage(props) {
               spacing={3}
         >
           <Grid item xs={12} md={4} align="center">
-            <AboutUsCard message = {"Short description here"}
-                          Image = {czImage}
-                          Link = {czRepo}
-                          Name = {"Chue Zhang"}
+            <AboutUsCard 
+              image = {czImage}
+              github = {czRepo}
+              linkedin = {'https://www.linkedin.com/in/chue-zhang/'}
+              name = {"Chue Zhang"}
             />
           </Grid>
           <Grid item xs={12} md={4} align="center">
-            <AboutUsCard message = {"Short description here"}
-                          Image = {jmImage}
-                          Link = {jmRepo}
-                          Name = {"Jia Ming Ma"}
+            <AboutUsCard
+              image = {jmImage}
+              github = {jmRepo}
+              linkedin = {'https://www.linkedin.com/in/jma8774/'}
+              external = {'https://jma8774.github.io/'}
+              name = {"Jia Ming Ma"}
             />
           </Grid>
             <Grid item xs={12} md={4} align="center">
-            <AboutUsCard message = {"Short description here"}
-                          Image = {xmImage}
-                          Link = {xmRepo}
-                          Name = {"Xiang Min Mo"}
+            <AboutUsCard
+              image = {xmImage}
+              github = {xmRepo}
+              linkedin = {'https://www.linkedin.com/in/xiangminmo/'}
+              name = {"Xiang Min Mo"}
             />
             </Grid>
         </Grid>

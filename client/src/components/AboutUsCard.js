@@ -4,7 +4,11 @@ import {
     Typography,
     Box,
     Paper,
+    Grid,
+    Link,
   } from "@material-ui/core";
+  import LinkedInIcon from '@material-ui/icons/LinkedIn';
+  import LinkIcon from '@material-ui/icons/Link';
 
 const useStyles = makeStyles({
     root: {
@@ -25,24 +29,38 @@ const useStyles = makeStyles({
       textAlign: "center",
       maxWidth: 500,
       backgroundColor: "#242424",
+    },
+    icons: {
+      color: "white",
     }
 })
 
-export default function AboutUsCard({message, Image, Link, Name}) {
+export default function AboutUsCard({image, github, linkedin, external, name}) {
     const classes = useStyles()
     return(
-          <Box component={Paper} className = {classes.paper} px={2} my={2}>
+          <Box component={Paper} className = {classes.paper} px={5} my={2} mx={3}>
             <Box pt={3}>
-              <a href = {Link}>
-                <img alt="GitHub link" className = {classes.imageClass} src = {Image}/>
-              </a>
+              <Link href={github} target="_blank" rel="noreferrer">
+                <img alt="GitHub link" className = {classes.imageClass} src = {image}/>
+              </Link>
             </Box>
-            <Box className = {classes.nameContainer} mt={1} mb={3}>
-              <Typography variant="h5"> {Name} </Typography>
+            <Box className = {classes.nameContainer} mb={2}>
+              <Typography variant="h5"> {name} </Typography>
             </Box>
-            <Box className = {classes.textContainer} pb={3}>
-              <Typography variant="body1" align = "center" color="textSecondary"> {message}  </Typography>
-            </Box>
+            <Box mt={1} />
+            <Grid container direction="row" justify="center">
+              <Link href={linkedin} target="_blank" rel="noreferrer">
+                <LinkedInIcon className={classes.icons}/>
+              </Link>
+              <Box mr={1}/>
+              {
+                external && 
+                <Link href={external} target="_blank" rel="noreferrer">
+                  <LinkIcon className={classes.icons}/>
+                </Link>
+              }
+            </Grid>
+            <Box pb={2}/>
           </Box>
       )
   }
