@@ -3,6 +3,7 @@ var request = require("request");
 var traindb = require('./gtfsData')
 var ProtoBuf = require('protobufjs');
 var https = require('https');
+var sortOrders = require('../google_transit/sortOrder')
 
 const urls = [
   'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace',
@@ -152,12 +153,19 @@ function findTrainStops(train, tripData, stationMap) {
     const trip = data.trip
     const trainType = trip.routeId
     const stops = data.stopTimeUpdate;
-    if(trainType !== train || !stops)
+    // Skip if: (or)
+    //   The trains are not equal
+    //   Stop is undefined
+    //   Train does not exist in sortOrder 
+    if(trainType !== train || !stops || !sortOrders[train.toLowerCase()])
       return
     stops.forEach(stop => {
       var stopId = stop.stopId
       stopName = traindb.findStopName(stopId)
       stopId = stopId.substring(0, stopId.length-1)
+      // Skip if the stop is not in sortedOrders (meaning it is a changed service route)
+      if(sortOrders[train.toLowerCase()][stopId] === undefined)
+        return
       // Create station if it doesn't exist
       if(!(stopId in stationMap) && stopName) {
         stationMap[stopId] = {
