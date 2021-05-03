@@ -6,9 +6,16 @@
 // of using callbacks `cb`.
 
 const auth = {
-  isAuthenticated: false,
-  signup(username, password, email){
-    return fetch('/api/user/signup', {
+  checkAuth() {
+    const user = localStorage.getItem('user');
+    if (user) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+  async signup(username, password, email) {
+    return await fetch('/api/user/signup', {
       method: 'POST',
       body: JSON.stringify({ username, password, email }),
       credentials: "include",
@@ -16,19 +23,16 @@ const auth = {
         'Content-Type': 'application/json'
       }
     })
-      .then((response) => {
-        if(!response.ok) {
+      .then(async (response) => {
+        if (!response.ok) {
           throw new Error('Register Failed');
         }
-        return response.json();
-      })
-      .then((body) => {
-        this.isAuthenticated = true;
-        return body;
+
+        localStorage.setItem('user', await response.json());
       })
   },
-  authenticate(username, password) {
-    return fetch('/api/user/login', { 
+  async authenticate(username, password) {
+    return await fetch('/api/user/login', {
       method: 'POST',
       body: JSON.stringify({ username, password }),
       credentials: "include",
@@ -36,20 +40,16 @@ const auth = {
         'Content-Type': 'application/json',
       }
     })
-      .then((response) => {
-        if(!response.ok) {
+      .then(async (response) => {
+        if (!response.ok) {
           throw new Error('Login Failed');
         }
 
-        return response.json();
+        localStorage.setItem('user', await response.json());
       })
-      .then((body) => {
-        this.isAuthenticated = true;
-        return body;
-      });
   },
   signout(cb) {
-    return fetch('/api/user/logout', { 
+    return fetch('/api/user/logout', {
       method: 'POST',
       credentials: "include",
       headers: {
@@ -57,16 +57,13 @@ const auth = {
       }
     })
       .then((response) => {
-        if(!response.ok) {
+        if (!response.ok) {
           throw new Error('Logout Failed');
         }
 
+        localStorage.removeItem('user');
         return response.json();
       })
-      .then((body) => {
-        this.isAuthenticated = false;
-        return body;
-      });
   }
 }
 
