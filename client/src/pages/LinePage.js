@@ -22,11 +22,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import TimerIcon from '@material-ui/icons/Timer';
 // Custom Components
-import StopCard from '../components/StopCard.js'
-import StopCardMobile from '../components/StopCardMobile.js'
-import NavBar from '../components/NavBar'
-import TrainIcon from '../components/TrainIcon.js'
-import AlertSnackbar from '../components/AlertSnackbar'
+import { StopCard, StopCardMobile, NavBar, TrainIcon, AlertSnackbar, BackToTop } from '../components/index';
 
 // Material UI CSS
 const useStyles = makeStyles((theme) => ({
@@ -48,6 +44,9 @@ const theme = createMuiTheme({
   palette: {
     type: 'dark',
   },
+  typography: {
+    fontFamily: "Poppins, sans-serif"
+  }
 });
 
 // Train Descrpitions
@@ -158,6 +157,7 @@ export default function LinePage(props) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <NavBar/>
+        <BackToTop />
         { status &&
         <AlertSnackbar msg="Stops updated!" duration={2000} severity='success'/>
         }

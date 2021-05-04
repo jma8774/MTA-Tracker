@@ -21,10 +21,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import TimerIcon from '@material-ui/icons/Timer';
 // Custom Components
-import StopCard from '../components/StopCard'
-import NavBar from '../components/NavBar'
-import AlertSnackbar from '../components/AlertSnackbar'
-import StopCardMobile from '../components/StopCardMobile';
+import { StopCard, NavBar, AlertSnackbar, StopCardMobile, BackToTop } from '../components/index';
 
 
 // Material UI CSS
@@ -152,6 +149,7 @@ export default function NearbyPage(props) {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <NavBar/>
+      <BackToTop />
       { status &&
         <AlertSnackbar msg="Stops updated!" duration={2000} severity='success'/>
       }

@@ -6,8 +6,6 @@ import { useHistory } from 'react-router-dom';
 import useForm from './useForm';
 import auth from '../services/auth';
 
-/* Still need to add validation for checking right username and password*/
-
 const initialValues = {
   username: '',
   password: '',
@@ -20,7 +18,7 @@ const LogIn = ({ onClick, styles }) => {
   const history = useHistory();
 
   const validate = () => {
-    let temp= {};
+    let temp = {};
     temp.username = values.username ? "" : "This field is required";
     temp.password = values.password ? "" : "This field is required";
     setErrors({
@@ -32,10 +30,8 @@ const LogIn = ({ onClick, styles }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(`username: ${values.username}`);
-    // console.log(`password: ${values.password}`);
 
-    if(validate()){
+    if (validate()) {
       auth.authenticate(values.username, values.password)
         .then((user) => {
           history.push("/home");
@@ -50,7 +46,16 @@ const LogIn = ({ onClick, styles }) => {
     <div>
       <h2 style={{ textAlign: 'center', fontSize: '2em' }}>Login</h2>
       <form onSubmit={handleSubmit} className={styles.label} autoComplete="off">
-        { failed ? <Box style={{color: 'red'}} mb={2}>Incorrect email or username/password combination.</Box> : null}
+        {failed ?
+          <Box className={styles.errorBox} mb={2}>
+            <ul>
+              <li className={styles.errorMessage}>
+                Incorrect username/password combination.
+              </li>
+            </ul>
+          </Box>
+          :
+          null}
         <TextField
           fullWidth={true}
           variant="standard"
@@ -58,9 +63,9 @@ const LogIn = ({ onClick, styles }) => {
           name="username"
           value={values.username}
           onChange={handleChange}
-          error= {errors.username ? true : false}
-          helperText= {errors.username}
-          FormHelperTextProps= {{classes: {root: styles.helperTextRoot}}}
+          error={errors.username ? true : false}
+          helperText={errors.username}
+          FormHelperTextProps={{ classes: { root: styles.helperTextRoot } }}
           InputLabelProps={{ shrink: true, }}
           InputProps={{ className: styles.textField, disableUnderline: true }}
         />
@@ -68,16 +73,16 @@ const LogIn = ({ onClick, styles }) => {
           fullWidth={true}
           variant="standard"
           label="Password"
-          type={showPassword ? "text": "password"}
+          type={showPassword ? "text" : "password"}
           name="password"
           value={values.password}
           onChange={handleChange}
-          error= {errors.password ? true : false}
-          helperText= {errors.password}
-          FormHelperTextProps= {{classes: {root: styles.helperTextRoot}}}
+          error={errors.password ? true : false}
+          helperText={errors.password}
+          FormHelperTextProps={{ classes: { root: styles.helperTextRoot } }}
           InputLabelProps={{ shrink: true, }}
-          InputProps={{ 
-            className: styles.textField, 
+          InputProps={{
+            className: styles.textField,
             disableUnderline: true,
             endAdornment: (
               <InputAdornment position="end">
@@ -104,23 +109,10 @@ const LogIn = ({ onClick, styles }) => {
           Log In
         </Button>
       </ form>
-      
-      {/* Feel like with the way our routers/private routes are setup, we should let them see about us after logging in
-      <Grid
-        container
-        direction="row"
-        justify="center"
-        alignItems="center"
-      >
-        <Grid item>
-          <Link to="/about" className={styles.link} style={{ paddingRight: "10px", marginRight: "3px" }}>About Us</Link>
-        </Grid>
-        <Grid item>
-          <Link to="#" className={styles.link} style={{ borderLeft: "1px solid white", paddingLeft: "15px", marginLeft: "3px" }}>Terms of Use</Link>
-        </Grid>
-      </Grid> */}
 
-      <h3>This is a non-profit website and all intellectual property is owned by MTA.</h3>
+      <h3>This is a non-profit website and all intellectual property is owned by&nbsp;
+        <MUILink href="https://new.mta.info/" className={styles.link}>MTA</MUILink>
+      .</h3>
     </div >
   )
 }

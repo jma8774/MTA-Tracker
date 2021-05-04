@@ -1,17 +1,15 @@
 import React from 'react';
 import { isMobile } from 'react-device-detect';
 import axios from 'axios';
+//Material UI
 import { Container, Accordion, AccordionDetails, AccordionSummary, Grid, CssBaseline, Box, Typography, Tooltip } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { useStyles } from '../styles/HomePageStyles';
-import NavBar from '../components/NavBar';
-import { TriLine, QuadLine } from '../components/AccordionFormRow';
-import StopCard from '../components/StopCard.js'
-import StopCardMobile from '../components/StopCardMobile.js'
-import AlertSnackbar from '../components/AlertSnackbar'
 import TimerIcon from '@material-ui/icons/Timer';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+//Custom Components
+import { useStyles } from '../styles/HomePageStyles';
+import { NavBar, TriLine, QuadLine, StopCard, StopCardMobile, AlertSnackbar, BackToTop } from '../components/index';
 
 const numbertrains = ["1", "2", "3", "4", "5", "6", "7", "5x", "6x", "7x"];
 const quadtrains = ["n", "q", "r", "w", "b", "d", "f", "m"];
@@ -21,6 +19,9 @@ const theme = createMuiTheme({
   palette: {
     type: "dark",
   },
+  typography: {
+    fontFamily: 'Poppins, sans-serif'
+  }
 });
 
 const Home = () => {
@@ -67,6 +68,7 @@ const Home = () => {
   return (
     <ThemeProvider theme={theme}>
       <NavBar />
+      <BackToTop />
       <CssBaseline />
       { status &&
         <AlertSnackbar msg="Bookmarks updated!" duration={2000} severity='success'/>
@@ -74,7 +76,7 @@ const Home = () => {
       <Container>
         <Box mt={4} mb={7} align="center">
           <Typography variant="h4">
-            <b>Welcome {username}!</b>
+            <b>Welcome, {username}!</b>
           </Typography>
           <br/>
           <Typography variant="h6" color="textSecondary">

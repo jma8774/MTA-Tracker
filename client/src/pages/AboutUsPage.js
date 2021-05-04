@@ -9,8 +9,8 @@ import {
   Grid,
 } from "@material-ui/core";
 // Custom Component
-import NavBar from '../components/NavBar'
-import AboutUsCard from '../components/AboutUsCard'
+import { NavBar, AboutUsCard } from '../components/index';
+
 import czImage from "../imgs/github_img/chue.png"
 import jmImage from "../imgs/github_img/jiaming.png"
 import xmImage from "../imgs/github_img/sunny.png"
@@ -33,6 +33,9 @@ const theme = createMuiTheme({
   palette: {
     type: "dark",
   },
+  typography: {
+    fontFamily: "Poppins, sans-serif"
+  }
 });
 
 export default function AboutUsPage(props) {
@@ -85,7 +88,8 @@ export default function AboutUsPage(props) {
               image = {xmImage}
               github = {xmRepo}
               linkedin = {'https://www.linkedin.com/in/xiangminmo/'}
-              name = {"Xiang Min Mo"}
+              external = {'https://mxmsunny.github.io/'}
+              name = {"Xiangmin Mo"}
             />
             </Grid>
         </Grid>

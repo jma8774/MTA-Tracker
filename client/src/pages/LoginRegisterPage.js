@@ -1,17 +1,21 @@
 import { React, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Container, Grid } from '@material-ui/core';
-import { useStyles } from '../styles/LoginRegisterStyles';
-import LogIn from '../components/LogIn';
-import Register from '../components/Register';
-import '../styles/LoginRegisterPage.css';
 import logo from '../imgs/svg/mticon.svg';
 import auth from '../services/auth';
+import '../styles/LoginRegisterPage.css';
+import { LogIn, Register } from '../components/index';
+import { useStyles } from '../styles/LoginRegisterStyles';
 
 /*
-https://unsplash.com/photos/PJzeDJAw3oI
-https://unsplash.com/photos/k_j7olQiqAw
-https://unsplash.com/photos/8mswK-LU5Vs
+Background Photos provided by:
+* Photo by S on Unsplash: https://unsplash.com/photos/PJzeDJAw3oI
+* Photo by Nic Y-C on Unsplash: https://unsplash.com/photos/k_j7olQiqAw
+* Photo by Patrick Robery Doyle on Unsplash: https://unsplash.com/photos/8mswK-LU5Vs
+
+Logo Vector Images provided by:
+* Magnifying Glass created by Delwar Hossian from Noun Project: https://thenounproject.com/search/?q=magnify&i=589366
+* Train created by HideMaru from Noun Project: https://thenounproject.com/search/?q=train&i=3888723
 */
 
 const LoginRegister = () => {
@@ -27,7 +31,7 @@ const LoginRegister = () => {
   return (
     <div>
       {auth.checkAuth() ?
-        <Redirect to={{ pathname: '/about' }} /> :
+        <Redirect to={{ pathname: '/home' }} /> :
         <div>
           <ul className="slideshow">
             <li><span>p1</span></li>
@@ -47,7 +51,7 @@ const LoginRegister = () => {
               <img src={logo} width="120px" height="120px" alt="icon with train and magnifying glass" />
             </Grid>
             <Grid item>
-              <h1 className={classes.title}>MTA Tracker</h1>
+              <h1 className={classes.title}>Simple MTA</h1>
             </Grid>
           </Grid>
 

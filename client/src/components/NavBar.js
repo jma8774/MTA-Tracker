@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
-import {Toolbar, Button, AppBar} from '@material-ui/core/';
+import { Toolbar, Button, AppBar } from '@material-ui/core/';
 import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
 import GitHubIcon from '@material-ui/icons/GitHub';
@@ -40,17 +40,17 @@ export default function ButtonAppBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" style={{ background: 'transparent', boxShadow: 'none'}}>
+      <AppBar position="static" style={{ background: 'transparent', boxShadow: 'none' }}>
         <Toolbar>
           <IconButton edge="start" className={classes.githubButton} color="inherit" aria-label="menu" target="_blank" href="https://github.com/Chuezhang2278/MTA-Tracker" rel="noopener noreferrer">
-            <GitHubIcon/>
+            <GitHubIcon />
           </IconButton>
           <Box className={classes.leftSide}>
-            <Button component={Link} to="/home" color="inherit" className= {`${classes.button} + ${classes.divider}`}>Home</Button>
-            <Button component={Link} to="/nearby" color="inherit" className= {`${classes.button} + ${classes.divider}`}>Nearby</Button>
-            <Button component={Link} to="/about" color="inherit" className= {classes.button}>About us</Button>
+            <Button component={Link} to="/home" color="inherit" className={`${classes.button} + ${classes.divider}`}>Home</Button>
+            <Button component={Link} to="/nearby" color="inherit" className={`${classes.button} + ${classes.divider}`}>Nearby</Button>
+            <Button component={Link} to="/about" color="inherit" className={classes.button}>About us</Button>
           </Box>
-          <Button component={Link} to="/" color="inherit" className= {classes.button} onClick={handleClick}>Logout</Button>
+          <Button component={Link} to="/" color="inherit" className={classes.button} onClick={handleClick}>Logout</Button>
         </Toolbar>
       </AppBar>
     </div>

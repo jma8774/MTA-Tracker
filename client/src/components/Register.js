@@ -1,12 +1,10 @@
 import { React, useState } from 'react';
-import { TextField, Button, IconButton, InputAdornment, Link as MUILink } from '@material-ui/core';
+import { TextField, Button, IconButton, InputAdornment, Box, Link as MUILink } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { useHistory } from 'react-router-dom';
 import useForm from './useForm';
 import auth from '../services/auth';
-
-/* Still need to add validation for checking if username/email exists*/
 
 const initialValues = {
   username: '',
@@ -38,10 +36,6 @@ const Register = ({ onClick, styles }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(`username: ${values.username}`);
-    // console.log(`password: ${values.email}`);
-    // console.log(`password: ${values.password}`);
-    // console.log(`password: ${values.rePassword}`);
 
     if (validate()) {
       auth.signup(values.username, values.password, values.email)
@@ -58,7 +52,16 @@ const Register = ({ onClick, styles }) => {
     <div>
       <h2 style={{ textAlign: 'center', fontSize: '2em' }}>Register</h2>
       <form onSubmit={handleSubmit} className={styles.label} autoComplete="off">
-        { failed ? <div style={{color: 'red'}}>Username or email already taken</div> : null}
+        {failed ?
+          <Box className={styles.errorBox} mb={2}>
+            <ul>
+              <li className={styles.errorMessage}>
+                Username or email already taken
+              </li>
+            </ul>
+          </Box>
+          :
+          null}
         <TextField
           fullWidth={true}
           variant="standard"
@@ -89,7 +92,7 @@ const Register = ({ onClick, styles }) => {
           fullWidth={true}
           variant="standard"
           label="Password"
-          type={showPassword ? "text": "password"}
+          type={showPassword ? "text" : "password"}
           name="password"
           value={values.password}
           onChange={handleChange}
@@ -97,9 +100,9 @@ const Register = ({ onClick, styles }) => {
           helperText={errors.password ? errors.password : "Password should be at least 7 characters long"}
           FormHelperTextProps={{ classes: { root: styles.helperTextRoot } }}
           InputLabelProps={{ shrink: true, }}
-          InputProps={{ 
-            className: styles.textField, 
-            disableUnderline: true, 
+          InputProps={{
+            className: styles.textField,
+            disableUnderline: true,
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
@@ -117,7 +120,7 @@ const Register = ({ onClick, styles }) => {
           fullWidth={true}
           variant="standard"
           label="Re-enter Password"
-          type={showRePassword ? "text": "password"}
+          type={showRePassword ? "text" : "password"}
           name="rePassword"
           value={values.rePassword}
           onChange={handleChange}
@@ -125,8 +128,8 @@ const Register = ({ onClick, styles }) => {
           helperText={errors.rePassword ? errors.rePassword : "Password must match"}
           FormHelperTextProps={{ classes: { root: styles.helperTextRoot } }}
           InputLabelProps={{ shrink: true, }}
-          InputProps={{ 
-            className: styles.textField, 
+          InputProps={{
+            className: styles.textField,
             disableUnderline: true,
             endAdornment: (
               <InputAdornment position="end">
@@ -138,7 +141,7 @@ const Register = ({ onClick, styles }) => {
                   {showRePassword ? <Visibility /> : <VisibilityOff />}
                 </IconButton>
               </InputAdornment>
-            ) 
+            )
           }}
         />
         <h3>Have an account? <MUILink href="#" className={styles.link} onClick={onClick}>Log in here!</MUILink></h3>
@@ -153,21 +156,9 @@ const Register = ({ onClick, styles }) => {
         </Button>
       </form>
 
-      {/* Feel like with the way our routers/private routes are setup, we should let them see about us after logging in
-      <Grid
-        container
-        direction="row"
-        justify="center"
-        alignItems="center">
-        <Grid item>
-          <Link to="/about" className={styles.link} style={{ paddingRight: "10px", marginRight: "3px" }}>About Us</Link>
-        </Grid>
-        <Grid item>
-          <Link to="#" className={styles.link} style={{ borderLeft: "1px solid white", paddingLeft: "15px", marginLeft: "3px" }}>Terms of Use</Link>
-        </Grid>
-      </Grid> */}
-
-      <h3 className={styles.margin}>This is a non-profit website and all intellectual property is owned by MTA.</h3>
+      <h3 className={styles.margin}>This is a non-profit website and all intellectual property is owned by&nbsp;
+        <MUILink href="https://new.mta.info/" className={styles.link}>MTA</MUILink>
+      .</h3>
 
     </div>
   )
