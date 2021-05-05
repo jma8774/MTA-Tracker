@@ -18,6 +18,6 @@ const useStyles = makeStyles(theme => ({
     position: 'relative', 
     padding: theme.spacing(0.5),
   }
-}))
+}), {index: 1})
 
 export { useStyles };
