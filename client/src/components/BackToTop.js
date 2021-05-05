@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => ({
     position: 'fixed',
     zIndex: 1,
     opacity: 0.5,
-    right: theme.spacing(1),
+    left: theme.spacing(1),
     bottom: theme.spacing(4),
     height: '45px',
     width: '45px',

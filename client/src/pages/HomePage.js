@@ -2,7 +2,7 @@ import React from 'react';
 import { isMobile } from 'react-device-detect';
 import axios from 'axios';
 //Material UI
-import { Container, Accordion, AccordionDetails, AccordionSummary, Grid, CssBaseline, Box, Typography, Tooltip } from '@material-ui/core';
+import { Container, Accordion, AccordionDetails, AccordionSummary, Grid, CssBaseline, Box, Typography, Tooltip, Link } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TimerIcon from '@material-ui/icons/Timer';
@@ -10,6 +10,7 @@ import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 //Custom Components
 import { useStyles } from '../styles/HomePageStyles';
 import { NavBar, TriLine, QuadLine, StopCard, StopCardMobile, AlertSnackbar, BackToTop } from '../components/index';
+import auth from '../services/auth';
 
 const numbertrains = ["1", "2", "3", "4", "5", "6", "7", "5x", "6x", "7x"];
 const quadtrains = ["n", "q", "r", "w", "b", "d", "f", "m"];
@@ -76,7 +77,7 @@ const Home = () => {
       <Container>
         <Box mt={4} mb={7} align="center">
           <Typography variant="h4">
-            <b>Welcome, {username}!</b>
+            {username ? <b>Welcome, {username}!</b> : <b>Please login <Link href='/' onClick={()=>{auth.signout()}}>here</Link></b>}
           </Typography>
           <br/>
           <Typography variant="h6" color="textSecondary">

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import TrainIcon from '../components/TrainIcon.js';
+import { TrainIcon } from './index.js';
 import { Grid, Box } from '@material-ui/core';
 
 /*
