@@ -55,7 +55,7 @@ const Home = () => {
           setUsername(data.username)
       })
       .catch(error =>
-        console.log("Error", error)
+        console.log(error)
       )
     }
     fetchUser()

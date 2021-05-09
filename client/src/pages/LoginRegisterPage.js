@@ -39,15 +39,11 @@ const LoginRegister = () => {
           setUsername(data.username)
       })
       .catch(error =>
-        console.log("(User Not Logged In)", error)
+        console.log(error)
       )
     }
     fetchUser()
   }, [])
-
-  useEffect(() => {
-    console.log("USERNAME", username)
-  }, [username])
 
   return (
     <div>
