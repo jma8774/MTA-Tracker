@@ -1,4 +1,5 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
+import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import { Container, Grid } from '@material-ui/core';
 import logo from '../imgs/svg/mticon.svg';
@@ -22,15 +23,35 @@ const LoginRegister = () => {
   const classes = useStyles();
 
   const [toggleView, setToggleView] = useState(0);
+  const [username, setUsername] = useState(null)
 
   const toggleClick = (e) => {
     e.preventDefault();
     return (toggleView === 0 ? setToggleView(1) : setToggleView(0));
   }
 
+  useEffect(() => {
+    function fetchUser() {
+      axios.get('/api/user/data', {withCredentials: true})
+      .then(res => {
+        const data = res.data
+        if(data && data.username)
+          setUsername(data.username)
+      })
+      .catch(error =>
+        console.log("(User Not Logged In)", error)
+      )
+    }
+    fetchUser()
+  }, [])
+
+  useEffect(() => {
+    console.log("USERNAME", username)
+  }, [username])
+
   return (
     <div>
-      {auth.checkAuth() ?
+      {(username && auth.checkAuth()) ?
         <Redirect to={{ pathname: '/home' }} /> :
         <div>
           <ul className="slideshow">

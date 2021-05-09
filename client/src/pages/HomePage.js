@@ -51,7 +51,8 @@ const Home = () => {
       axios.get('/api/user/data', {withCredentials: true})
       .then(res => {
         const data = res.data
-        setUsername(data.username)
+        if(data && data.username)
+          setUsername(data.username)
       })
       .catch(error =>
         console.log("Error", error)

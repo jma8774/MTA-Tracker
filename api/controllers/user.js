@@ -33,7 +33,7 @@ router.get('/', (req, res) => {
 router.get('/data', (req, res) => {
   if (req.user === undefined) {
     // The user is not logged in
-    res.status(401).json({message: 'not logged in'});
+    res.status(200).json(null);
   } else {
     res.status(200).json(req.user);
   }
