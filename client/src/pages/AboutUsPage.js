@@ -33,9 +33,6 @@ const theme = createMuiTheme({
   palette: {
     type: "dark",
   },
-  typography: {
-    fontFamily: "Poppins, sans-serif"
-  }
 });
 
 export default function AboutUsPage(props) {
