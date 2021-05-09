@@ -44,9 +44,6 @@ const theme = createMuiTheme({
   palette: {
     type: 'dark',
   },
-  typography: {
-    fontFamily: "Poppins, sans-serif"
-  }
 });
 
 // Train Descrpitions
