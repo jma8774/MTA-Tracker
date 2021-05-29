@@ -1,13 +1,24 @@
-# MTA Tracker
-(03/2021 - 06/2021) CUNY Tech Prep - MTA Tracker <br/> <br/>
-The purpose of this website is to give New Yorkers a simple and personalized place where they can view the arrival time of uptown and downtowns trains at certain stops.
+<div align="center">
+  <a href="https://simplemta.herokuapp.com/">
+    <img src="/client/src/imgs/svg/mticon.svg" width="180px" height="180px" alt="icon with magnifying glass and train" />
+  </a>
+    <h1>Simple MTA</h1>
+   
+</div>
 
-# Important
-Website is deployed [here](https://simplemta.herokuapp.com/) on Heroku. <br/>
+### Contributors
+- [Chue Zhang](https://github.com/Chuezhang2278)
+- [Jia Ming Ma](https://github.com/jma8774)
+- [Xiangmin Mo](https://github.com/mxmsunny)
 
-I will list my contributions below to the project from which I've forked.
 
-# Technologies
+*Simple MTA* is a personalized version of MTA's website that is designed for day to day use while also maintaining its core value, *simplicity*. It provides users with an easy way to look up train lines, train stations and an easy way for users to bookmark stations that they go to more frequently. 
+
+It is also our group's final project for *[CUNY Tech Prep's](https://cunytechprep.nyc/)* Web Development Track.
+
+🔍**View the website [here](https://simplemta.herokuapp.com/)!** 
+
+# Tech Stack 💻
 ### Front End
 * JavaScript/HTML/CSS
 * React
@@ -17,6 +28,9 @@ I will list my contributions below to the project from which I've forked.
 * Express.js
 * PostgreSQL
 * Sequelize
+### API
+- MTA API
+- GTFS and GTFS-RT
 
 # Features
 ### Line Page
@@ -80,3 +94,15 @@ This endpoint allows the front-end delete a new entry in favorited stop if exist
 ```
 DEL /api/user/favorite/
 ```
+## Credits 📖
+Background Photos provided by:
+* [Photo](https://unsplash.com/photos/PJzeDJAw3oI) by S on Unsplash
+* [Photo](https://unsplash.com/photos/k_j7olQiqAw) by Nic Y-C on Unsplash
+* [Photo](https://unsplash.com/photos/8mswK-LU5Vs) by Patrick Robery Doyle on Unsplash
+
+Logo Vector Images provided by:
+* [Magnifying Glass](https://thenounproject.com/search/?q=magnify&i=589366) created by Delwar Hossian from Noun Project
+* [Train](https://thenounproject.com/search/?q=train&i=3888723) created by HideMaru from Noun Project
+
+Train Icons provided by:
+* [Train icons](https://github.com/louh/mta-subway-bullets) created by louh on GitHub
