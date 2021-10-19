@@ -16,7 +16,7 @@
 
 It is also our group's final project for *[CUNY Tech Prep's](https://cunytechprep.nyc/)* Web Development Track.
 
-🔍**View the website [here](https://simplemta.herokuapp.com/)!** 
+🔍**View the website [here](https://www.simplemta.xyz/) or [here](https://simplemta.herokuapp.com/)!** 
 
 # Tech Stack 💻
 ### Front End
